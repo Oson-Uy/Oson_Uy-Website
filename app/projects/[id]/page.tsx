@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
 import { CheckCircle2, ChevronLeft } from 'lucide-react';
-import { projects } from '@/lib/mock-data';
+import { projects } from '@/lib/data';
 import ApartmentCard from '@/components/ApartmentCard';
 import LeadModal from '@/components/LeadModal';
 import Navbar from '@/components/ui/Navbar';

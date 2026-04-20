@@ -1,32 +1,31 @@
-import type { Metadata } from 'next';
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+import Header from '@/components/custom/Header';
+import Footer from '@/components/custom/Footer';
 import './globals.css';
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-plus-jakarta',
-});
 
-export const metadata: Metadata = {
-  title: 'ARKIT - Premium Real Estate',
-  description: 'ARKIT - Premium real estate platform for high-end apartments and architectural projects in Uzbekistan.',
-};
-
-export default function RootLayout({
-  children,
+export default async function RootLayout({
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable}`}>
-      <body className="font-sans antialiased text-gray-900 bg-white" suppressHydrationWarning>
-        {children}
-      </body>
-    </html>
-  );
+    const locale = await getLocale();
+    const messages = await getMessages();
+
+    return (
+        <html lang={locale} className={cn("font-sans", geist.variable)}>
+            <body>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    <Header />
+                    {children}
+                    <Footer />
+                </NextIntlClientProvider>
+            </body>
+        </html>
+    );
 }
