@@ -7,7 +7,7 @@ interface TypographyProps {
   as?: React.ElementType;
 }
 
-export function Label({ children, className, as: Component = 'p' }: TypographyProps) {
+export default function Label({ children, className, as: Component = 'p' }: TypographyProps) {
   return (
     <Component className={cn('text-[10px] uppercase font-bold tracking-widest text-slate-400', className)}>
       {children}

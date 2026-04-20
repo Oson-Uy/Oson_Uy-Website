@@ -15,6 +15,7 @@ export interface Project {
   id: string;
   name: string;
   description: string;
+  image: string;
   location: Location;
   developer: {
     name: string;
@@ -27,6 +28,9 @@ export interface Project {
   mainImage: string;
   priceFrom: number;
   apartments: Apartment[];
+  floors: number;
+  district: string;
+  isPopular?: boolean; // Optional field to indicate if the project is popular
 }
 
 export interface FilterState {

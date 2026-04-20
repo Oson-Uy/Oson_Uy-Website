@@ -1,17 +1,20 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'motion/react';
-import { Apartment } from '@/types';
-import { Label } from './ui/Typography';
+import React from "react";
+import Image from "next/image";
+import { motion } from "motion/react";
+import { Apartment } from "@/types";
+import Label from "../ui/Typography";
 
 interface ApartmentCardProps {
   apartment: Apartment;
   onSelect: (apartment: Apartment) => void;
 }
 
-export default function ApartmentCard({ apartment, onSelect }: ApartmentCardProps) {
+export default function ApartmentCard({
+  apartment,
+  onSelect,
+}: ApartmentCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
@@ -37,24 +40,34 @@ export default function ApartmentCard({ apartment, onSelect }: ApartmentCardProp
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           <div className="flex flex-col">
             <Label className="mb-1">Rooms</Label>
-            <p className="text-sm font-bold text-slate-900">{apartment.rooms}</p>
+            <p className="text-sm font-bold text-slate-900">
+              {apartment.rooms}
+            </p>
           </div>
-          
+
           <div className="flex flex-col">
             <Label className="mb-1">Area</Label>
-            <p className="text-sm font-bold text-slate-900">{apartment.area} m²</p>
+            <p className="text-sm font-bold text-slate-900">
+              {apartment.area} m²
+            </p>
           </div>
 
           <div className="flex flex-col">
             <Label className="mb-1">Floor</Label>
-            <p className="text-sm font-bold text-slate-900">{apartment.floor}</p>
+            <p className="text-sm font-bold text-slate-900">
+              {apartment.floor}
+            </p>
           </div>
 
           <div className="flex flex-col">
             <Label className="mb-1">Status</Label>
-            <p className={`text-sm font-bold capitalize ${
-              apartment.status === 'available' ? 'text-blue-600' : 'text-slate-400'
-            }`}>
+            <p
+              className={`text-sm font-bold capitalize ${
+                apartment.status === "available"
+                  ? "text-blue-600"
+                  : "text-slate-400"
+              }`}
+            >
               {apartment.status}
             </p>
           </div>
@@ -63,14 +76,16 @@ export default function ApartmentCard({ apartment, onSelect }: ApartmentCardProp
         <div className="flex items-center justify-between border-t border-slate-100 pt-6">
           <div>
             <Label className="mb-1">Price</Label>
-            <p className="text-2xl font-extrabold tracking-tight text-slate-900">${apartment.price.toLocaleString()}</p>
+            <p className="text-2xl font-extrabold tracking-tight text-slate-900">
+              ${apartment.price.toLocaleString()}
+            </p>
           </div>
           <button
             onClick={() => onSelect(apartment)}
             className="bg-slate-900 hover:bg-blue-600 text-white px-8 py-3 text-[10px] font-bold uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50"
-            disabled={apartment.status !== 'available'}
+            disabled={apartment.status !== "available"}
           >
-            {apartment.status === 'available' ? 'Find Apartment' : 'Sold Out'}
+            {apartment.status === "available" ? "Find Apartment" : "Sold Out"}
           </button>
         </div>
       </div>
