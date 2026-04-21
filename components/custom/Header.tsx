@@ -34,13 +34,13 @@ export default function Header() {
 
     return (
         <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-200 h-16 flex items-center">
-            <div className="container flex justify-between items-center w-full px-4 lg:px-0 mx-auto">
+            <div className="container flex justify-between items-center w-full px-4 mx-auto">
                 <Link href="/" className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-[#1E3A8A] rounded-lg flex items-center justify-center">
                         <div className="w-4 h-4 border-2 border-white rounded-sm"></div>
                     </div>
                     <span className="text-2xl font-bold tracking-tight text-[#1E3A8A]">
-                        Uy<span className="text-[#F97316]">Find</span>
+                        Oson<span className="text-[#F97316]">Uy</span>
                     </span>
                 </Link>
 

@@ -5,14 +5,14 @@ import Link from "next/link";
 export default function Footer() {
     return (
         <footer className="bg-slate-50 w-full py-16 border-t border-slate-200 mt-auto">
-            <div className="container grid grid-cols-1 md:grid-cols-4 gap-12 px-4 lg:px-0 mx-auto">
+            <div className="container grid grid-cols-1 md:grid-cols-4 gap-12 px-4 mx-auto">
                 <div className="space-y-6">
                     <div className="flex items-center gap-2">
                         <div className="w-6 h-6 bg-[#1E3A8A] rounded-md flex items-center justify-center">
                             <div className="w-3 h-3 border-2 border-white rounded-sm"></div>
                         </div>
                         <span className="text-xl font-bold tracking-tight text-[#1E3A8A]">
-                            Uy<span className="text-[#F97316]">Find</span>
+                            Oson<span className="text-[#F97316]">Uy</span>
                         </span>
                     </div>
                     <p className="text-sm text-slate-500 leading-relaxed font-medium">
