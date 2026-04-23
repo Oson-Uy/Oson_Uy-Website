@@ -10,6 +10,22 @@ type CatalogPageProps = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
+const REGION_CITY_MAP: Record<string, string[]> = {
+    "Tashkent Region": ["Tashkent", "Chirchiq", "Angren", "Yangiyul"],
+    "Samarkand Region": ["Samarkand", "Urgut", "Kattakurgan"],
+    "Bukhara Region": ["Bukhara", "Gijduvan", "Kagan"],
+    "Andijan Region": ["Andijan", "Asaka", "Khanabad"],
+    "Fergana Region": ["Fergana", "Kokand", "Margilan"],
+    "Namangan Region": ["Namangan", "Chust", "Chartak"],
+    "Jizzakh Region": ["Jizzakh", "Gallaorol", "Zomin"],
+    "Sirdarya Region": ["Gulistan", "Yangiyer", "Shirin"],
+    "Kashkadarya Region": ["Karshi", "Shakhrisabz", "Kitab"],
+    "Surkhandarya Region": ["Termez", "Denau", "Sherabad"],
+    "Navoi Region": ["Navoi", "Zarafshan", "Karmana"],
+    "Khorezm Region": ["Urgench", "Khiva", "Pitnak"],
+    "Republic of Karakalpakstan": ["Nukus", "Khodjeyli", "Turtkul"],
+};
+
 const toNumber = (value?: string | string[]) => {
     if (!value || Array.isArray(value)) return undefined;
     const parsed = Number(value);
@@ -20,17 +36,12 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     const t = await getTranslations("Catalog");
     const params = await searchParams;
     const location = typeof params.location === "string" ? params.location : undefined;
-    const currency = typeof params.currency === "string" ? params.currency : "USD";
+    const district = typeof params.district === "string" ? params.district : undefined;
     const monthlyPayment = toNumber(params.monthlyPayment);
     const budget = toNumber(params.budget);
     const area = toNumber(params.area);
-    const toUsd = (value?: number) => {
-        if (typeof value !== "number") return undefined;
-        if (currency === "UZS") return value / 13000;
-        return value;
-    };
-    const monthlyPaymentUsd = toUsd(monthlyPayment);
-    const budgetUsd = toUsd(budget);
+    const monthlyPaymentUsd = typeof monthlyPayment === "number" ? monthlyPayment / 13000 : undefined;
+    const budgetUsd = typeof budget === "number" ? budget / 13000 : undefined;
     const affordabilityMaxPrice =
         typeof monthlyPaymentUsd === "number" ? monthlyPaymentUsd * 240 : undefined;
     const effectiveMaxPrice =
@@ -39,8 +50,20 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             : budgetUsd ?? affordabilityMaxPrice;
 
     const projects = PROJECTS.filter((project) => {
-        if (location && project.location !== location) {
-            return false;
+        if (location) {
+            const allowedCities = REGION_CITY_MAP[location] ?? [];
+            if (!allowedCities.includes(project.location)) {
+                return false;
+            }
+        }
+
+        if (district) {
+            const districtMatches =
+                project.location === district ||
+                project.district.toLowerCase().includes(district.toLowerCase());
+            if (!districtMatches) {
+                return false;
+            }
         }
 
         const matchesApartment = project.apartments.some((apartment) => {
@@ -71,18 +94,14 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             {typeof monthlyPayment === "number" && (
                 <p className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900">
                     {t("monthlyHint", {
-                        value: currency === "UZS"
-                            ? `${Math.round((affordabilityMaxPrice ?? 0) * 13000).toLocaleString()} UZS`
-                            : `$${affordabilityMaxPrice?.toLocaleString()}`
+                        value: `${Math.round((affordabilityMaxPrice ?? 0) * 13000).toLocaleString()} UZS`
                     })}
                 </p>
             )}
             {typeof budget === "number" && (
                 <p className="mb-6 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm text-orange-900">
                     {t("budgetHint", {
-                        value: currency === "UZS"
-                            ? `${budget.toLocaleString()} UZS`
-                            : `$${budget.toLocaleString()}`
+                        value: `${budget.toLocaleString()} UZS`
                     })}
                 </p>
             )}
@@ -102,7 +121,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-2xl font-bold text-accent">{t("from")} ${project.priceFrom.toLocaleString()}</p>
+                            <p className="text-2xl font-bold text-accent">{t("from")} {(project.priceFrom * 13000).toLocaleString()} UZS</p>
                         </CardContent>
                         <CardFooter>
                             <Button asChild className="w-full h-11 text-base">

@@ -6,36 +6,36 @@ import { Search, MapPin, DollarSign, Ruler } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
-const UZBEKISTAN_REGIONS = [
-    "Tashkent City",
-    "Tashkent Region",
-    "Samarkand Region",
-    "Bukhara Region",
-    "Andijan Region",
-    "Fergana Region",
-    "Namangan Region",
-    "Jizzakh Region",
-    "Sirdarya Region",
-    "Kashkadarya Region",
-    "Surkhandarya Region",
-    "Navoi Region",
-    "Khorezm Region",
-    "Republic of Karakalpakstan",
-];
+const REGION_CITY_MAP: Record<string, string[]> = {
+    "Tashkent Region": ["Tashkent", "Chirchiq", "Angren", "Yangiyul"],
+    "Samarkand Region": ["Samarkand", "Urgut", "Kattakurgan"],
+    "Bukhara Region": ["Bukhara", "Gijduvan", "Kagan"],
+    "Andijan Region": ["Andijan", "Asaka", "Khanabad"],
+    "Fergana Region": ["Fergana", "Kokand", "Margilan"],
+    "Namangan Region": ["Namangan", "Chust", "Chartak"],
+    "Jizzakh Region": ["Jizzakh", "Gallaorol", "Zomin"],
+    "Sirdarya Region": ["Gulistan", "Yangiyer", "Shirin"],
+    "Kashkadarya Region": ["Karshi", "Shakhrisabz", "Kitab"],
+    "Surkhandarya Region": ["Termez", "Denau", "Sherabad"],
+    "Navoi Region": ["Navoi", "Zarafshan", "Karmana"],
+    "Khorezm Region": ["Urgench", "Khiva", "Pitnak"],
+    "Republic of Karakalpakstan": ["Nukus", "Khodjeyli", "Turtkul"],
+};
 
 export function FilterBar() {
     const t = useTranslations("Filter");
     const router = useRouter();
     const [location, setLocation] = useState("Samarkand Region");
-    const [currency, setCurrency] = useState("USD");
+    const [district, setDistrict] = useState("Samarkand");
     const [monthlyPayment, setMonthlyPayment] = useState("");
     const [budget, setBudget] = useState("");
     const [area, setArea] = useState("");
+    const districtsForRegion = REGION_CITY_MAP[location] ?? [];
 
     const onSearch = () => {
         const params = new URLSearchParams();
         if (location) params.set("location", location);
-        if (currency) params.set("currency", currency);
+        if (district) params.set("district", district);
         if (monthlyPayment) params.set("monthlyPayment", monthlyPayment);
         if (budget) params.set("budget", budget);
         if (area) params.set("area", area);
@@ -46,15 +46,20 @@ export function FilterBar() {
         <div className="bg-primary p-5 rounded-[1.5rem] shadow-2xl shadow-blue-900/20 flex flex-col gap-4 max-w-6xl mx-auto w-full border border-white/10 text-white">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
                 <div className="space-y-1.5 group">
-                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">{t("city")}</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">Region</label>
                     <div className="relative">
                         <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
                         <select
                             value={location}
-                            onChange={(e) => setLocation(e.target.value)}
+                            onChange={(e) => {
+                                const nextRegion = e.target.value;
+                                setLocation(nextRegion);
+                                const nextDistricts = REGION_CITY_MAP[nextRegion] ?? [];
+                                setDistrict(nextDistricts[0] ?? "");
+                            }}
                             className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50 appearance-none cursor-pointer"
                         >
-                            {UZBEKISTAN_REGIONS.map((region) => (
+                            {Object.keys(REGION_CITY_MAP).map((region) => (
                                 <option key={region} className="bg-primary" value={region}>
                                     {region}
                                 </option>
@@ -63,16 +68,19 @@ export function FilterBar() {
                     </div>
                 </div>
                 <div className="space-y-1.5 group">
-                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">Currency</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">City / District</label>
                     <div className="relative">
-                        <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
                         <select
-                            value={currency}
-                            onChange={(e) => setCurrency(e.target.value)}
+                            value={district}
+                            onChange={(e) => setDistrict(e.target.value)}
                             className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50 appearance-none cursor-pointer"
                         >
-                            <option className="bg-primary" value="USD">USD</option>
-                            <option className="bg-primary" value="UZS">UZS</option>
+                            {districtsForRegion.map((item) => (
+                                <option key={item} className="bg-primary" value={item}>
+                                    {item}
+                                </option>
+                            ))}
                         </select>
                     </div>
                 </div>
@@ -85,7 +93,7 @@ export function FilterBar() {
                             onChange={(e) => setMonthlyPayment(e.target.value)}
                             type="number"
                             min={0}
-                            placeholder={`${currency} / month`}
+                            placeholder="UZS / month"
                             className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50"
                         />
                     </div>
@@ -99,7 +107,7 @@ export function FilterBar() {
                             onChange={(e) => setBudget(e.target.value)}
                             type="number"
                             min={0}
-                            placeholder={currency}
+                            placeholder="UZS"
                             className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50"
                         />
                     </div>
