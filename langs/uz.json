@@ -1,5 +1,97 @@
 {
-    "HomePage": {
-        "title": "Salom, dunyo!"
+  "Header": {
+    "home": "Bosh sahifa",
+    "catalog": "Katalog",
+    "about": "Biz haqimizda",
+    "contact": "Aloqa",
+    "brand": "Oson Uy"
+  },
+  "Home": {
+    "heroLine1": "Oson",
+    "heroAccent": "Uy",
+    "heroLine2": "Kelajakdagi uyingiz",
+    "heroSubtitle": "Har qanday inson uchun sodda va qulay platforma. Yangi qurilishdagi mos kvartirani tez topishga yordam beramiz.",
+    "slogan": "Kvartiraga yo'lingiz endi yengilroq",
+    "featuredTitle": "Mashhur loyihalar",
+    "featuredSubtitle": "O'zbekistondagi top turar-joy majmualari",
+    "viewCatalog": "Katalogni ko'rish ->",
+    "availableProjects": "Mavjud loyihalar",
+    "marketFocus": "Asosiy bozor yo'nalishi",
+    "launchCity": "Samarqand",
+    "launchCityLabel": "Boshlanish shahri",
+    "responseTime": "Ekspert javob vaqti",
+    "consultTitle1": "So'rang",
+    "consultTitleAccent": "bepul",
+    "consultTitle2": "konsultatsiya",
+    "consultSubtitle": "Byudjetingiz va ehtiyojingiz asosida eng yaxshi variantlar bo'yicha shaxsiy tanlov oling.",
+    "yourName": "Ismingiz",
+    "phone": "Telefon",
+    "inquiryNow": "So'rov qoldirish"
+  },
+  "Filter": {
+    "city": "Shahar",
+    "monthly": "Oyiga to'lov",
+    "budget": "Umumiy byudjet",
+    "area": "Kerakli maydon (m²)",
+    "cta": "Kvartira topish"
+  },
+  "Catalog": {
+    "title": "Mavjud loyihalar",
+    "filters": "Filtrlar",
+    "monthlyHint": "Byudjet bo'yicha tanlov: {value} gacha (20 yillik oylik to'lov hisobidan).",
+    "budgetHint": "Tanlangan umumiy byudjet: {value}",
+    "popular": "Mashhur",
+    "details": "Batafsil",
+    "from": "dan"
+  },
+  "About": {
+    "title1": "Ko'chmas mulk bozorini yangilaymiz",
+    "titleAccent": "O'zbekistonda",
+    "description": "Oson Uy'da biz uy sotib olish taksi chaqirishdek oson bo'lishi kerak deb hisoblaymiz. Missiyamiz — O'zbekiston birlamchi uy-joy bozoriga shaffoflik, data asosidagi qarorlar va ishonch olib kirish.",
+    "quote": "2024 yilda Toshkentda ko'chmas mulk ekspertlari va texno tadbirkorlar jamoasi tomonidan tashkil etilgan.",
+    "commitment": "Bizning majburiyat",
+    "secure": "Xavfsiz va ishonchli",
+    "secureText": "Platformamizdagi har bir quruvchi 30 punktli qat'iy tekshiruvdan o'tadi, bu sizning investitsiyangiz xavfsizligi va topshirish muddatlarining real bo'lishini ta'minlaydi.",
+    "learnMore": "Batafsil",
+    "stats": {
+      "developers": "Hamkor quruvchilar",
+      "projects": "Faol loyihalar",
+      "transactions": "Muvaffaqiyatli bitimlar",
+      "verified": "Tasdiqlangan ma'lumot"
     }
+  },
+  "Footer": {
+    "description": "O'zbekistondagi birlamchi ko'chmas mulk bo'yicha eng ishonchli platforma. Sizni eng yaxshi yashash joylari bilan bog'laymiz.",
+    "company": "Kompaniya",
+    "legal": "Huquqiy",
+    "support": "Qo'llab-quvvatlash",
+    "about": "Biz haqimizda",
+    "contact": "Aloqa",
+    "privacy": "Maxfiylik siyosati",
+    "terms": "Foydalanish shartlari",
+    "faq": "FAQ",
+    "helpDesk": "Yordam markazi",
+    "copyright": "© 2024 Oson Uy Real Estate. Birlamchi bozor mutaxassisi."
+  },
+  "ProjectCard": {
+    "popular": "Mashhur",
+    "developer": "Quruvchi",
+    "details": "Batafsil",
+    "inquiry": "So'rov"
+  },
+  "LeadModal": {
+    "title": "Bog'lanish",
+    "tagline": "Birlamchi bozor ekspertlari",
+    "interestPrefix": "Sizni qiziqtirgan loyiha",
+    "interestSuffix": "Ma'lumotlaringizni qoldiring.",
+    "defaultDescription": "Kontaktlaringizni qoldiring, maslahatchimiz 15 daqiqa ichida siz bilan bog'lanadi.",
+    "fullName": "To'liq ism",
+    "phone": "Telefon raqami",
+    "sending": "Yuborilmoqda...",
+    "submit": "So'rov yuborish",
+    "success": "Muvaffaqiyatli!",
+    "successDescription": "So'rovingiz qabul qilindi. 15 daqiqa ichida qo'ng'iroq kuting.",
+    "close": "Yopish",
+    "privacy": "Xavfsiz platforma · Ma'lumotlar maxfiyligi kafolatlangan"
+  }
 }

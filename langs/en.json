@@ -1,0 +1,97 @@
+{
+  "Header": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "about": "About Us",
+    "contact": "Contact",
+    "brand": "Oson Uy"
+  },
+  "Home": {
+    "heroLine1": "Oson",
+    "heroAccent": "Uy",
+    "heroLine2": "Your Future Home",
+    "heroSubtitle": "A simple and easy-to-use platform for everyone. We help you quickly find the right apartment in new buildings.",
+    "slogan": "Your path to an apartment is now easier",
+    "featuredTitle": "Featured Projects",
+    "featuredSubtitle": "Uzbekistan's top residential complexes",
+    "viewCatalog": "View Catalog ->",
+    "availableProjects": "Available Projects",
+    "marketFocus": "Primary Market Focus",
+    "launchCity": "Samarkand",
+    "launchCityLabel": "Launch City",
+    "responseTime": "Expert Response Time",
+    "consultTitle1": "Request a",
+    "consultTitleAccent": "Free",
+    "consultTitle2": "Consultation",
+    "consultSubtitle": "Get a personalized selection of the best properties based on your budget and preferences.",
+    "yourName": "Your Name",
+    "phone": "Phone",
+    "inquiryNow": "Inquiry Now"
+  },
+  "Filter": {
+    "city": "City",
+    "monthly": "Monthly Payment",
+    "budget": "Total Budget",
+    "area": "Desired Area (m²)",
+    "cta": "Find Apartments"
+  },
+  "Catalog": {
+    "title": "Available Projects",
+    "filters": "Filters",
+    "monthlyHint": "Budget match: up to {value} (based on 20-year monthly payment estimate).",
+    "budgetHint": "Selected total budget: {value}",
+    "popular": "Popular",
+    "details": "View Details",
+    "from": "from"
+  },
+  "About": {
+    "title1": "Modernizing Real Estate in",
+    "titleAccent": "Uzbekistan",
+    "description": "At Oson Uy, we believe that buying a home should be as seamless as ordering a taxi. Our mission is to bring transparency, data-driven decisions, and trust to the primary housing market of Uzbekistan.",
+    "quote": "Founded by a team of real estate veterans and tech entrepreneurs in Tashkent, 2024.",
+    "commitment": "Our Commitment",
+    "secure": "Secure & Trusted",
+    "secureText": "Every developer on our platform undergoes a rigorous 30-point verification audit, ensuring your investments are safe and delivery dates are realistic.",
+    "learnMore": "Learn More",
+    "stats": {
+      "developers": "Partner Developers",
+      "projects": "Active Projects",
+      "transactions": "Success Transactions",
+      "verified": "Verified Data"
+    }
+  },
+  "Footer": {
+    "description": "The most trusted primary real estate platform in Uzbekistan. Connecting you with premium living spaces.",
+    "company": "Company",
+    "legal": "Legal",
+    "support": "Support",
+    "about": "About Us",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "faq": "FAQ",
+    "helpDesk": "Help Desk",
+    "copyright": "© 2024 Oson Uy Real Estate. Primary Market Specialist."
+  },
+  "ProjectCard": {
+    "popular": "Popular",
+    "developer": "Developer",
+    "details": "Details",
+    "inquiry": "Inquiry"
+  },
+  "LeadModal": {
+    "title": "Get In Touch",
+    "tagline": "Primary Market Experts",
+    "interestPrefix": "Interested in",
+    "interestSuffix": "Leave your details below.",
+    "defaultDescription": "Leave your details and our dedicated consultants will contact you within 15 minutes.",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "sending": "Sending...",
+    "submit": "Submit Inquiry",
+    "success": "Success!",
+    "successDescription": "Your request has been received. Expect a call within 15 minutes.",
+    "close": "Close Window",
+    "privacy": "Secure Platform · Data Privacy Guaranteed"
+  }
+}

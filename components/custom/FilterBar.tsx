@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, DollarSign, Ruler } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 export function FilterBar() {
+    const t = useTranslations("Filter");
     const router = useRouter();
-    const [location, setLocation] = useState("Tashkent");
+    const [location, setLocation] = useState("Samarkand");
     const [monthlyPayment, setMonthlyPayment] = useState("");
     const [budget, setBudget] = useState("");
     const [area, setArea] = useState("");
@@ -25,7 +27,7 @@ export function FilterBar() {
         <div className="bg-primary p-5 rounded-[1.5rem] shadow-2xl shadow-blue-900/20 flex flex-col gap-4 max-w-6xl mx-auto w-full border border-white/10 text-white">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="space-y-1.5 group">
-                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">City</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">{t("city")}</label>
                     <div className="relative">
                         <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
                         <select
@@ -40,7 +42,7 @@ export function FilterBar() {
                     </div>
                 </div>
                 <div className="space-y-1.5 group">
-                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">Сумма в месяц</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">{t("monthly")}</label>
                     <div className="relative">
                         <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
                         <input
@@ -54,7 +56,7 @@ export function FilterBar() {
                     </div>
                 </div>
                 <div className="space-y-1.5 group">
-                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">Бюджет (общий)</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">{t("budget")}</label>
                     <div className="relative">
                         <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
                         <input
@@ -68,7 +70,7 @@ export function FilterBar() {
                     </div>
                 </div>
                 <div className="space-y-1.5 group">
-                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">Площадь (м²)</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">{t("area")}</label>
                     <div className="relative">
                         <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
                         <input
@@ -85,7 +87,7 @@ export function FilterBar() {
             <div className="flex justify-end">
                 <Button onClick={onSearch} variant="cta" className="w-full md:w-auto px-10 h-11 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-900/20 active:scale-95 border-none">
                     <Search className="h-5 w-5" />
-                    Подобрать квартиры
+                    {t("cta")}
                 </Button>
             </div>
         </div>

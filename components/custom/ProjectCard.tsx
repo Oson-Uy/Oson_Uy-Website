@@ -5,12 +5,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export interface ProjectCardProps {
     project: Project;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+    const t = useTranslations("ProjectCard");
+
     return (
         <Card className="group relative overflow-hidden rounded-[2rem] bg-white shadow-sm hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 border border-slate-200 flex flex-col">
             <div className="relative aspect-[16/10] overflow-hidden">
@@ -22,7 +25,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 />
                 {project.isPopular && (
                     <Badge className="absolute top-5 left-5 bg-[#FB7185] text-white text-[10px] font-bold px-4 py-1.5 rounded-full z-10 border-none uppercase tracking-wider shadow-lg shadow-rose-500/20">
-                        Popular
+                        {t("popular")}
                     </Badge>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1E3A8A]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -48,7 +51,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     </div>
                     <div>
                         <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest leading-none mb-1">
-                            Developer
+                            {t("developer")}
                         </p>
                         <p className="text-xs font-bold text-[#1E3A8A]">
                             {project.developer.name}
@@ -62,11 +65,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             variant="ghost"
                             className="w-full bg-slate-50 border border-slate-200 text-[#1E3A8A] text-[10px] font-bold uppercase tracking-wider rounded-xl hover:bg-slate-100 h-10"
                         >
-                            Details
+                            {t("details")}
                         </Button>
                     </Link>
                     <Button className="flex-1 bg-[#F97316] hover:bg-orange-600 text-white text-[10px] font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-orange-500/10 h-10">
-                        Inquiry
+                        {t("inquiry")}
                     </Button>
                 </div>
             </CardContent>

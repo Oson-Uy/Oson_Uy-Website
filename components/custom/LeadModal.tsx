@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { User, Phone, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { useTranslations } from "next-intl";
 
 interface LeadModalProps {
     isOpen: boolean;
@@ -13,6 +14,7 @@ interface LeadModalProps {
 }
 
 export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
+    const t = useTranslations("LeadModal");
     const [formState, setFormState] = useState({ name: "", phone: "+998" });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -51,8 +53,8 @@ export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
                         referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 flex flex-col justify-end p-10 pb-8">
-                        <DialogTitle className="text-white text-3xl font-black tracking-tight leading-none uppercase italic">Get In Touch</DialogTitle>
-                        <p className="text-[#F97316] text-[10px] uppercase font-black tracking-[0.3em] mt-2">Primary Market Experts</p>
+                        <DialogTitle className="text-white text-3xl font-black tracking-tight leading-none uppercase italic">{t("title")}</DialogTitle>
+                        <p className="text-[#F97316] text-[10px] uppercase font-black tracking-[0.3em] mt-2">{t("tagline")}</p>
                     </div>
                 </div>
 
@@ -67,15 +69,15 @@ export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
                             >
                                 <p className="text-slate-500 text-sm mb-10 leading-relaxed font-medium">
                                     {projectName ? (
-                                        <>Interested in <span className="text-[#1E3A8A] font-black">{projectName}</span>? Leave your details below.</>
+                                        <>{t("interestPrefix")} <span className="text-[#1E3A8A] font-black">{projectName}</span>? {t("interestSuffix")}</>
                                     ) : (
-                                        <>Leave your details and our dedicated consultants will contact you within 15 minutes.</>
+                                        <>{t("defaultDescription")}</>
                                     )}
                                 </p>
 
                                 <form onSubmit={handleSubmit} className="space-y-8">
                                     <div className="space-y-2.5">
-                                        <Label className="text-[10px] font-black text-[#1E3A8A] uppercase tracking-[0.2em] ml-1 opacity-50">Full Name</Label>
+                                        <Label className="text-[10px] font-black text-[#1E3A8A] uppercase tracking-[0.2em] ml-1 opacity-50">{t("fullName")}</Label>
                                         <div className="relative group">
                                             <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#F97316] h-5 w-5 transition-colors" />
                                             <Input
@@ -89,7 +91,7 @@ export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
                                     </div>
 
                                     <div className="space-y-2.5">
-                                        <Label className="text-[10px] font-black text-[#1E3A8A] uppercase tracking-[0.2em] ml-1 opacity-50">Phone Number</Label>
+                                        <Label className="text-[10px] font-black text-[#1E3A8A] uppercase tracking-[0.2em] ml-1 opacity-50">{t("phone")}</Label>
                                         <div className="relative group">
                                             <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#F97316] h-5 w-5 transition-colors" />
                                             <Input
@@ -108,7 +110,7 @@ export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
                                         disabled={isLoading}
                                         className="w-full h-16 bg-[#F97316] hover:bg-orange-600 text-white font-black text-xl rounded-2xl shadow-xl shadow-orange-500/20 transition-all active:scale-[0.98] mt-4 border-none uppercase tracking-widest"
                                     >
-                                        {isLoading ? "Sending..." : "Submit Inquiry"}
+                                        {isLoading ? t("sending") : t("submit")}
                                     </Button>
                                 </form>
                             </motion.div>
@@ -125,16 +127,16 @@ export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <h3 className="text-3xl font-black text-[#1E3A8A]">Success!</h3>
-                                    <p className="text-slate-500 font-medium">Your request has been received.<br />Expect a call within 15 minutes.</p>
+                                    <h3 className="text-3xl font-black text-[#1E3A8A]">{t("success")}</h3>
+                                    <p className="text-slate-500 font-medium">{t("successDescription")}</p>
                                 </div>
-                                <Button variant="ghost" onClick={onClose} className="mt-4 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Close Window</Button>
+                                <Button variant="ghost" onClick={onClose} className="mt-4 font-bold text-slate-400 uppercase tracking-widest text-[10px]">{t("close")}</Button>
                             </motion.div>
                         )}
                     </AnimatePresence>
 
                     <p className="mt-12 text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest opacity-60">
-                        Secure Platform · Data Privacy Guaranteed
+                        {t("privacy")}
                     </p>
                 </div>
             </DialogContent>

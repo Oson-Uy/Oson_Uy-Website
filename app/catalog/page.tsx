@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { PROJECTS } from '@/lib/data';
+import { getTranslations } from 'next-intl/server';
 
 type CatalogPageProps = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -16,6 +17,7 @@ const toNumber = (value?: string | string[]) => {
 };
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
+    const t = await getTranslations("Catalog");
     const params = await searchParams;
     const location = typeof params.location === "string" ? params.location : undefined;
     const monthlyPayment = toNumber(params.monthlyPayment);
@@ -53,23 +55,21 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     return (
         <div className="pt-24 pb-16 px-8 max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-10">
-                <h1 className="text-3xl font-bold text-primary">Available Projects</h1>
+                <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>
                 <div className="flex gap-2">
-                    <Button variant="outline" className="border-primary text-primary">Filter</Button>
+                    <Button variant="outline" className="border-primary text-primary">{t("filters")}</Button>
                 </div>
             </div>
             {typeof monthlyPayment === "number" && (
                 <p className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                    Подбор по бюджету: до{" "}
-                    <span className="font-semibold">
-                        ${affordabilityMaxPrice?.toLocaleString()}
-                    </span>{" "}
-                    (расчет из ежемесячного платежа на 20 лет).
+                    {t("monthlyHint", {
+                        value: `$${affordabilityMaxPrice?.toLocaleString()}`
+                    })}
                 </p>
             )}
             {typeof budget === "number" && (
                 <p className="mb-6 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm text-orange-900">
-                    Выбран общий бюджет: <span className="font-semibold">${budget.toLocaleString()}</span>
+                    {t("budgetHint", { value: `$${budget.toLocaleString()}` })}
                 </p>
             )}
 
@@ -78,7 +78,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                     <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
                         <div className="h-48 bg-slate-200 relative">
                             {project.isPopular && (
-                                <Badge className="absolute top-4 left-4 bg-accent text-white">Popular</Badge>
+                                <Badge className="absolute top-4 left-4 bg-accent text-white">{t("popular")}</Badge>
                             )}
                         </div>
                         <CardHeader>
@@ -88,11 +88,11 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-2xl font-bold text-accent">от ${project.priceFrom.toLocaleString()}</p>
+                            <p className="text-2xl font-bold text-accent">{t("from")} ${project.priceFrom.toLocaleString()}</p>
                         </CardContent>
                         <CardFooter>
                             <Button asChild className="w-full h-11 text-base">
-                                <Link href={`/catalog/${project.id}`}>View Details</Link>
+                                <Link href={`/catalog/${project.id}`}>{t("details")}</Link>
                             </Button>
                         </CardFooter>
                     </Card>

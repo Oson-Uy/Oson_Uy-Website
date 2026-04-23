@@ -2,12 +2,12 @@ import { getRequestConfig } from 'next-intl/server';
 import { cookies } from 'next/headers';
 
 export default getRequestConfig(async () => {
-    const locales = ['uz', 'ru'];
+    const locales = ['uz', 'ru', 'en'];
     const cookieStore = await cookies();
-    let locale = cookieStore.get("locale")?.value || 'uz';
+    let locale = cookieStore.get("locale")?.value || 'en';
 
     if (!locales.includes(locale)) {
-        locale = "uz";
+        locale = "en";
     }
 
     return {
