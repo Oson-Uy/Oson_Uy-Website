@@ -14,7 +14,7 @@ export default function Home() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
-        <div className="flex flex-col w-full min-h-screen">
+        <div className="flex flex-col mt-15 w-full min-h-screen">
             <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
@@ -22,8 +22,8 @@ export default function Home() {
                         className="w-full h-full object-cover"
                         alt="Hero background"
                     />
-                    <div className="absolute inset-0 bg-[#1E3A8A]/70 mix-blend-multiply"></div>
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#1E3A8A]/90 via-transparent to-slate-50"></div>
+                    <div className="absolute inset-0 bg-primary/70 mix-blend-multiply"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-transparent to-slate-50"></div>
                 </div>
 
                 <div className="relative z-10 w-full px-4 text-center max-w-5xl mx-auto space-y-10 group">
@@ -34,7 +34,7 @@ export default function Home() {
                         className="space-y-6"
                     >
                         <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
-                            Uy<span className="text-[#F97316]">Find</span> Your
+                            Uy<span className="text-accent">Find</span> Your
                             <br />
                             Future Home
                         </h1>
@@ -58,17 +58,17 @@ export default function Home() {
                 <div className="w-full px-4 md:px-8 max-w-7xl mx-auto space-y-16">
                     <div className="flex flex-col md:flex-row justify-between items-end gap-6">
                         <div className="space-y-3">
-                            <h2 className="text-5xl font-black text-[#1E3A8A] tracking-tight">
+                            <h2 className="text-5xl font-black text-primary tracking-tight">
                                 Featured Projects
                             </h2>
-                            <div className="h-1.5 w-24 bg-[#F97316] rounded-full"></div>
+                            <div className="h-1.5 w-24 bg-accent rounded-full"></div>
                             <p className="text-slate-400 font-bold uppercase tracking-[0.2em] text-xs pt-2">
-                                Uzbekistan's top residential complexes
+                                Uzbekistan&apos;s top residential complexes
                             </p>
                         </div>
                         <Link   
                             href="/catalog"
-                            className="text-[#F97316] font-bold text-lg gap-2 p-0 hover:no-underline hover:translate-x-2 transition-transform"
+                            className="text-accent font-bold text-lg gap-2 p-0 hover:no-underline hover:translate-x-2 transition-transform"
                         >
                             View Catalog →
                         </Link>
@@ -85,7 +85,7 @@ export default function Home() {
             <section className="py-24 bg-white border-y border-slate-200">
                 <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-16">
                     <div className="text-center md:text-left space-y-2">
-                        <div className="text-5xl font-black text-[#1E3A8A] tracking-tight">
+                        <div className="text-5xl font-black text-primary tracking-tight">
                             1,250+
                         </div>
                         <div className="text-[10px] uppercase tracking-[0.3em] font-black text-slate-400">
@@ -93,7 +93,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="text-center md:text-left space-y-2">
-                        <div className="text-5xl font-black text-[#1E3A8A] tracking-tight">
+                        <div className="text-5xl font-black text-primary tracking-tight">
                             Uzbekistan
                         </div>
                         <div className="text-[10px] uppercase tracking-[0.3em] font-black text-slate-400">
@@ -101,7 +101,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="text-center md:text-left space-y-2">
-                        <div className="text-5xl font-black text-[#1E3A8A] tracking-tight">
+                        <div className="text-5xl font-black text-primary tracking-tight">
                             15min
                         </div>
                         <div className="text-[10px] uppercase tracking-[0.3em] font-black text-slate-400">
@@ -112,10 +112,10 @@ export default function Home() {
             </section>
 
             <section className="py-32 px-4 bg-slate-50">
-                <div className="max-w-6xl mx-auto bg-white border-2 border-[#1E3A8A]/5 p-12 md:p-20 rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-12">
+                <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-12 md:p-20 rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-12">
                     <div className="flex-1 space-y-6 text-center md:text-left">
-                        <h2 className="text-4xl md:text-6xl font-black text-[#1E3A8A] tracking-tight leading-[1.1]">
-                            Request a <span className="text-[#F97316]">Free</span>{" "}
+                        <h2 className="text-4xl md:text-6xl font-black text-primary tracking-tight leading-[1.1]">
+                            Request a <span className="text-accent">Free</span>{" "}
                             Consultation
                         </h2>
                         <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
@@ -123,7 +123,7 @@ export default function Home() {
                             your budget and preferences.
                         </p>
                     </div>
-                    <div className="w-full md:w-auto shrink-0 bg-[#1E3A8A] p-10 rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white space-y-8">
+                    <div className="w-full md:w-auto shrink-0 bg-primary p-10 rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white space-y-8">
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
@@ -132,7 +132,7 @@ export default function Home() {
                                 <input
                                     type="text"
                                     placeholder="Full Name"
-                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-[#F97316]"
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -142,13 +142,14 @@ export default function Home() {
                                 <input
                                     type="text"
                                     placeholder="+998"
-                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-[#F97316]"
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent"
                                 />
                             </div>
                         </div>
                         <Button
                             onClick={() => setIsModalOpen(true)}
-                            className="w-full bg-[#F97316] hover:bg-orange-600 text-white h-16 rounded-xl font-black text-xl shadow-xl shadow-orange-900/20 transition-all active:scale-95 border-none"
+                            variant="cta"
+                            className="w-full text-white h-16 rounded-xl font-black text-xl shadow-xl shadow-orange-900/20 transition-all active:scale-95 border-none"
                         >
                             Inquiry Now
                         </Button>

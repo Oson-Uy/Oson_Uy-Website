@@ -37,4 +37,5 @@ export interface FilterState {
   location: Location | 'All';
   rooms: number | 'All';
   priceRange: [number, number];
+  areaRange: [number, number];
 }
