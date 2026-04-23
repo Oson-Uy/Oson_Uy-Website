@@ -12,7 +12,7 @@ export default function Footer() {
             <div className="container grid grid-cols-1 md:grid-cols-4 gap-12 px-4 mx-auto">
                 <div className="space-y-6">
                     <div className="flex items-center gap-2">
-                        <Image src="/osonuy-logo.png" alt="Oson Uy logo" width={28} height={28} className="h-7 w-7 rounded-md object-cover" />
+                        <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={28} height={28} className="h-7 w-7 object-contain" />
                         <span className="text-xl font-bold tracking-tight text-[#1E3A8A]">
                             Oson<span className="text-[#F97316]">Uy</span>
                         </span>
@@ -40,6 +40,16 @@ export default function Footer() {
                     <ul className="space-y-3 text-sm font-semibold text-[#1E3A8A]/80">
                         <li><Link href="/" className="hover:text-[#F97316]">{t("faq")}</Link></li>
                         <li><Link href="/" className="hover:text-[#F97316]">{t("helpDesk")}</Link></li>
+                        <li>
+                            <a
+                                href="https://www.instagram.com/oson_uy.uz/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-[#F97316]"
+                            >
+                                Instagram
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

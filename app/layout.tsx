@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         siteName: "Oson Uy",
         images: [
             {
-                url: "/osonuy-logo.png",
+                url: "/osonuy-logo-removebg-preview.png",
                 width: 800,
                 height: 800,
                 alt: "Oson Uy logo",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         title: "Oson Uy",
         description:
             "Your path to an apartment is now easier. Launching in Samarkand.",
-        images: ["/osonuy-logo.png"],
+        images: ["/osonuy-logo-removebg-preview.png"],
     },
     icons: {
         icon: "/icon.png",

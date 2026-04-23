@@ -6,10 +6,28 @@ import { Search, MapPin, DollarSign, Ruler } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
+const UZBEKISTAN_REGIONS = [
+    "Tashkent City",
+    "Tashkent Region",
+    "Samarkand Region",
+    "Bukhara Region",
+    "Andijan Region",
+    "Fergana Region",
+    "Namangan Region",
+    "Jizzakh Region",
+    "Sirdarya Region",
+    "Kashkadarya Region",
+    "Surkhandarya Region",
+    "Navoi Region",
+    "Khorezm Region",
+    "Republic of Karakalpakstan",
+];
+
 export function FilterBar() {
     const t = useTranslations("Filter");
     const router = useRouter();
-    const [location, setLocation] = useState("Samarkand");
+    const [location, setLocation] = useState("Samarkand Region");
+    const [currency, setCurrency] = useState("USD");
     const [monthlyPayment, setMonthlyPayment] = useState("");
     const [budget, setBudget] = useState("");
     const [area, setArea] = useState("");
@@ -17,6 +35,7 @@ export function FilterBar() {
     const onSearch = () => {
         const params = new URLSearchParams();
         if (location) params.set("location", location);
+        if (currency) params.set("currency", currency);
         if (monthlyPayment) params.set("monthlyPayment", monthlyPayment);
         if (budget) params.set("budget", budget);
         if (area) params.set("area", area);
@@ -25,7 +44,7 @@ export function FilterBar() {
 
     return (
         <div className="bg-primary p-5 rounded-[1.5rem] shadow-2xl shadow-blue-900/20 flex flex-col gap-4 max-w-6xl mx-auto w-full border border-white/10 text-white">
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
                 <div className="space-y-1.5 group">
                     <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">{t("city")}</label>
                     <div className="relative">
@@ -35,9 +54,25 @@ export function FilterBar() {
                             onChange={(e) => setLocation(e.target.value)}
                             className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50 appearance-none cursor-pointer"
                         >
-                            <option className="bg-primary" value="Tashkent">Tashkent</option>
-                            <option className="bg-primary" value="Samarkand">Samarkand</option>
-                            <option className="bg-primary" value="Bukhara">Bukhara</option>
+                            {UZBEKISTAN_REGIONS.map((region) => (
+                                <option key={region} className="bg-primary" value={region}>
+                                    {region}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                <div className="space-y-1.5 group">
+                    <label className="text-[10px] uppercase tracking-widest font-bold opacity-70 ml-1">Currency</label>
+                    <div className="relative">
+                        <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-hover:text-accent h-4 w-4 transition-colors" />
+                        <select
+                            value={currency}
+                            onChange={(e) => setCurrency(e.target.value)}
+                            className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50 appearance-none cursor-pointer"
+                        >
+                            <option className="bg-primary" value="USD">USD</option>
+                            <option className="bg-primary" value="UZS">UZS</option>
                         </select>
                     </div>
                 </div>
@@ -50,7 +85,7 @@ export function FilterBar() {
                             onChange={(e) => setMonthlyPayment(e.target.value)}
                             type="number"
                             min={0}
-                            placeholder="USD / месяц"
+                            placeholder={`${currency} / month`}
                             className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50"
                         />
                     </div>
@@ -64,7 +99,7 @@ export function FilterBar() {
                             onChange={(e) => setBudget(e.target.value)}
                             type="number"
                             min={0}
-                            placeholder="USD"
+                            placeholder={currency}
                             className="h-11 w-full bg-blue-800/50 border border-blue-700/50 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 ring-accent/50"
                         />
                     </div>

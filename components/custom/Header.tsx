@@ -41,7 +41,7 @@ export default function Header() {
         <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-200 h-16 flex items-center">
             <div className="container flex justify-between items-center w-full px-4 mx-auto">
                 <Link href="/" className="flex items-center gap-2">
-                    <Image src="/osonuy-logo.png" alt="Oson Uy logo" width={40} height={40} className="h-10 w-10 rounded-lg object-cover" />
+                    <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={40} height={40} className="h-10 w-10 object-contain" />
                     <span className="text-2xl font-bold tracking-tight text-[#1E3A8A]">
                         {t("brand").slice(0, 2)}<span className="text-[#F97316]">{t("brand").slice(2)}</span>
                     </span>

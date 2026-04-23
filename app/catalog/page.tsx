@@ -20,15 +20,23 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     const t = await getTranslations("Catalog");
     const params = await searchParams;
     const location = typeof params.location === "string" ? params.location : undefined;
+    const currency = typeof params.currency === "string" ? params.currency : "USD";
     const monthlyPayment = toNumber(params.monthlyPayment);
     const budget = toNumber(params.budget);
     const area = toNumber(params.area);
+    const toUsd = (value?: number) => {
+        if (typeof value !== "number") return undefined;
+        if (currency === "UZS") return value / 13000;
+        return value;
+    };
+    const monthlyPaymentUsd = toUsd(monthlyPayment);
+    const budgetUsd = toUsd(budget);
     const affordabilityMaxPrice =
-        typeof monthlyPayment === "number" ? monthlyPayment * 240 : undefined;
+        typeof monthlyPaymentUsd === "number" ? monthlyPaymentUsd * 240 : undefined;
     const effectiveMaxPrice =
-        typeof budget === "number" && typeof affordabilityMaxPrice === "number"
-            ? Math.min(budget, affordabilityMaxPrice)
-            : budget ?? affordabilityMaxPrice;
+        typeof budgetUsd === "number" && typeof affordabilityMaxPrice === "number"
+            ? Math.min(budgetUsd, affordabilityMaxPrice)
+            : budgetUsd ?? affordabilityMaxPrice;
 
     const projects = PROJECTS.filter((project) => {
         if (location && project.location !== location) {
@@ -63,13 +71,19 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             {typeof monthlyPayment === "number" && (
                 <p className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900">
                     {t("monthlyHint", {
-                        value: `$${affordabilityMaxPrice?.toLocaleString()}`
+                        value: currency === "UZS"
+                            ? `${Math.round((affordabilityMaxPrice ?? 0) * 13000).toLocaleString()} UZS`
+                            : `$${affordabilityMaxPrice?.toLocaleString()}`
                     })}
                 </p>
             )}
             {typeof budget === "number" && (
                 <p className="mb-6 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm text-orange-900">
-                    {t("budgetHint", { value: `$${budget.toLocaleString()}` })}
+                    {t("budgetHint", {
+                        value: currency === "UZS"
+                            ? `${budget.toLocaleString()} UZS`
+                            : `$${budget.toLocaleString()}`
+                    })}
                 </p>
             )}
 
