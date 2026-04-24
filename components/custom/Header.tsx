@@ -51,7 +51,6 @@ export default function Header() {
                     <Link href="/" className={navLinkStyles("/")}>{t("home")}</Link>
                     <Link href="/catalog" className={navLinkStyles("/catalog")}>{t("catalog")}</Link>
                     <Link href="/about" className={navLinkStyles("/about")}>{t("about")}</Link>
-                    <Link href="/contact" className={navLinkStyles("/contact")}>{t("contact")}</Link>
                 </div>
 
                 <div className="flex items-center gap-2">

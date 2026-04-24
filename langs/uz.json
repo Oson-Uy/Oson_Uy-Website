@@ -38,6 +38,7 @@
   "Catalog": {
     "title": "Mavjud loyihalar",
     "filters": "Filtrlar",
+    "foundCount": "taklif topildi",
     "monthlyHint": "Byudjet bo'yicha tanlov: {value} gacha (20 yillik oylik to'lov hisobidan).",
     "budgetHint": "Tanlangan umumiy byudjet: {value}",
     "popular": "Mashhur",

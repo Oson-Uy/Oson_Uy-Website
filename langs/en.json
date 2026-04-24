@@ -38,6 +38,7 @@
   "Catalog": {
     "title": "Available Projects",
     "filters": "Filters",
+    "foundCount": "offerings found",
     "monthlyHint": "Budget match: up to {value} (based on 20-year monthly payment estimate).",
     "budgetHint": "Selected total budget: {value}",
     "popular": "Popular",
