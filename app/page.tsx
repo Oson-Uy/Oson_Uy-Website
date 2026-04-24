@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
 import { ProjectCard } from "@/components/custom/ProjectCard";
@@ -13,6 +13,65 @@ import { useTranslations } from "next-intl";
 export default function Home() {
   const t = useTranslations("Home");
   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [featuredProjects, setFeaturedProjects] = useState(PROJECTS.filter((p) => p.isPopular));
+
+    useEffect(() => {
+        void (async () => {
+            try {
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+                const response = await fetch(`${apiUrl}/projects`, { cache: "no-store" });
+                if (!response.ok) return;
+                const data = (await response.json()) as Array<{
+                    id: number;
+                    name: string;
+                    location: string;
+                    deliveryDate: string;
+                    imageUrl?: string;
+                    apartments: Array<{ id: number; rooms: number; area: number; floor: number; price: number; imageUrl?: string }>;
+                    developer?: { name: string };
+                }>;
+                const mapped = data.map((project) => ({
+                    id: String(project.id),
+                    name: project.name,
+                    description: "",
+                    image: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
+                    location: (["Tashkent", "Samarkand", "Bukhara"].includes(project.location)
+                        ? project.location
+                        : "Tashkent") as "Tashkent" | "Samarkand" | "Bukhara",
+                    developer: {
+                        name: project.developer?.name ?? "Developer",
+                        verified: true,
+                        logo: "https://picsum.photos/seed/dev/100/100",
+                    },
+                    deliveryDate: project.deliveryDate,
+                    tags: [],
+                    images: [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
+                    mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
+                    priceFrom: project.apartments.length
+                        ? Math.min(...project.apartments.map((apt) => apt.price))
+                        : 0,
+                    apartments: project.apartments.map((apt) => ({
+                        id: String(apt.id),
+                        projectId: String(project.id),
+                        rooms: apt.rooms,
+                        area: apt.area,
+                        floor: apt.floor,
+                        price: apt.price,
+                        status: "available" as const,
+                        layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
+                    })),
+                    floors: project.apartments.length
+                        ? Math.max(...project.apartments.map((apt) => apt.floor))
+                        : 0,
+                    district: project.location,
+                    isPopular: true,
+                }));
+                if (mapped.length) setFeaturedProjects(mapped);
+            } catch {
+                // Keep local fallback data
+            }
+        })();
+    }, []);
 
   return (
     <div className="flex flex-col w-full min-h-screen pt-16">
@@ -76,7 +135,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {PROJECTS.filter((p) => p.isPopular).map((project) => (
+                        {featuredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>

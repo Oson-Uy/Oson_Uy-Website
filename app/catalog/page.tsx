@@ -3,7 +3,6 @@ import { MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { PROJECTS } from '@/lib/data';
 import { getTranslations } from 'next-intl/server';
 
 type CatalogPageProps = {
@@ -49,7 +48,21 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             ? Math.min(budgetUsd, affordabilityMaxPrice)
             : budgetUsd ?? affordabilityMaxPrice;
 
-    const projects = PROJECTS.filter((project) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+    const projectsResponse = await fetch(`${apiUrl}/projects`, { cache: "no-store" });
+    const projectsData = projectsResponse.ok
+      ? (await projectsResponse.json()) as Array<{
+          id: number;
+          name: string;
+          location: string;
+          imageUrl?: string;
+          apartments: Array<{ id: number; price: number; area: number; rooms: number }>;
+          isPopular?: boolean;
+          district?: string;
+        }>
+      : [];
+
+    const projects = projectsData.filter((project) => {
         if (location) {
             const allowedCities = REGION_CITY_MAP[location] ?? [];
             if (!allowedCities.includes(project.location)) {
@@ -60,7 +73,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         if (district) {
             const districtMatches =
                 project.location === district ||
-                project.district.toLowerCase().includes(district.toLowerCase());
+                (project.district ?? "").toLowerCase().includes(district.toLowerCase());
             if (!districtMatches) {
                 return false;
             }
@@ -121,7 +134,15 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-2xl font-bold text-accent">{t("from")} {(project.priceFrom * 13000).toLocaleString()} UZS</p>
+                            <p className="text-2xl font-bold text-accent">
+                                {t("from")}{" "}
+                                {(
+                                  (project.apartments.length
+                                    ? Math.min(...project.apartments.map((apartment) => apartment.price))
+                                    : 0) * 13000
+                                ).toLocaleString()}{" "}
+                                UZS
+                            </p>
                         </CardContent>
                         <CardFooter>
                             <Button asChild className="w-full h-11 text-base">

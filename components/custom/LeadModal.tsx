@@ -11,26 +11,63 @@ interface LeadModalProps {
     isOpen: boolean;
     onClose: () => void;
     projectName?: string;
+    projectId?: number;
 }
 
-export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
+type ProjectOption = { id: number; name: string };
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+
+export function LeadModal({ isOpen, onClose, projectName, projectId }: LeadModalProps) {
     const t = useTranslations("LeadModal");
     const [formState, setFormState] = useState({ name: "", phone: "+998" });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [projects, setProjects] = useState<ProjectOption[]>([]);
+    const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+      projectId ?? null,
+    );
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    React.useEffect(() => {
+      if (!isOpen || projectId) return;
+      void (async () => {
+        const response = await fetch(`${API_URL}/projects`, { cache: "no-store" });
+        if (!response.ok) return;
+        const data = (await response.json()) as ProjectOption[];
+        setProjects(data);
+        if (!selectedProjectId && data.length) {
+          setSelectedProjectId(data[0].id);
+        }
+      })();
+    }, [isOpen, projectId, selectedProjectId]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setErrorMessage(null);
 
-        // Mock API call
         try {
-            // POST to http://localhost:3000/leads
-            console.log("Submitting lead:", { ...formState, project: projectName });
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            if (!selectedProjectId) {
+                throw new Error("Please select a project");
+            }
+
+            const response = await fetch(`${API_URL}/leads`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: formState.name,
+                    phone: formState.phone,
+                    projectId: selectedProjectId,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to submit lead (${response.status})`);
+            }
+
             setIsSubmitted(true);
         } catch (error) {
-            console.error("Submission failed", error);
+            setErrorMessage(error instanceof Error ? error.message : "Submission failed");
         } finally {
             setIsLoading(false);
         }
@@ -74,8 +111,32 @@ export function LeadModal({ isOpen, onClose, projectName }: LeadModalProps) {
                                         <>{t("defaultDescription")}</>
                                     )}
                                 </p>
+                                {errorMessage && (
+                                    <p className="mb-4 text-sm text-red-600">{errorMessage}</p>
+                                )}
 
                                 <form onSubmit={handleSubmit} className="space-y-8">
+                                    {!projectId && (
+                                        <div className="space-y-2.5">
+                                            <Label className="text-[10px] font-black text-[#1E3A8A] uppercase tracking-[0.2em] ml-1 opacity-50">
+                                                Project
+                                            </Label>
+                                            <select
+                                                value={selectedProjectId ?? ""}
+                                                onChange={(e) =>
+                                                    setSelectedProjectId(Number(e.target.value))
+                                                }
+                                                className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold outline-none focus:ring-4 focus:ring-[#F97316]/10"
+                                                required
+                                            >
+                                                {projects.map((project) => (
+                                                    <option key={project.id} value={project.id}>
+                                                        {project.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    )}
                                     <div className="space-y-2.5">
                                         <Label className="text-[10px] font-black text-[#1E3A8A] uppercase tracking-[0.2em] ml-1 opacity-50">{t("fullName")}</Label>
                                         <div className="relative group">

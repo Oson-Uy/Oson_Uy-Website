@@ -1,35 +1,53 @@
-"use client";
-
-import React from 'react';
 import Image from 'next/image';
-
 import { MapPin, Calendar, Layers, ChevronRight, Home } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
-
-const projectData = {
-    name: "Infinity Residences",
-    developer: "Golden House Developers",
-    location: "Yunusabad District, Tashkent",
-    delivery: "Q4 2025",
-    floors: "24 Levels",
-    mainImage: "https://images.unsplash.com/photo-1545324418-f1d3ac1ef739?q=80&w=1000", 
-    apartments: [
-        { id: 1, type: "Studio Alpha", block: "Block A-02", area: "42.5", floor: "12 of 24", price: "$51,000" },
-        { id: 2, type: "2-Bedroom Comfort", block: "Block B-12", area: "78.2", floor: "08 of 24", price: "$93,840" },
-        { id: 3, type: "Grand Penthouse", block: "Exclusive Top", area: "185.0", floor: "24 of 24", price: "$286,750" },
-    ]
+type ProjectDetailsPageProps = {
+  params: Promise<{ id: string }>;
 };
 
-export default function ProjectDetailsPage() {
+export default async function ProjectDetailsPage({ params }: ProjectDetailsPageProps) {
+    const { id } = await params;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+    const response = await fetch(`${apiUrl}/projects/${id}/full`, { cache: "no-store" });
+    const projectData = response.ok
+      ? (await response.json()) as {
+          id: number;
+          name: string;
+          location: string;
+          deliveryDate: string;
+          imageUrl?: string;
+          developer?: { name: string };
+          apartments: Array<{
+            id: number;
+            rooms: number;
+            area: number;
+            floor: number;
+            price: number;
+          }>;
+        }
+      : null;
+
+    if (!projectData) {
+      return (
+        <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="rounded-3xl border border-red-100 bg-white p-8 text-red-600">
+              Project not found
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
         <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row mb-16">
                     <div className="md:w-1/2 relative h-[400px] md:h-auto">
                         <Image
-                            src={projectData.mainImage}
+                            src={projectData.imageUrl || "https://picsum.photos/seed/project-fallback/1200/800"}
                             alt={projectData.name}
                             fill
                             className="object-cover"
@@ -44,7 +62,7 @@ export default function ProjectDetailsPage() {
                             <div className="w-6 h-6 bg-slate-100 rounded flex items-center justify-center">
                                 <div className="w-3 h-3 border border-slate-400 rounded-sm" />
                             </div>
-                            <span className="text-xs text-slate-500 font-medium">{projectData.developer}</span>
+                            <span className="text-xs text-slate-500 font-medium">{projectData.developer?.name ?? "Developer"}</span>
                         </div>
 
                         <h1 className="text-4xl font-bold text-[#1E3A8A] mb-4">{projectData.name}</h1>
@@ -58,13 +76,13 @@ export default function ProjectDetailsPage() {
                             <div className="bg-slate-50 p-4 rounded-xl">
                                 <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Delivery</p>
                                 <div className="flex items-center gap-2 text-[#1E3A8A] font-bold">
-                                    <Calendar className="w-4 h-4 text-slate-400" /> {projectData.delivery}
+                                    <Calendar className="w-4 h-4 text-slate-400" /> {projectData.deliveryDate}
                                 </div>
                             </div>
                             <div className="bg-slate-50 p-4 rounded-xl">
                                 <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Floors</p>
                                 <div className="flex items-center gap-2 text-[#1E3A8A] font-bold">
-                                    <Layers className="w-4 h-4 text-slate-400" /> {projectData.floors}
+                                    <Layers className="w-4 h-4 text-slate-400" /> {projectData.apartments.length ? Math.max(...projectData.apartments.map((apt) => apt.floor)) : 0}
                                 </div>
                             </div>
                         </div>
@@ -97,8 +115,8 @@ export default function ProjectDetailsPage() {
                                         <Home className="w-5 h-5 text-[#F97316]" />
                                     </div>
                                     <div>
-                                        <div className="font-bold text-[#1E3A8A]">{apt.type}</div>
-                                        <div className="text-[10px] text-slate-400 uppercase">{apt.block}</div>
+                                        <div className="font-bold text-[#1E3A8A]">{apt.rooms}-room apartment</div>
+                                        <div className="text-[10px] text-slate-400 uppercase">Apartment #{apt.id}</div>
                                     </div>
                                 </div>
 
@@ -114,7 +132,7 @@ export default function ProjectDetailsPage() {
 
                                 <div className="flex md:block justify-between items-center">
                                     <span className="md:hidden text-slate-400 text-xs">Price:</span>
-                                    <span className="text-xl font-extrabold text-[#1E3A8A]">{apt.price}</span>
+                                    <span className="text-xl font-extrabold text-[#1E3A8A]">{(apt.price * 13000).toLocaleString()} UZS</span>
                                 </div>
 
                                 <div className="text-right">
