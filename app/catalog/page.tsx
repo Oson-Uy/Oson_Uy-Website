@@ -51,16 +51,16 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
     const projectsResponse = await fetch(`${apiUrl}/projects`, { cache: "no-store" });
     const projectsData = projectsResponse.ok
-      ? (await projectsResponse.json()) as Array<{
-          id: number;
-          name: string;
-          location: string;
-          imageUrl?: string;
-          apartments: Array<{ id: number; price: number; area: number; rooms: number }>;
-          isPopular?: boolean;
-          district?: string;
+        ? (await projectsResponse.json()) as Array<{
+            id: number;
+            name: string;
+            location: string;
+            imageUrl?: string;
+            apartments: Array<{ id: number; price: number; area: number; rooms: number }>;
+            isPopular?: boolean;
+            district?: string;
         }>
-      : [];
+        : [];
 
     const projects = projectsData.filter((project) => {
         if (location) {
@@ -123,6 +123,19 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                 {projects.map((project) => (
                     <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
                         <div className="h-48 bg-slate-200 relative">
+                            {project.imageUrl ? (
+                                <img
+                                    src={project.imageUrl}
+                                    alt={project.name}
+                                    className="w-full h-full object-cover"
+                                    referrerPolicy="no-referrer"
+                                />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                    No Image
+                                </div>
+                            )}
+
                             {project.isPopular && (
                                 <Badge className="absolute top-4 left-4 bg-accent text-white">{t("popular")}</Badge>
                             )}
@@ -137,9 +150,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                             <p className="text-2xl font-bold text-accent">
                                 {t("from")}{" "}
                                 {(
-                                  (project.apartments.length
-                                    ? Math.min(...project.apartments.map((apartment) => apartment.price))
-                                    : 0) * 13000
+                                    (project.apartments.length
+                                        ? Math.min(...project.apartments.map((apartment) => apartment.price))
+                                        : 0) * 13000
                                 ).toLocaleString()}{" "}
                                 UZS
                             </p>
