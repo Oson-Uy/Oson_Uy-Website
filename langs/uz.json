@@ -93,6 +93,8 @@
     "success": "Muvaffaqiyatli!",
     "successDescription": "So'rovingiz qabul qilindi. 15 daqiqa ichida qo'ng'iroq kuting.",
     "close": "Yopish",
-    "privacy": "Xavfsiz platforma · Ma'lumotlar maxfiyligi kafolatlangan"
+    "privacy": "Xavfsiz platforma · Ma'lumotlar maxfiyligi kafolatlangan",
+    "projectLabel": "Loyihani tanlang",
+    "apartmentLabel": "Kvartirani tanlang"
   }
 }

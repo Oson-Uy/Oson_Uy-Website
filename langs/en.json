@@ -93,6 +93,8 @@
     "success": "Success!",
     "successDescription": "Your request has been received. Expect a call within 15 minutes.",
     "close": "Close Window",
-    "privacy": "Secure Platform · Data Privacy Guaranteed"
+    "privacy": "Secure Platform · Data Privacy Guaranteed",
+    "projectLabel": "Select Project",
+    "apartmentLabel": "Select Apartment"
   }
 }
