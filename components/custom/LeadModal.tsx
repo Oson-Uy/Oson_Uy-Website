@@ -12,19 +12,25 @@ interface LeadModalProps {
     onClose: () => void;
     projectName?: string;
     projectId?: number;
+    apartmentId?: number;
 }
 
 type ProjectOption = { id: number; name: string };
+type ApartmentOption = { id: number; rooms: number; area: number; price: number };
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
 
-export function LeadModal({ isOpen, onClose, projectName, projectId }: LeadModalProps) {
+export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId }: LeadModalProps) {
     const t = useTranslations("LeadModal");
     const [formState, setFormState] = useState({ name: "", phone: "+998" });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [projects, setProjects] = useState<ProjectOption[]>([]);
+    const [apartments, setApartments] = useState<ApartmentOption[]>([]);
     const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
       projectId ?? null,
+    );
+    const [selectedApartmentId, setSelectedApartmentId] = useState<number | null>(
+      apartmentId ?? null,
     );
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -40,6 +46,26 @@ export function LeadModal({ isOpen, onClose, projectName, projectId }: LeadModal
         }
       })();
     }, [isOpen, projectId, selectedProjectId]);
+
+    React.useEffect(() => {
+      if (!isOpen || !selectedProjectId) return;
+      void (async () => {
+        const response = await fetch(
+          `${API_URL}/apartments?projectId=${selectedProjectId}`,
+          { cache: "no-store" },
+        );
+        if (!response.ok) return;
+        const data = (await response.json()) as ApartmentOption[];
+        setApartments(data);
+        if (apartmentId) {
+          setSelectedApartmentId(apartmentId);
+          return;
+        }
+        if (data.length) {
+          setSelectedApartmentId(data[0].id);
+        }
+      })();
+    }, [isOpen, selectedProjectId, apartmentId]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,6 +84,7 @@ export function LeadModal({ isOpen, onClose, projectName, projectId }: LeadModal
                     name: formState.name,
                     phone: formState.phone,
                     projectId: selectedProjectId,
+                    apartmentId: selectedApartmentId ?? undefined,
                 }),
             });
 
@@ -132,6 +159,26 @@ export function LeadModal({ isOpen, onClose, projectName, projectId }: LeadModal
                                                 {projects.map((project) => (
                                                     <option key={project.id} value={project.id}>
                                                         {project.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    )}
+                                    {apartments.length > 0 && (
+                                        <div className="space-y-2.5">
+                                            <Label className="text-[10px] font-black text-[#1E3A8A] uppercase tracking-[0.2em] ml-1 opacity-50">
+                                                Apartment
+                                            </Label>
+                                            <select
+                                                value={selectedApartmentId ?? ""}
+                                                onChange={(e) =>
+                                                    setSelectedApartmentId(Number(e.target.value))
+                                                }
+                                                className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold outline-none focus:ring-4 focus:ring-[#F97316]/10"
+                                            >
+                                                {apartments.map((apartment) => (
+                                                    <option key={apartment.id} value={apartment.id}>
+                                                        #{apartment.id} | {apartment.rooms} комн. | {apartment.area} m² | {(apartment.price * 13000).toLocaleString()} UZS
                                                     </option>
                                                 ))}
                                             </select>
