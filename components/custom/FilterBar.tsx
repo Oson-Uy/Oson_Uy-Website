@@ -21,6 +21,7 @@ const REGION_CITY_MAP: Record<string, string[]> = {
     "Khorezm Region": ["Urgench", "Khiva", "Pitnak"],
     "Republic of Karakalpakstan": ["Nukus", "Khodjeyli", "Turtkul"],
 };
+
 export function FilterBar() {
     const t = useTranslations("Filter");
     const router = useRouter();
@@ -32,29 +33,36 @@ export function FilterBar() {
 
     const districtsForRegion = REGION_CITY_MAP[location] ?? [];
 
+    const formatNumber = (val: string) => {
+        const num = val.replace(/\D/g, "");
+        return num.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    };
+
     const onSearch = () => {
         const params = new URLSearchParams();
         if (location) params.set("location", location);
         if (district) params.set("district", district);
-        if (monthlyPayment) params.set("monthlyPayment", monthlyPayment);
-        if (budget) params.set("budget", budget);
+        if (monthlyPayment) params.set("monthlyPayment", monthlyPayment.replace(/\s/g, ""));
+        if (budget) params.set("budget", budget.replace(/\s/g, ""));
         if (area) params.set("area", area);
         router.push(`/catalog?${params.toString()}`);
     };
 
-    const inputClasses = "h-12 w-full bg-blue-800/40 border border-blue-700/50 rounded-2xl pl-11 pr-4 text-sm font-medium outline-none focus:ring-2 ring-accent/50 focus:bg-blue-800/80 transition-all placeholder:text-white/30 appearance-none";
-    const labelClasses = "text-[10px] uppercase tracking-[0.15em] font-black text-white/50 ml-2 mb-1 block";
+    const inputClasses = "h-16 w-full bg-blue-900/40 border border-blue-500/30 rounded-2xl pl-12 pr-4 text-[16px] font-semibold outline-none focus:ring-2 ring-accent/60 focus:bg-blue-800/50 transition-all placeholder:text-white/30 appearance-none text-white shadow-lg";
+    const areaInputClasses = "h-16 w-full bg-blue-900/50 border-2 border-blue-400/50 rounded-2xl pl-12 pr-4 text-[17px] font-bold outline-none focus:ring-2 ring-accent focus:bg-blue-800/60 transition-all placeholder:text-white/40 appearance-none text-white shadow-xl";
+    const labelClasses = "text-[11px] uppercase tracking-[0.2em] font-black text-white/40 ml-4 mb-2.5 block whitespace-nowrap";
+    const iconClasses = "absolute left-4 top-1/2 -translate-y-1/2 text-accent h-6 w-6 pointer-events-none z-10 opacity-90";
 
     return (
-        <div className="bg-primary p-4 lg:p-6 rounded-[2.5rem] shadow-[0_20px_50px_rgba(30,58,138,0.4)] max-w-6xl mx-auto w-full border border-white/10 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+        <div className="bg-primary/95 backdrop-blur-2xl p-8 lg:p-10 rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.5)] max-w-[1450px] mx-auto w-full border border-white/10 text-white relative flex flex-col gap-8 text-left">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end relative z-10">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-[3.5rem] pointer-events-none" />
 
-                <div className="space-y-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-end relative z-10">
+                <div className="lg:col-span-3 space-y-1">
                     <label className={labelClasses}>Region</label>
                     <div className="relative group">
-                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-accent h-4 w-4 transition-transform group-focus-within:scale-110" />
+                        <MapPin className={iconClasses} />
                         <select
                             value={location}
                             onChange={(e) => {
@@ -65,79 +73,78 @@ export function FilterBar() {
                             className={`${inputClasses} cursor-pointer`}
                         >
                             {Object.keys(REGION_CITY_MAP).map((region) => (
-                                <option key={region} className="bg-blue-900" value={region}>{region}</option>
+                                <option key={region} className="bg-slate-900 text-white" value={region}>{region}</option>
                             ))}
                         </select>
-                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30 pointer-events-none" />
+                        <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
                     </div>
                 </div>
 
-                <div className="space-y-1">
-                    <label className={labelClasses}>City / District</label>
+                <div className="lg:col-span-2 space-y-1">
+                    <label className={labelClasses}>District</label>
                     <div className="relative group">
-                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-accent h-4 w-4 transition-transform group-focus-within:scale-110" />
+                        <MapPin className={iconClasses} />
                         <select
                             value={district}
                             onChange={(e) => setDistrict(e.target.value)}
                             className={`${inputClasses} cursor-pointer`}
                         >
                             {districtsForRegion.map((item) => (
-                                <option key={item} className="bg-blue-900" value={item}>{item}</option>
+                                <option key={item} className="bg-slate-900 text-white" value={item}>{item}</option>
                             ))}
                         </select>
-                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30 pointer-events-none" />
+                        <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
                     </div>
                 </div>
 
-                <div className="space-y-1">
+                <div className="lg:col-span-2 space-y-1">
                     <label className={labelClasses}>{t("monthly")}</label>
-                    <div className="relative group">
-                        <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-accent h-4 w-4 transition-transform group-focus-within:scale-110" />
+                    <div className="relative">
+                        <DollarSign className={iconClasses} />
                         <input
                             value={monthlyPayment}
-                            onChange={(e) => setMonthlyPayment(e.target.value)}
-                            placeholder="UZS / month"
+                            onChange={(e) => setMonthlyPayment(formatNumber(e.target.value))}
+                            placeholder="Price from"
                             className={inputClasses}
                         />
                     </div>
                 </div>
 
-                <div className="space-y-1">
+                <div className="lg:col-span-2 space-y-1">
                     <label className={labelClasses}>{t("budget")}</label>
-                    <div className="relative group">
-                        <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-accent h-4 w-4 transition-transform group-focus-within:scale-110" />
+                    <div className="relative">
+                        <DollarSign className={iconClasses} />
                         <input
                             value={budget}
-                            onChange={(e) => setBudget(e.target.value)}
-                            placeholder="Total UZS"
+                            onChange={(e) => setBudget(formatNumber(e.target.value))}
+                            placeholder="Total up to"
                             className={inputClasses}
                         />
                     </div>
                 </div>
 
-                <div className="grid grid-cols-[1fr_auto] gap-2 lg:gap-4">
-                    <div className="space-y-1">
-                        <label className={labelClasses}>{t("area")}</label>
-                        <div className="relative group">
-                            <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-accent h-4 w-4 transition-transform group-focus-within:scale-110" />
-                            <input
-                                value={area}
-                                onChange={(e) => setArea(e.target.value)}
-                                placeholder="m²"
-                                className={inputClasses}
-                            />
-                        </div>
+                <div className="lg:col-span-3 md:col-span-2 space-y-1">
+                    <label className={labelClasses}>{t("area")} (m²)</label>
+                    <div className="relative group">
+                        <Ruler className={`${iconClasses} group-focus-within:scale-110 transition-transform`} />
+                        <input
+                            value={area}
+                            onChange={(e) => setArea(e.target.value.replace(/\D/g, ""))}
+                            placeholder="Enter area..."
+                            className={areaInputClasses}
+                        />
                     </div>
-
-                    <Button
-                        onClick={onSearch}
-                        variant="cta"
-                        className="h-12 w-12 lg:w-14 rounded-2xl bg-accent hover:bg-accent/90 text-white flex items-center justify-center p-0 shadow-lg shadow-orange-900/40 active:scale-90 transition-all self-end mb-[1px]"
-                    >
-                        <Search className="h-6 w-6 stroke-[2.5px]" />
-                    </Button>
                 </div>
-
+            </div>
+            
+            <div className="flex justify-center pt-4">
+                <Button
+                    onClick={onSearch}
+                    className="h-16 w-full md:w-[450px] rounded-[2rem] bg-accent hover:bg-accent/90 text-white flex items-center justify-center gap-4 px-10 shadow-[0_20px_50px_rgba(249,115,22,0.3)] active:scale-[0.98] transition-all font-black uppercase tracking-[0.2em] text-[16px]"
+                >
+                    <Search className="h-6 w-6 stroke-[4px] shrink-0" />
+                    <span>{t("search") || "Поиск недвижимости"}</span>
+                </Button>
             </div>
         </div>
     );

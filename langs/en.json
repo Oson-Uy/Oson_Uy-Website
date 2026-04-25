@@ -33,7 +33,8 @@
     "monthly": "Monthly Payment",
     "budget": "Total Budget",
     "area": "Desired Area (m²)",
-    "cta": "Find Apartments"
+    "cta": "Find Apartments",
+    "search": "Search"
   },
   "Catalog": {
     "title": "Available Projects",
