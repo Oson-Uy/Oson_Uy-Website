@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, DollarSign, Ruler, ChevronDown } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 const REGION_CITY_MAP: Record<string, string[]> = {
@@ -23,13 +22,13 @@ const REGION_CITY_MAP: Record<string, string[]> = {
 };
 
 export function FilterBar() {
-    const t = useTranslations("Filter");
     const router = useRouter();
     const [location, setLocation] = useState("Samarkand Region");
     const [district, setDistrict] = useState("Samarkand");
     const [monthlyPayment, setMonthlyPayment] = useState("");
     const [budget, setBudget] = useState("");
-    const [area, setArea] = useState("");
+    const [areaMin, setAreaMin] = useState("");
+    const [areaMax, setAreaMax] = useState("");
 
     const districtsForRegion = REGION_CITY_MAP[location] ?? [];
 
@@ -44,23 +43,23 @@ export function FilterBar() {
         if (district) params.set("district", district);
         if (monthlyPayment) params.set("monthlyPayment", monthlyPayment.replace(/\s/g, ""));
         if (budget) params.set("budget", budget.replace(/\s/g, ""));
-        if (area) params.set("area", area);
+        if (areaMin) params.set("areaMin", areaMin);
+        if (areaMax) params.set("areaMax", areaMax);
         router.push(`/catalog?${params.toString()}`);
     };
 
-    const inputClasses = "h-16 w-full bg-blue-900/40 border border-blue-500/30 rounded-2xl pl-12 pr-4 text-[16px] font-semibold outline-none focus:ring-2 ring-accent/60 focus:bg-blue-800/50 transition-all placeholder:text-white/30 appearance-none text-white shadow-lg";
-    const areaInputClasses = "h-16 w-full bg-blue-900/50 border-2 border-blue-400/50 rounded-2xl pl-12 pr-4 text-[17px] font-bold outline-none focus:ring-2 ring-accent focus:bg-blue-800/60 transition-all placeholder:text-white/40 appearance-none text-white shadow-xl";
-    const labelClasses = "text-[11px] uppercase tracking-[0.2em] font-black text-white/40 ml-4 mb-2.5 block whitespace-nowrap";
-    const iconClasses = "absolute left-4 top-1/2 -translate-y-1/2 text-accent h-6 w-6 pointer-events-none z-10 opacity-90";
+    const inputClasses = "h-12 w-full bg-blue-900/40 border border-blue-500/30 rounded-xl pl-10 pr-3 text-sm font-semibold outline-none focus:ring-2 ring-accent/60 focus:bg-blue-800/50 transition-all placeholder:text-white/35 appearance-none text-white";
+    const labelClasses = "text-[10px] font-bold text-white/55 ml-2 mb-1.5 block whitespace-nowrap";
+    const iconClasses = "absolute left-3 top-1/2 -translate-y-1/2 text-accent h-4 w-4 pointer-events-none z-10 opacity-90";
 
     return (
-        <div className="bg-primary/95 backdrop-blur-2xl p-8 lg:p-10 rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.5)] max-w-[1450px] mx-auto w-full border border-white/10 text-white relative flex flex-col gap-8 text-left">
+        <div className="bg-primary/95 backdrop-blur-2xl p-4 lg:p-5 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.35)] max-w-[1080px] mx-auto w-full border border-white/10 text-white relative flex flex-col gap-4 text-left">
 
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-[3.5rem] pointer-events-none" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-end relative z-10">
-                <div className="lg:col-span-3 space-y-1">
-                    <label className={labelClasses}>Region</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 items-end relative z-10">
+                <div className="lg:col-span-2 space-y-1">
+                    <label className={labelClasses}>Регион</label>
                     <div className="relative group">
                         <MapPin className={iconClasses} />
                         <select
@@ -81,7 +80,7 @@ export function FilterBar() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>District</label>
+                    <label className={labelClasses}>Район</label>
                     <div className="relative group">
                         <MapPin className={iconClasses} />
                         <select
@@ -98,52 +97,65 @@ export function FilterBar() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>{t("monthly")}</label>
+                    <label className={labelClasses}>В месяц</label>
                     <div className="relative">
                         <DollarSign className={iconClasses} />
                         <input
                             value={monthlyPayment}
                             onChange={(e) => setMonthlyPayment(formatNumber(e.target.value))}
-                            placeholder="Price from"
+                            placeholder="Сумма/мес."
                             className={inputClasses}
                         />
                     </div>
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>{t("budget")}</label>
+                    <label className={labelClasses}>Бюджет</label>
                     <div className="relative">
                         <DollarSign className={iconClasses} />
                         <input
                             value={budget}
                             onChange={(e) => setBudget(formatNumber(e.target.value))}
-                            placeholder="Total up to"
+                            placeholder="Общий бюджет"
                             className={inputClasses}
                         />
                     </div>
                 </div>
 
-                <div className="lg:col-span-3 md:col-span-2 space-y-1">
-                    <label className={labelClasses}>{t("area")} (m²)</label>
-                    <div className="relative group">
-                        <Ruler className={`${iconClasses} group-focus-within:scale-110 transition-transform`} />
+                <div className="lg:col-span-2 space-y-1">
+                    <label className={labelClasses}>Площадь от, м²</label>
+                    <div className="relative">
+                        <Ruler className={iconClasses} />
                         <input
-                            value={area}
-                            onChange={(e) => setArea(e.target.value.replace(/\D/g, ""))}
-                            placeholder="Enter area..."
-                            className={areaInputClasses}
+                            value={areaMin}
+                            onChange={(e) => setAreaMin(e.target.value.replace(/\D/g, ""))}
+                            placeholder="50"
+                            className={inputClasses}
+                        />
+                    </div>
+                </div>
+
+                <div className="lg:col-span-2 space-y-1">
+                    <label className={labelClasses}>Площадь до, м²</label>
+                    <div className="relative">
+                        <Ruler className={iconClasses} />
+                        <input
+                            value={areaMax}
+                            onChange={(e) => setAreaMax(e.target.value.replace(/\D/g, ""))}
+                            placeholder="120"
+                            className={inputClasses}
                         />
                     </div>
                 </div>
             </div>
             
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-1">
                 <Button
                     onClick={onSearch}
-                    className="h-16 w-full md:w-[450px] rounded-[2rem] bg-accent hover:bg-accent/90 text-white flex items-center justify-center gap-4 px-10 shadow-[0_20px_50px_rgba(249,115,22,0.3)] active:scale-[0.98] transition-all font-black uppercase tracking-[0.2em] text-[16px]"
+                    className="h-12 w-full md:w-[320px] rounded-xl bg-accent hover:bg-accent/90 text-white flex items-center justify-center gap-2 px-6 shadow-[0_12px_32px_rgba(249,115,22,0.3)] active:scale-[0.98] transition-all font-black uppercase tracking-[0.12em] text-xs"
                 >
-                    <Search className="h-6 w-6 stroke-[4px] shrink-0" />
-                    <span>{t("search") || "Поиск недвижимости"}</span>
+                    <Search className="h-4 w-4 stroke-[3px] shrink-0" />
+                    <span>Найти</span>
                 </Button>
             </div>
         </div>

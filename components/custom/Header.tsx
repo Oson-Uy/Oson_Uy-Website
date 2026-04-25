@@ -30,8 +30,8 @@ export default function Header() {
     ];
 
     const navLinkStyles = (href: string) => cn(
-        "relative pb-1 transition-all duration-300",
-        "after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-[#F97316] after:transition-all after:duration-300",
+        "relative inline-flex h-10 items-center pb-0.5 transition-all duration-300",
+        "after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-[#F97316] after:transition-all after:duration-300",
         pathname === href
             ? "text-[#1E3A8A] after:w-full" 
             : "opacity-60 hover:opacity-100 after:w-0 hover:after:w-full" 
@@ -47,7 +47,7 @@ export default function Header() {
                     </span>
                 </Link>
 
-                <div className="hidden md:flex items-center gap-8 font-semibold text-sm text-[#1E3A8A]">
+                <div className="hidden md:flex h-10 items-center gap-7 font-semibold text-sm text-[#1E3A8A]">
                     <Link href="/" className={navLinkStyles("/")}>{t("home")}</Link>
                     <Link href="/catalog" className={navLinkStyles("/catalog")}>{t("catalog")}</Link>
                     <Link href="/about" className={navLinkStyles("/about")}>{t("about")}</Link>

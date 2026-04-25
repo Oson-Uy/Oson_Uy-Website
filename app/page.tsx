@@ -10,11 +10,13 @@ import { PROJECTS } from "@/lib/data";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { FilterBar } from "@/components/custom/FilterBar";
+import { formatUzPhoneInput } from "@/lib/phone";
 
 export default function Home() {
     const t = useTranslations("Home");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [featuredProjects, setFeaturedProjects] = useState(PROJECTS.filter((p) => p.isPopular));
+    const [consultPhone, setConsultPhone] = useState("+998");
 
     useEffect(() => {
         void (async () => {
@@ -202,7 +204,11 @@ export default function Home() {
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="+998"
+                                    value={consultPhone}
+                                    onChange={(event) =>
+                                        setConsultPhone(formatUzPhoneInput(event.target.value))
+                                    }
+                                    placeholder="+998 90 123 45 67"
                                     className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent"
                                 />
                             </div>

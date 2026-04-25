@@ -5,10 +5,19 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Phone, CheckCircle2, Building2, Home, ChevronRight, Loader2 } from "lucide-react";
+import {
+    User,
+    Phone,
+    CheckCircle2,
+    Building2,
+    ChevronRight,
+    Loader2,
+    X,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Badge } from "../ui/badge";
+import { formatUzPhoneInput, normalizeUzPhoneDigits } from "@/lib/phone";
 
 interface LeadModalProps {
     isOpen: boolean;
@@ -24,7 +33,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
 
 export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId }: LeadModalProps) {
     const t = useTranslations("LeadModal");
-    const [formState, setFormState] = useState({ name: "", phone: "+998 " });
+    const [formState, setFormState] = useState({ name: "", phone: "+998" });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [projects, setProjects] = useState<ProjectOption[]>([]);
@@ -62,17 +71,10 @@ export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId
     }, [isOpen, selectedProjectId, apartmentId]);
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-
-        if (!value.startsWith("+998")) {
-            value = "+998 " + value.replace(/^\+?998?\s?/, "");
-        }
-
-        const formattedValue = value.replace(/[^\d+ ]/g, "");
-
-        if (formattedValue.length <= 17) {
-            setFormState(prev => ({ ...prev, phone: formattedValue }));
-        }
+        setFormState((prev) => ({
+            ...prev,
+            phone: formatUzPhoneInput(e.target.value),
+        }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -80,8 +82,8 @@ export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId
         setIsLoading(true);
         setErrorMessage(null);
         try {
-            const cleanPhone = formState.phone.replace(/\D/g, "");
-            if (cleanPhone.length < 12) {
+            const cleanPhone = normalizeUzPhoneDigits(formState.phone);
+            if (cleanPhone.length !== 12) {
                 throw new Error("Неверный формат номера");
             }
 
@@ -113,6 +115,14 @@ export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="!max-w-[95vw] md:!max-w-5xl p-0 overflow-hidden rounded-[2rem] md:rounded-[3rem] border-none shadow-2xl bg-white outline-none max-h-[90vh] overflow-y-auto">
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="absolute right-3 top-3 z-50 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-600 shadow-sm transition hover:bg-white hover:text-slate-900 md:right-4 md:top-4"
+                    aria-label="Close"
+                >
+                    <X className="h-5 w-5" />
+                </button>
                 <div className="flex flex-col md:flex-row min-h-0">
 
                     <div className="relative w-full md:w-[40%] bg-primary overflow-hidden flex flex-col justify-end p-6 md:p-12 min-h-[180px] md:min-h-full">

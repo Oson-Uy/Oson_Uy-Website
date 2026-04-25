@@ -38,7 +38,8 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     const district = typeof params.district === "string" ? params.district : undefined;
     const monthlyPayment = toNumber(params.monthlyPayment);
     const budget = toNumber(params.budget);
-    const area = toNumber(params.area);
+    const areaMin = toNumber(params.areaMin);
+    const areaMax = toNumber(params.areaMax);
     const monthlyPaymentUsd = typeof monthlyPayment === "number" ? monthlyPayment / 13000 : undefined;
     const budgetUsd = typeof budget === "number" ? budget / 13000 : undefined;
     const affordabilityMaxPrice =
@@ -81,13 +82,15 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
 
         const matchesApartment = project.apartments.some((apartment) => {
             if (typeof effectiveMaxPrice === "number" && apartment.price > effectiveMaxPrice) return false;
-            if (typeof area === "number" && apartment.area < area) return false;
+            if (typeof areaMin === "number" && apartment.area < areaMin) return false;
+            if (typeof areaMax === "number" && apartment.area > areaMax) return false;
             return true;
         });
 
         const hasApartmentFilters =
             typeof effectiveMaxPrice === "number" ||
-            typeof area === "number";
+            typeof areaMin === "number" ||
+            typeof areaMax === "number";
 
         if (!project.apartments.length) {
             return !hasApartmentFilters;
