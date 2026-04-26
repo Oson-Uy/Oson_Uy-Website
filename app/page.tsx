@@ -78,7 +78,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col w-full min-h-screen pt-20 md:pt-16">
-            <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+            <section className="relative min-h-[88vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://picsum.photos/seed/central-asia/1920/1080?blur=1"
@@ -89,20 +89,20 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-transparent to-slate-50"></div>
                 </div>
 
-                <div className="relative pt-7 pb-7 z-10 w-full px-4 text-center max-w-5xl mx-auto space-y-10 group">
+                <div className="relative pt-10 pb-6 md:pt-7 md:pb-7 z-10 w-full px-4 text-center max-w-5xl mx-auto space-y-6 md:space-y-10 group">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className="space-y-6"
                     >
-                        <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
+                        <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
                             {t("heroLine1")}
                             <span className="text-accent">{t("heroAccent")}</span>
                             <br />
                             {t("heroLine2")}
                         </h1>
-                        <p className="text-white/80 text-xl md:text-2xl font-medium max-w-2xl mx-auto tracking-tight leading-relaxed">
+                        <p className="text-white/85 text-base sm:text-lg md:text-2xl font-medium max-w-2xl mx-auto tracking-tight leading-relaxed">
                             {t("heroSubtitle")}
                         </p>
                     </motion.div>

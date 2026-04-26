@@ -48,16 +48,16 @@ export function FilterBar() {
         router.push(`/catalog?${params.toString()}`);
     };
 
-    const inputClasses = "h-12 w-full bg-blue-900/40 border border-blue-500/30 rounded-xl pl-10 pr-3 text-sm font-semibold outline-none focus:ring-2 ring-accent/60 focus:bg-blue-800/50 transition-all placeholder:text-white/35 appearance-none text-white";
-    const labelClasses = "text-[10px] font-bold text-white/55 ml-2 mb-1.5 block whitespace-nowrap";
-    const iconClasses = "absolute left-3 top-1/2 -translate-y-1/2 text-accent h-4 w-4 pointer-events-none z-10 opacity-90";
+    const inputClasses = "h-10 md:h-12 w-full bg-blue-900/40 border border-blue-500/30 rounded-xl pl-9 md:pl-10 pr-3 text-sm font-semibold outline-none focus:ring-2 ring-accent/60 focus:bg-blue-800/50 transition-all placeholder:text-white/35 appearance-none text-white";
+    const labelClasses = "text-[9px] md:text-[10px] font-bold text-white/55 ml-2 mb-1 md:mb-1.5 block whitespace-nowrap";
+    const iconClasses = "absolute left-3 top-1/2 -translate-y-1/2 text-accent h-3.5 w-3.5 md:h-4 md:w-4 pointer-events-none z-10 opacity-90";
 
     return (
-        <div className="bg-primary/95 backdrop-blur-2xl p-4 lg:p-5 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.35)] max-w-[1080px] mx-auto w-full border border-white/10 text-white relative flex flex-col gap-4 text-left">
+        <div className="bg-primary/95 backdrop-blur-2xl p-3 md:p-4 lg:p-5 rounded-[1.25rem] md:rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.35)] max-w-[1080px] mx-auto w-full border border-white/10 text-white relative flex flex-col gap-3 md:gap-4 text-left">
 
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-[3.5rem] pointer-events-none" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 items-end relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-2.5 md:gap-3 items-end relative z-10">
                 <div className="lg:col-span-2 space-y-1">
                     <label className={labelClasses}>Регион</label>
                     <div className="relative group">
@@ -75,7 +75,7 @@ export function FilterBar() {
                                 <option key={region} className="bg-slate-900 text-white" value={region}>{region}</option>
                             ))}
                         </select>
-                        <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
+                        <ChevronDown className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 h-4 w-4 md:h-5 md:w-5 text-white/40 pointer-events-none" />
                     </div>
                 </div>
 
@@ -92,7 +92,7 @@ export function FilterBar() {
                                 <option key={item} className="bg-slate-900 text-white" value={item}>{item}</option>
                             ))}
                         </select>
-                        <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
+                        <ChevronDown className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 h-4 w-4 md:h-5 md:w-5 text-white/40 pointer-events-none" />
                     </div>
                 </div>
 
@@ -149,12 +149,12 @@ export function FilterBar() {
                 </div>
             </div>
             
-            <div className="flex justify-center pt-1">
+            <div className="flex justify-center pt-0.5 md:pt-1">
                 <Button
                     onClick={onSearch}
-                    className="h-12 w-full md:w-[320px] rounded-xl bg-accent hover:bg-accent/90 text-white flex items-center justify-center gap-2 px-6 shadow-[0_12px_32px_rgba(249,115,22,0.3)] active:scale-[0.98] transition-all font-black uppercase tracking-[0.12em] text-xs"
+                    className="h-10 md:h-12 w-full md:w-[320px] rounded-xl bg-accent hover:bg-accent/90 text-white flex items-center justify-center gap-2 px-6 shadow-[0_12px_32px_rgba(249,115,22,0.3)] active:scale-[0.98] transition-all font-black uppercase tracking-[0.12em] text-[11px] md:text-xs"
                 >
-                    <Search className="h-4 w-4 stroke-[3px] shrink-0" />
+                    <Search className="h-3.5 w-3.5 md:h-4 md:w-4 stroke-[3px] shrink-0" />
                     <span>Найти</span>
                 </Button>
             </div>
