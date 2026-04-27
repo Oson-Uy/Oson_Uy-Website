@@ -3,6 +3,13 @@ import { MapPin, Calendar, Layers, ChevronRight, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ApartmentList } from '@/components/custom/ApartmentList';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 
 type ProjectDetailsPageProps = {
   params: Promise<{ id: string }>;
@@ -21,6 +28,7 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
           description?: string;
           advantages?: string[];
           mapEmbedUrl?: string;
+          qrCodeUrl?: string;
           totalFloors?: number | null;
           totalUnits?: number | null;
           deliveryDate: string;
@@ -53,17 +61,46 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
       );
     }
 
+    const gallery = projectData.media?.length
+      ? projectData.media.map((item) => item.imageUrl)
+      : [projectData.imageUrl || "https://picsum.photos/seed/project-fallback/1200/800"];
+
+    const mapSrc = projectData.mapEmbedUrl
+      ? projectData.mapEmbedUrl.includes("/maps/embed") ||
+        projectData.mapEmbedUrl.includes("output=embed")
+        ? projectData.mapEmbedUrl
+        : `https://www.google.com/maps?q=${encodeURIComponent(projectData.mapEmbedUrl)}&output=embed`
+      : `https://www.google.com/maps?q=${encodeURIComponent(
+          `${projectData.location}${projectData.district ? ` ${projectData.district}` : ""}`,
+        )}&output=embed`;
+
     return (
-        <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
+        <div className="pt-16 md:pt-20 pb-20 bg-slate-50 min-h-screen">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row mb-16">
                     <div className="md:w-1/2 relative h-[400px] md:h-auto">
-                        <Image
-                            src={projectData.imageUrl || "https://picsum.photos/seed/project-fallback/1200/800"}
-                            alt={projectData.name}
-                            fill
-                            className="object-cover"
-                        />
+                        <Carousel opts={{ loop: true }} className="h-full w-full">
+                          <CarouselContent className="ml-0 h-full">
+                            {gallery.map((image, index) => (
+                              <CarouselItem key={`${image}-${index}`} className="pl-0 h-full">
+                                <div className="relative h-[400px] md:h-full w-full">
+                                  <Image
+                                    src={image}
+                                    alt={`${projectData.name} ${index + 1}`}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                              </CarouselItem>
+                            ))}
+                          </CarouselContent>
+                          {gallery.length > 1 && (
+                            <>
+                              <CarouselPrevious className="left-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
+                              <CarouselNext className="right-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
+                            </>
+                          )}
+                        </Carousel>
                         <Badge className="absolute top-6 left-6 bg-[#F97316] text-white hover:bg-[#F97316] border-none px-4 py-1">
                             PREMIUM VENTURE
                         </Badge>
@@ -76,14 +113,14 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                             </div>
                             <span className="text-xs text-slate-500 font-medium">{projectData.developer?.name ?? "Developer"}</span>
                         </div>
-                        {!!projectData.developer?.qrCodeUrl && (
+                        {!!(projectData.qrCodeUrl || projectData.developer?.qrCodeUrl) && (
                           <div className="mb-4">
                             <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                              QR застройщика
+                              QR проекта
                             </p>
                             <img
-                              src={projectData.developer.qrCodeUrl}
-                              alt="Developer QR"
+                              src={projectData.qrCodeUrl || projectData.developer?.qrCodeUrl || ""}
+                              alt="Project QR"
                               className="h-24 w-24 rounded-xl border border-slate-200 object-cover"
                             />
                           </div>
@@ -168,12 +205,7 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                 {(projectData.mapEmbedUrl || projectData.location) && (
                   <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
                     <iframe
-                      src={
-                        projectData.mapEmbedUrl ||
-                        `https://www.google.com/maps?q=${encodeURIComponent(
-                          `${projectData.location}${projectData.district ? ` ${projectData.district}` : ""}`,
-                        )}&output=embed`
-                      }
+                      src={mapSrc}
                       title="Project location"
                       className="h-80 w-full"
                       loading="lazy"

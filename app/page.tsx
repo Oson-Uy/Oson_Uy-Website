@@ -105,7 +105,7 @@ export default function Home() {
     }, []);
 
     return (
-        <div className="flex flex-col w-full min-h-screen pt-20 md:pt-16">
+        <div className="flex flex-col w-full min-h-screen pt-16 md:pt-16">
             <section className="relative min-h-[88vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
