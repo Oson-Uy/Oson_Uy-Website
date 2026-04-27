@@ -33,6 +33,10 @@ export default function Home() {
                     media?: Array<{ imageUrl: string }>;
                     reviewsCount?: number;
                     avgRating?: number | null;
+                    badgeVerified?: boolean;
+                    badgeTrusted?: boolean;
+                    topInCatalog?: boolean;
+                    topInHome?: boolean;
                     apartments: Array<{ id: number; rooms: number; area: number; floor: number; price: number; imageUrl?: string }>;
                     developer?: { name: string };
                 }>;
@@ -78,11 +82,22 @@ export default function Home() {
                         ? Math.max(...project.apartments.map((apt) => apt.floor))
                         : null,
                     totalUnits: project.apartments.length,
-                    isPopular: true,
+                    isPopular: Boolean(project.topInCatalog || project.topInHome),
+                    badgeVerified: project.badgeVerified ?? false,
+                    badgeTrusted: project.badgeTrusted ?? false,
+                    topInCatalog: project.topInCatalog ?? false,
+                    topInHome: project.topInHome ?? false,
                     avgRating: project.avgRating ?? null,
                     reviewsCount: project.reviewsCount ?? 0,
                 }));
-                if (mapped.length) setFeaturedProjects(mapped);
+                if (mapped.length) {
+                    const ranked = [...mapped].sort((a, b) => {
+                        const rankA = a.topInHome ? 2 : a.topInCatalog ? 1 : 0;
+                        const rankB = b.topInHome ? 2 : b.topInCatalog ? 1 : 0;
+                        return rankB - rankA;
+                    });
+                    setFeaturedProjects(ranked);
+                }
             } catch {
                 // Keep local fallback data
             }

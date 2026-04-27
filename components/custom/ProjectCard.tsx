@@ -55,6 +55,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {t("popular")}
                     </Badge>
                 )}
+                {project.badgeTrusted && (
+                    <Badge className="absolute top-4 right-4 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 border-none uppercase tracking-wider">
+                        Trusted
+                    </Badge>
+                )}
             </div>
             <CardContent className="p-5 flex-1 flex flex-col">
                 <div className="mb-3 flex items-start justify-between gap-2">
@@ -70,6 +75,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <MapPin className="h-3 w-3 text-[#1E3A8A]" /> {project.district},{" "}
                     {project.location}
                 </p>
+                {project.badgeVerified && (
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                        Verified developer
+                    </p>
+                )}
 
                 <div className="mb-5 flex items-center gap-2 text-sm text-slate-600">
                     <Star className="h-4 w-4 text-[#F97316]" />

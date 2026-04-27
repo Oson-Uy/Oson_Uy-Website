@@ -38,17 +38,13 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     const district = typeof params.district === "string" ? params.district : undefined;
     const pricePerM2Min = toNumber(params.pricePerM2Min);
     const pricePerM2Max = toNumber(params.pricePerM2Max);
-    const budget = toNumber(params.budget);
     const areaMin = toNumber(params.areaMin);
     const areaMax = toNumber(params.areaMax);
-    const budgetUsd = typeof budget === "number" ? budget / 13000 : undefined;
-    const effectiveMaxPrice = budgetUsd;
 
     const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
     const backendParams = new URLSearchParams();
     if (typeof pricePerM2Min === "number") backendParams.set("pricePerM2Min", String(pricePerM2Min));
     if (typeof pricePerM2Max === "number") backendParams.set("pricePerM2Max", String(pricePerM2Max));
-    if (typeof budgetUsd === "number") backendParams.set("maxPrice", String(budgetUsd));
     const projectsResponse = await fetch(
         `${apiUrl}/projects${backendParams.toString() ? `?${backendParams.toString()}` : ""}`,
         { cache: "no-store" },
@@ -62,6 +58,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             apartments: Array<{ id: number; price: number; area: number; rooms: number }>;
             isPopular?: boolean;
             district?: string;
+            badgeVerified?: boolean;
+            badgeTrusted?: boolean;
+            topInCatalog?: boolean;
             reviewsCount?: number;
             avgRating?: number | null;
         }>
@@ -85,7 +84,6 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         }
 
         const matchesApartment = project.apartments.some((apartment) => {
-            if (typeof effectiveMaxPrice === "number" && apartment.price > effectiveMaxPrice) return false;
             if (typeof areaMin === "number" && apartment.area < areaMin) return false;
             if (typeof areaMax === "number" && apartment.area > areaMax) return false;
             const perM2 = apartment.area ? apartment.price / apartment.area : 0;
@@ -95,7 +93,6 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         });
 
         const hasApartmentFilters =
-            typeof effectiveMaxPrice === "number" ||
             typeof pricePerM2Min === "number" ||
             typeof pricePerM2Max === "number" ||
             typeof areaMin === "number" ||
@@ -106,6 +103,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         }
 
         return matchesApartment;
+    }).sort((a, b) => {
+        const rankA = a.topInCatalog ? 1 : 0;
+        const rankB = b.topInCatalog ? 1 : 0;
+        return rankB - rankA;
     });
 
     return (
@@ -116,14 +117,6 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                     <Button variant="outline" className="border-primary text-primary">{t("filters")}</Button>
                 </div>
             </div>
-            {typeof budget === "number" && (
-                <p className="mb-6 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm text-orange-900">
-                    {t("budgetHint", {
-                        value: `${budget.toLocaleString()} UZS`
-                    })}
-                </p>
-            )}
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {projects.map((project) => (
                     <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -144,6 +137,11 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                             {project.isPopular && (
                                 <Badge className="absolute top-4 left-4 bg-accent text-white">{t("popular")}</Badge>
                             )}
+                            {project.badgeTrusted && (
+                                <Badge className="absolute top-4 right-4 bg-emerald-600 text-white">
+                                    Trusted
+                                </Badge>
+                            )}
                         </div>
                         <CardHeader>
                             <h3 className="text-xl font-bold text-primary">{project.name}</h3>
@@ -157,6 +155,11 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                                 </span>
                                 <span>({project.reviewsCount ?? 0} отзывов)</span>
                             </div>
+                            {project.badgeVerified && (
+                                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                                    Verified developer
+                                </p>
+                            )}
                         </CardHeader>
                         <CardContent>
                             <p className="text-2xl font-bold text-accent">

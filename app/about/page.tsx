@@ -26,16 +26,16 @@ export default async function About() {
                             <span className="text-xs font-black uppercase tracking-widest text-orange-700">{t("stats.verified")} Trust Score</span>
                         </div>
 
-                        <h1 className="text-6xl md:text-8xl font-black text-[#1E3A8A] tracking-tighter leading-[0.9] uppercase italic">
+                        <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-[#1E3A8A] tracking-tighter leading-[1] md:leading-[0.9] uppercase italic">
                             {t("title1")} <br />
                             <span className="text-[#F97316] not-italic">{t("titleAccent")}</span>
                         </h1>
 
-                        <p className="text-xl md:text-2xl text-slate-500 font-medium leading-relaxed tracking-tight max-w-2xl">
+                        <p className="text-base sm:text-lg md:text-2xl text-slate-500 font-medium leading-relaxed tracking-tight max-w-2xl">
                             {t("description")}
                         </p>
 
-                        <div className="flex flex-wrap gap-4">
+                        <div className="flex flex-wrap gap-3 sm:gap-4">
                             <Button className="bg-[#1E3A8A] hover:bg-blue-900 text-white px-8 h-16 rounded-2xl font-bold text-lg group transition-all">
                                 {t("learnMore")}
                                 <ArrowUpRight className="ml-2 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

@@ -31,7 +31,6 @@
   "Filter": {
     "city": "City",
     "monthly": "Monthly Payment",
-    "budget": "Total Budget",
     "area": "Desired Area (m²)",
     "cta": "Find Apartments",
     "search": "Search"
@@ -41,7 +40,6 @@
     "filters": "Filters",
     "foundCount": "offerings found",
     "monthlyHint": "Budget match: up to {value} (based on 20-year monthly payment estimate).",
-    "budgetHint": "Selected total budget: {value}",
     "popular": "Popular",
     "details": "View Details",
     "from": "from"

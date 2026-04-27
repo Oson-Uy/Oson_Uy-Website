@@ -19,8 +19,14 @@ type ApartmentListProps = {
   apartments: Apartment[];
 };
 
-export function ApartmentList({ projectId, projectName, apartments }: ApartmentListProps) {
-  const [selectedApartmentId, setSelectedApartmentId] = useState<number | null>(null);
+export function ApartmentList({
+  projectId,
+  projectName,
+  apartments,
+}: ApartmentListProps) {
+  const [selectedApartmentId, setSelectedApartmentId] = useState<number | null>(
+    null,
+  );
 
   return (
     <>
@@ -35,8 +41,12 @@ export function ApartmentList({ projectId, projectName, apartments }: ApartmentL
                 <Home className="w-5 h-5 text-[#F97316]" />
               </div>
               <div>
-                <div className="font-bold text-[#1E3A8A]">{apt.rooms}-room apartment</div>
-                <div className="text-[10px] text-slate-400 uppercase">Apartment #{apt.id}</div>
+                <div className="font-bold text-[#1E3A8A]">
+                  {apt.rooms}-room apartment
+                </div>
+                <div className="text-[10px] text-slate-400 uppercase">
+                  Apartment #{apt.id}
+                </div>
               </div>
             </div>
 

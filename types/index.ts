@@ -35,6 +35,10 @@ export interface Project {
   totalFloors?: number | null;
   totalUnits?: number | null;
   isPopular?: boolean; // Optional field to indicate if the project is popular
+  badgeVerified?: boolean;
+  badgeTrusted?: boolean;
+  topInCatalog?: boolean;
+  topInHome?: boolean;
   avgRating?: number | null;
   reviewsCount?: number;
 }

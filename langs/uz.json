@@ -31,7 +31,6 @@
   "Filter": {
     "city": "Shahar",
     "monthly": "Oyiga to'lov",
-    "budget": "Umumiy byudjet",
     "area": "Kerakli maydon (m²)",
     "cta": "Kvartira topish",
     "search": "Qidirish"
@@ -41,7 +40,6 @@
     "filters": "Filtrlar",
     "foundCount": "taklif topildi",
     "monthlyHint": "Byudjet bo'yicha tanlov: {value} gacha (20 yillik oylik to'lov hisobidan).",
-    "budgetHint": "Tanlangan umumiy byudjet: {value}",
     "popular": "Mashhur",
     "details": "Batafsil",
     "from": "dan"

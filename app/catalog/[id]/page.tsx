@@ -30,7 +30,7 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
           avgRating?: number | null;
           reviewsCount?: number;
           reviews?: Array<{ id: number; rating: number; comment?: string | null }>;
-          developer?: { name: string };
+          developer?: { name: string; qrCodeUrl?: string | null };
           apartments: Array<{
             id: number;
             rooms: number;
@@ -76,6 +76,18 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                             </div>
                             <span className="text-xs text-slate-500 font-medium">{projectData.developer?.name ?? "Developer"}</span>
                         </div>
+                        {!!projectData.developer?.qrCodeUrl && (
+                          <div className="mb-4">
+                            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                              QR застройщика
+                            </p>
+                            <img
+                              src={projectData.developer.qrCodeUrl}
+                              alt="Developer QR"
+                              className="h-24 w-24 rounded-xl border border-slate-200 object-cover"
+                            />
+                          </div>
+                        )}
 
                         <h1 className="text-4xl font-bold text-[#1E3A8A] mb-4">{projectData.name}</h1>
 
@@ -153,10 +165,15 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                   </div>
                 )}
 
-                {projectData.mapEmbedUrl && (
+                {(projectData.mapEmbedUrl || projectData.location) && (
                   <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
                     <iframe
-                      src={projectData.mapEmbedUrl}
+                      src={
+                        projectData.mapEmbedUrl ||
+                        `https://www.google.com/maps?q=${encodeURIComponent(
+                          `${projectData.location}${projectData.district ? ` ${projectData.district}` : ""}`,
+                        )}&output=embed`
+                      }
                       title="Project location"
                       className="h-80 w-full"
                       loading="lazy"

@@ -38,8 +38,8 @@ export default function Header() {
     );
 
     return (
-        <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-200 h-16 flex items-center">
-            <div className="container flex justify-between items-center w-full px-4 mx-auto">
+        <nav className="sticky top-0 w-full z-50 bg-white/95 backdrop-blur border-b border-slate-200 h-16 flex items-center">
+            <div className="container grid grid-cols-[1fr_auto_1fr] items-center w-full px-4 mx-auto">
                 <Link href="/" className="flex items-center gap-2">
                     <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={40} height={40} className="h-10 w-10 object-contain" />
                     <span className="text-2xl font-bold tracking-tight text-[#1E3A8A]">
@@ -47,13 +47,13 @@ export default function Header() {
                     </span>
                 </Link>
 
-                <div className="hidden md:flex h-10 items-center gap-7 font-semibold text-sm text-[#1E3A8A]">
+                <div className="hidden md:flex h-10 items-center justify-center gap-7 font-semibold text-sm text-[#1E3A8A]">
                     <Link href="/" className={navLinkStyles("/")}>{t("home")}</Link>
                     <Link href="/catalog" className={navLinkStyles("/catalog")}>{t("catalog")}</Link>
                     <Link href="/about" className={navLinkStyles("/about")}>{t("about")}</Link>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-end gap-2">
                     <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
                             <button className="flex items-center justify-center p-2 text-gray-500 hover:text-[#3C55BE] outline-none cursor-pointer">
