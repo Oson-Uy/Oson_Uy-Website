@@ -12,7 +12,6 @@ import {
     Building2,
     ChevronRight,
     Loader2,
-    X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -113,16 +112,8 @@ export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId
     const sharedInputClass = "h-14 pl-12 bg-slate-50 border-slate-200 rounded-2xl focus:ring-4 focus:ring-accent/5 focus:border-accent transition-all font-bold text-base text-primary placeholder:text-slate-300 w-full";
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="!max-w-[95vw] md:!max-w-5xl p-0 overflow-hidden rounded-[2rem] md:rounded-[3rem] border-none shadow-2xl bg-white outline-none max-h-[90vh] overflow-y-auto">
-                <button
-                    type="button"
-                    onClick={onClose}
-                    className="absolute right-3 top-3 z-50 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-600 shadow-sm transition hover:bg-white hover:text-slate-900 md:right-4 md:top-4"
-                    aria-label="Close"
-                >
-                    <X className="h-5 w-5" />
-                </button>
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DialogContent className="!max-w-[95vw] md:!max-w-5xl p-0 overflow-hidden rounded-[2rem] md:rounded-[3rem] border-none shadow-2xl bg-white outline-none max-h-[90vh] overflow-y-auto [&>button]:right-4 [&>button]:top-4 md:[&>button]:right-5 md:[&>button]:top-5">
                 <div className="flex flex-col md:flex-row min-h-0">
 
                     <div className="relative w-full md:w-[40%] bg-primary overflow-hidden flex flex-col justify-end p-6 md:p-12 min-h-[180px] md:min-h-full">

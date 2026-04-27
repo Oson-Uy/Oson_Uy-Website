@@ -30,6 +30,9 @@ export default function Home() {
                     location: string;
                     deliveryDate: string;
                     imageUrl?: string;
+                    media?: Array<{ imageUrl: string }>;
+                    reviewsCount?: number;
+                    avgRating?: number | null;
                     apartments: Array<{ id: number; rooms: number; area: number; floor: number; price: number; imageUrl?: string }>;
                     developer?: { name: string };
                 }>;
@@ -48,7 +51,9 @@ export default function Home() {
                     },
                     deliveryDate: project.deliveryDate,
                     tags: [],
-                    images: [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
+                    images: project.media?.length
+                        ? project.media.map((item) => item.imageUrl)
+                        : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
                     mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
                     priceFrom: project.apartments.length
                         ? Math.min(...project.apartments.map((apt) => apt.price))
@@ -67,7 +72,15 @@ export default function Home() {
                         ? Math.max(...project.apartments.map((apt) => apt.floor))
                         : 0,
                     district: project.location,
+                    advantages: [],
+                    mapEmbedUrl: undefined,
+                    totalFloors: project.apartments.length
+                        ? Math.max(...project.apartments.map((apt) => apt.floor))
+                        : null,
+                    totalUnits: project.apartments.length,
                     isPopular: true,
+                    avgRating: project.avgRating ?? null,
+                    reviewsCount: project.reviewsCount ?? 0,
                 }));
                 if (mapped.length) setFeaturedProjects(mapped);
             } catch {
@@ -137,7 +150,7 @@ export default function Home() {
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
                         {featuredProjects.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}

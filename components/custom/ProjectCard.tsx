@@ -1,11 +1,19 @@
-import React from "react";
-import { MapPin, ArrowRight } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import { MapPin, Star } from "lucide-react";
 import { Project } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { LeadModal } from "@/components/custom/LeadModal";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export interface ProjectCardProps {
     project: Project;
@@ -13,26 +21,44 @@ export interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const t = useTranslations("ProjectCard");
+    const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+    const gallery = useMemo(
+        () => (project.images.length ? project.images : [project.image]),
+        [project.images, project.image],
+    );
 
     return (
-        <Card className="group relative overflow-hidden rounded-[2rem] bg-white shadow-sm hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 border border-slate-200 flex flex-col">
+        <Card className="group relative overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 border border-slate-200 flex flex-col">
             <div className="relative aspect-[16/10] overflow-hidden">
-                <img
-                    src={project.images[0] || ""}
-                    alt={project.name}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    referrerPolicy="no-referrer"
-                />
+                <Carousel opts={{ loop: true, duration: 30 }} className="h-full w-full">
+                    <CarouselContent className="ml-0 h-full">
+                        {gallery.map((image, index) => (
+                            <CarouselItem key={`${project.id}-${index}`} className="pl-0 h-full">
+                                <img
+                                    src={image}
+                                    alt={`${project.name} ${index + 1}`}
+                                    className="h-full w-full object-cover"
+                                    referrerPolicy="no-referrer"
+                                />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    {gallery.length > 1 && (
+                        <>
+                            <CarouselPrevious className="left-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
+                            <CarouselNext className="right-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
+                        </>
+                    )}
+                </Carousel>
                 {project.isPopular && (
-                    <Badge className="absolute top-5 left-5 bg-[#FB7185] text-white text-[10px] font-bold px-4 py-1.5 rounded-full z-10 border-none uppercase tracking-wider shadow-lg shadow-rose-500/20">
+                    <Badge className="absolute top-4 left-4 bg-[#FB7185] text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 border-none uppercase tracking-wider">
                         {t("popular")}
                     </Badge>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1E3A8A]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
-            <CardContent className="p-6 flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-[#1E3A8A] leading-tight group-hover:text-[#F97316] transition-colors">
+            <CardContent className="p-5 flex-1 flex flex-col">
+                <div className="mb-3 flex items-start justify-between gap-2">
+                    <h3 className="text-xl font-bold text-[#1E3A8A] leading-tight">
                         {project.name}
                     </h3>
                     <span className="text-lg font-black text-[#F97316] tracking-tight">
@@ -40,39 +66,42 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     </span>
                 </div>
 
-                <p className="text-xs text-slate-500 mb-6 leading-relaxed flex items-center gap-1.5 font-medium">
+                <p className="text-sm text-slate-500 mb-3 leading-relaxed flex items-center gap-1.5 font-medium">
                     <MapPin className="h-3 w-3 text-[#1E3A8A]" /> {project.district},{" "}
                     {project.location}
                 </p>
 
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-[8px] font-black text-slate-400">
-                        DEV
-                    </div>
-                    <div>
-                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest leading-none mb-1">
-                            {t("developer")}
-                        </p>
-                        <p className="text-xs font-bold text-[#1E3A8A]">
-                            {project.developer.name}
-                        </p>
-                    </div>
+                <div className="mb-5 flex items-center gap-2 text-sm text-slate-600">
+                    <Star className="h-4 w-4 text-[#F97316]" />
+                    <span className="font-semibold text-slate-800">
+                        {project.avgRating ? project.avgRating.toFixed(1) : "—"}
+                    </span>
+                    <span>({project.reviewsCount ?? 0} отзывов)</span>
                 </div>
 
                 <div className="mt-auto flex gap-3">
                     <Link href={`/catalog/${project.id}`} className="flex-1">
                         <Button
                             variant="ghost"
-                            className="w-full bg-slate-50 border border-slate-200 text-[#1E3A8A] text-[10px] font-bold uppercase tracking-wider rounded-xl hover:bg-slate-100 h-10"
+                            className="w-full bg-slate-50 border border-slate-200 text-[#1E3A8A] text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-slate-100 h-10"
                         >
                             {t("details")}
                         </Button>
                     </Link>
-                    <Button className="flex-1 bg-[#F97316] hover:bg-orange-600 text-white text-[10px] font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-orange-500/10 h-10">
+                    <Button
+                        onClick={() => setIsLeadModalOpen(true)}
+                        className="flex-1 bg-[#F97316] hover:bg-orange-600 text-white text-xs font-bold uppercase tracking-wider rounded-xl h-10"
+                    >
                         {t("inquiry")}
                     </Button>
                 </div>
             </CardContent>
+            <LeadModal
+                isOpen={isLeadModalOpen}
+                onClose={() => setIsLeadModalOpen(false)}
+                projectName={project.name}
+                projectId={Number(project.id)}
+            />
         </Card>
     );
 };

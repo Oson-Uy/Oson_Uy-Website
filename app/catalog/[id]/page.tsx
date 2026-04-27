@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { MapPin, Calendar, Layers, ChevronRight } from 'lucide-react';
+import { MapPin, Calendar, Layers, ChevronRight, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ApartmentList } from '@/components/custom/ApartmentList';
@@ -17,8 +17,19 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
           id: number;
           name: string;
           location: string;
+          district?: string;
+          description?: string;
+          advantages?: string[];
+          mapEmbedUrl?: string;
+          totalFloors?: number | null;
+          totalUnits?: number | null;
           deliveryDate: string;
           imageUrl?: string;
+          videoUrl?: string;
+          media?: Array<{ id: number; imageUrl: string }>;
+          avgRating?: number | null;
+          reviewsCount?: number;
+          reviews?: Array<{ id: number; rating: number; comment?: string | null }>;
           developer?: { name: string };
           apartments: Array<{
             id: number;
@@ -71,6 +82,14 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                         <div className="flex items-center text-[#F97316] font-medium mb-8">
                             <MapPin className="w-4 h-4 mr-2" />
                             {projectData.location}
+                            {projectData.district ? `, ${projectData.district}` : ""}
+                        </div>
+                        <div className="mb-6 flex items-center gap-2 text-sm text-slate-600">
+                          <Star className="h-4 w-4 text-[#F97316]" />
+                          <span className="font-semibold text-slate-900">
+                            {projectData.avgRating ? projectData.avgRating.toFixed(1) : '—'}
+                          </span>
+                          <span>({projectData.reviewsCount ?? 0} отзывов)</span>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-8">
@@ -83,16 +102,82 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                             <div className="bg-slate-50 p-4 rounded-xl">
                                 <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Floors</p>
                                 <div className="flex items-center gap-2 text-[#1E3A8A] font-bold">
-                                    <Layers className="w-4 h-4 text-slate-400" /> {projectData.apartments.length ? Math.max(...projectData.apartments.map((apt) => apt.floor)) : 0}
+                                    <Layers className="w-4 h-4 text-slate-400" /> {projectData.totalFloors ?? (projectData.apartments.length ? Math.max(...projectData.apartments.map((apt) => apt.floor)) : 0)}
+                                </div>
+                            </div>
+                            <div className="bg-slate-50 p-4 rounded-xl">
+                                <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Units</p>
+                                <div className="text-[#1E3A8A] font-bold">
+                                  {projectData.totalUnits ?? projectData.apartments.length}
                                 </div>
                             </div>
                         </div>
+
+                        {projectData.description && (
+                          <p className="mb-6 text-sm leading-relaxed text-slate-600">
+                            {projectData.description}
+                          </p>
+                        )}
+
+                        {!!projectData.advantages?.length && (
+                          <div className="mb-6 flex flex-wrap gap-2">
+                            {projectData.advantages.map((advantage) => (
+                              <Badge key={advantage} className="bg-blue-50 text-[#1E3A8A] border border-blue-100">
+                                {advantage}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
 
                         <Button variant="outline" className="w-full md:w-max border-slate-200 text-[#1E3A8A] rounded-xl px-10 h-12 font-bold group">
                             View all Details <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Button>
                     </div>
                 </div>
+
+                {!!projectData.media?.length && (
+                  <div className="mb-10 grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {projectData.media.map((media) => (
+                      <div key={media.id} className="relative h-32 overflow-hidden rounded-xl border border-slate-200">
+                        <Image src={media.imageUrl} alt="Project gallery" fill className="object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {projectData.videoUrl && (
+                  <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                    <video controls className="h-full w-full" src={projectData.videoUrl}>
+                      Your browser does not support video.
+                    </video>
+                  </div>
+                )}
+
+                {projectData.mapEmbedUrl && (
+                  <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                    <iframe
+                      src={projectData.mapEmbedUrl}
+                      title="Project location"
+                      className="h-80 w-full"
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                )}
+
+                {!!projectData.reviews?.length && (
+                  <div className="mb-12 rounded-3xl bg-white p-6 shadow-sm">
+                    <h3 className="mb-4 text-2xl font-bold text-[#1E3A8A]">Отзывы</h3>
+                    <div className="space-y-3">
+                      {projectData.reviews.slice(0, 5).map((review) => (
+                        <div key={review.id} className="rounded-xl border border-slate-100 p-4">
+                          <p className="text-sm font-semibold text-[#F97316]">{'★'.repeat(review.rating)}</p>
+                          <p className="text-sm text-slate-600">{review.comment || 'Без комментария'}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold text-[#1E3A8A]">Available Residences</h2>

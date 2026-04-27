@@ -30,7 +30,13 @@ export interface Project {
   apartments: Apartment[];
   floors: number;
   district: string;
+  advantages?: string[];
+  mapEmbedUrl?: string;
+  totalFloors?: number | null;
+  totalUnits?: number | null;
   isPopular?: boolean; // Optional field to indicate if the project is popular
+  avgRating?: number | null;
+  reviewsCount?: number;
 }
 
 export interface FilterState {

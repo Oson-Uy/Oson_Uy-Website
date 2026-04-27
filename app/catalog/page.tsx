@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { MapPin } from 'lucide-react';
+import { MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
@@ -36,21 +36,23 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     const params = await searchParams;
     const location = typeof params.location === "string" ? params.location : undefined;
     const district = typeof params.district === "string" ? params.district : undefined;
-    const monthlyPayment = toNumber(params.monthlyPayment);
+    const pricePerM2Min = toNumber(params.pricePerM2Min);
+    const pricePerM2Max = toNumber(params.pricePerM2Max);
     const budget = toNumber(params.budget);
     const areaMin = toNumber(params.areaMin);
     const areaMax = toNumber(params.areaMax);
-    const monthlyPaymentUsd = typeof monthlyPayment === "number" ? monthlyPayment / 13000 : undefined;
     const budgetUsd = typeof budget === "number" ? budget / 13000 : undefined;
-    const affordabilityMaxPrice =
-        typeof monthlyPaymentUsd === "number" ? monthlyPaymentUsd * 240 : undefined;
-    const effectiveMaxPrice =
-        typeof budgetUsd === "number" && typeof affordabilityMaxPrice === "number"
-            ? Math.min(budgetUsd, affordabilityMaxPrice)
-            : budgetUsd ?? affordabilityMaxPrice;
+    const effectiveMaxPrice = budgetUsd;
 
     const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
-    const projectsResponse = await fetch(`${apiUrl}/projects`, { cache: "no-store" });
+    const backendParams = new URLSearchParams();
+    if (typeof pricePerM2Min === "number") backendParams.set("pricePerM2Min", String(pricePerM2Min));
+    if (typeof pricePerM2Max === "number") backendParams.set("pricePerM2Max", String(pricePerM2Max));
+    if (typeof budgetUsd === "number") backendParams.set("maxPrice", String(budgetUsd));
+    const projectsResponse = await fetch(
+        `${apiUrl}/projects${backendParams.toString() ? `?${backendParams.toString()}` : ""}`,
+        { cache: "no-store" },
+    );
     const projectsData = projectsResponse.ok
         ? (await projectsResponse.json()) as Array<{
             id: number;
@@ -60,6 +62,8 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             apartments: Array<{ id: number; price: number; area: number; rooms: number }>;
             isPopular?: boolean;
             district?: string;
+            reviewsCount?: number;
+            avgRating?: number | null;
         }>
         : [];
 
@@ -84,11 +88,16 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             if (typeof effectiveMaxPrice === "number" && apartment.price > effectiveMaxPrice) return false;
             if (typeof areaMin === "number" && apartment.area < areaMin) return false;
             if (typeof areaMax === "number" && apartment.area > areaMax) return false;
+            const perM2 = apartment.area ? apartment.price / apartment.area : 0;
+            if (typeof pricePerM2Min === "number" && perM2 < pricePerM2Min) return false;
+            if (typeof pricePerM2Max === "number" && perM2 > pricePerM2Max) return false;
             return true;
         });
 
         const hasApartmentFilters =
             typeof effectiveMaxPrice === "number" ||
+            typeof pricePerM2Min === "number" ||
+            typeof pricePerM2Max === "number" ||
             typeof areaMin === "number" ||
             typeof areaMax === "number";
 
@@ -107,13 +116,6 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                     <Button variant="outline" className="border-primary text-primary">{t("filters")}</Button>
                 </div>
             </div>
-            {typeof monthlyPayment === "number" && (
-                <p className="mb-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                    {t("monthlyHint", {
-                        value: `${Math.round((affordabilityMaxPrice ?? 0) * 13000).toLocaleString()} UZS`
-                    })}
-                </p>
-            )}
             {typeof budget === "number" && (
                 <p className="mb-6 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm text-orange-900">
                     {t("budgetHint", {
@@ -147,6 +149,13 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                             <h3 className="text-xl font-bold text-primary">{project.name}</h3>
                             <div className="flex items-center text-slate-500 text-sm">
                                 <MapPin className="w-4 h-4 mr-1" /> {project.location}
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                <Star className="h-4 w-4 text-[#F97316]" />
+                                <span className="font-semibold text-slate-800">
+                                    {project.avgRating ? project.avgRating.toFixed(1) : "—"}
+                                </span>
+                                <span>({project.reviewsCount ?? 0} отзывов)</span>
                             </div>
                         </CardHeader>
                         <CardContent>

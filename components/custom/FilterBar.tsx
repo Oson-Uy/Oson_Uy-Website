@@ -25,7 +25,8 @@ export function FilterBar() {
     const router = useRouter();
     const [location, setLocation] = useState("Samarkand Region");
     const [district, setDistrict] = useState("Samarkand");
-    const [monthlyPayment, setMonthlyPayment] = useState("");
+    const [pricePerM2Min, setPricePerM2Min] = useState("");
+    const [pricePerM2Max, setPricePerM2Max] = useState("");
     const [budget, setBudget] = useState("");
     const [areaMin, setAreaMin] = useState("");
     const [areaMax, setAreaMax] = useState("");
@@ -41,7 +42,8 @@ export function FilterBar() {
         const params = new URLSearchParams();
         if (location) params.set("location", location);
         if (district) params.set("district", district);
-        if (monthlyPayment) params.set("monthlyPayment", monthlyPayment.replace(/\s/g, ""));
+        if (pricePerM2Min) params.set("pricePerM2Min", pricePerM2Min.replace(/\s/g, ""));
+        if (pricePerM2Max) params.set("pricePerM2Max", pricePerM2Max.replace(/\s/g, ""));
         if (budget) params.set("budget", budget.replace(/\s/g, ""));
         if (areaMin) params.set("areaMin", areaMin);
         if (areaMax) params.set("areaMax", areaMax);
@@ -57,7 +59,7 @@ export function FilterBar() {
 
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-[3.5rem] pointer-events-none" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-2.5 md:gap-3 items-end relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-14 gap-2.5 md:gap-3 items-end relative z-10">
                 <div className="lg:col-span-2 space-y-1">
                     <label className={labelClasses}>Регион</label>
                     <div className="relative group">
@@ -97,13 +99,26 @@ export function FilterBar() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>В месяц</label>
+                    <label className={labelClasses}>Цена/м² от</label>
                     <div className="relative">
                         <DollarSign className={iconClasses} />
                         <input
-                            value={monthlyPayment}
-                            onChange={(e) => setMonthlyPayment(formatNumber(e.target.value))}
-                            placeholder="Сумма/мес."
+                            value={pricePerM2Min}
+                            onChange={(e) => setPricePerM2Min(formatNumber(e.target.value))}
+                            placeholder="Минимум"
+                            className={inputClasses}
+                        />
+                    </div>
+                </div>
+
+                <div className="lg:col-span-2 space-y-1">
+                    <label className={labelClasses}>Цена/м² до</label>
+                    <div className="relative">
+                        <DollarSign className={iconClasses} />
+                        <input
+                            value={pricePerM2Max}
+                            onChange={(e) => setPricePerM2Max(formatNumber(e.target.value))}
+                            placeholder="Максимум"
                             className={inputClasses}
                         />
                     </div>
