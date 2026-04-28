@@ -28,12 +28,14 @@
     "phone": "Telefon",
     "inquiryNow": "So'rov qoldirish"
   },
-  "Filter": {
-    "city": "Shahar",
-    "monthly": "Oyiga to'lov",
-    "area": "Kerakli maydon (m²)",
-    "cta": "Kvartira topish",
-    "search": "Qidirish"
+  "FilterBar": {
+    "region": "Viloyat",
+    "district": "Tuman",
+    "price_from": "Narxi/m² dan",
+    "price_to": "Narxi/m² gacha",
+    "area_from": "Maydon dan",
+    "area_to": "Maydon gacha",
+    "search_button": "Variantlarni topish"
   },
   "Catalog": {
     "title": "Loyihalar katalogi",

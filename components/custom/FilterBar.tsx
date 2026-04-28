@@ -21,7 +21,19 @@ const REGION_CITY_MAP: Record<string, string[]> = {
     "Republic of Karakalpakstan": ["Nukus", "Khodjeyli", "Turtkul"],
 };
 
-export function FilterBar() {
+type FilterBarProps = {
+    translations: {
+        region: string;
+        district: string;
+        price_from: string;
+        price_to: string;
+        area_from: string;
+        area_to: string;
+        search_button: string;
+    };
+};
+
+export function FilterBar({ translations }: FilterBarProps) {
     const router = useRouter();
     const [location, setLocation] = useState("Samarkand Region");
     const [district, setDistrict] = useState("Samarkand");
@@ -57,7 +69,7 @@ export function FilterBar() {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-4 items-end">
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Регион</label>
+                    <label className={labelClasses}>{translations.region}</label>
                     <div className="relative group">
                         <MapPin className={iconClasses} />
                         <select
@@ -78,7 +90,7 @@ export function FilterBar() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Район</label>
+                    <label className={labelClasses}>{translations.district}</label>
                     <div className="relative group">
                         <MapPin className={iconClasses} />
                         <select
@@ -95,33 +107,33 @@ export function FilterBar() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Цена/м² от</label>
+                    <label className={labelClasses}>{translations.price_from}</label>
                     <div className="relative">
                         <DollarSign className={iconClasses} />
                         <input
                             value={pricePerM2Min}
                             onChange={(e) => setPricePerM2Min(formatNumber(e.target.value))}
-                            placeholder="Мин."
+                            placeholder="Min."
                             className={inputClasses}
                         />
                     </div>
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Цена/м² до</label>
+                    <label className={labelClasses}>{translations.price_to}</label>
                     <div className="relative">
                         <DollarSign className={iconClasses} />
                         <input
                             value={pricePerM2Max}
                             onChange={(e) => setPricePerM2Max(formatNumber(e.target.value))}
-                            placeholder="Макс."
+                            placeholder="Max."
                             className={inputClasses}
                         />
                     </div>
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Площадь от</label>
+                    <label className={labelClasses}>{translations.area_from}</label>
                     <div className="relative">
                         <Ruler className={iconClasses} />
                         <input
@@ -134,7 +146,7 @@ export function FilterBar() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Площадь до</label>
+                    <label className={labelClasses}>{translations.area_to}</label>
                     <div className="relative">
                         <Ruler className={iconClasses} />
                         <input
@@ -153,7 +165,7 @@ export function FilterBar() {
                     className="h-14 w-full md:w-[400px] rounded-xl bg-accent hover:bg-accent/90 text-white flex items-center justify-center gap-3 px-8 shadow-[0_15px_35px_rgba(249,115,22,0.4)] active:scale-[0.98] transition-all font-black uppercase tracking-[0.15em] text-sm"
                 >
                     <Search className="h-5 w-5 stroke-[3px] shrink-0" />
-                    <span>Найти варианты</span>
+                    <span>{translations.search_button}</span>
                 </Button>
             </div>
         </div>

@@ -28,12 +28,14 @@
     "phone": "Phone",
     "inquiryNow": "Inquiry Now"
   },
-  "Filter": {
-    "city": "City",
-    "monthly": "Monthly Payment",
-    "area": "Desired Area (m²)",
-    "cta": "Find Apartments",
-    "search": "Search"
+  "FilterBar": {
+    "region": "Region",
+    "district": "District",
+    "price_from": "Price/sqm from",
+    "price_to": "Price/sqm to",
+    "area_from": "Area from",
+    "area_to": "Area to",
+    "search_button": "Find options"
   },
   "Catalog": {
     "title": "Project Catalog",
