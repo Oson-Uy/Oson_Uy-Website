@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
 import { ProjectCard } from "@/components/custom/ProjectCard";
@@ -14,40 +15,36 @@ import { formatUzPhoneInput } from "@/lib/phone";
 
 export default function Home() {
     const t = useTranslations("Home");
+    const tFilter = useTranslations("FilterBar");
+
+    const filterBarTranslations = {
+        region: tFilter("region"),
+        district: tFilter("district"),
+        price_from: tFilter("price_from"),
+        price_to: tFilter("price_to"),
+        area_from: tFilter("area_from"),
+        area_to: tFilter("area_to"),
+        search_button: tFilter("search_button"),
+    };
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [featuredProjects, setFeaturedProjects] = useState(PROJECTS.filter((p) => p.isPopular));
     const [consultPhone, setConsultPhone] = useState("+998");
 
     useEffect(() => {
-        void (async () => {
+        const fetchProjects = async () => {
             try {
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
                 const response = await fetch(`${apiUrl}/projects`, { cache: "no-store" });
                 if (!response.ok) return;
-                const data = (await response.json()) as Array<{
-                    id: number;
-                    name: string;
-                    location: string;
-                    deliveryDate: string;
-                    imageUrl?: string;
-                    media?: Array<{ imageUrl: string }>;
-                    reviewsCount?: number;
-                    avgRating?: number | null;
-                    badgeVerified?: boolean;
-                    badgeTrusted?: boolean;
-                    topInCatalog?: boolean;
-                    topInHome?: boolean;
-                    apartments: Array<{ id: number; rooms: number; area: number; floor: number; price: number; imageUrl?: string }>;
-                    developer?: { name: string };
-                }>;
-                const mapped = data.map((project) => ({
+                const data = await response.json();
+
+                const mapped = data.map((project: any) => ({
                     id: String(project.id),
                     name: project.name,
                     description: "",
                     image: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
-                    location: (["Tashkent", "Samarkand", "Bukhara"].includes(project.location)
-                        ? project.location
-                        : "Tashkent") as "Tashkent" | "Samarkand" | "Bukhara",
+                    location: project.location,
                     developer: {
                         name: project.developer?.name ?? "Developer",
                         verified: true,
@@ -56,13 +53,13 @@ export default function Home() {
                     deliveryDate: project.deliveryDate,
                     tags: [],
                     images: project.media?.length
-                        ? project.media.map((item) => item.imageUrl)
+                        ? project.media.map((item: any) => item.imageUrl)
                         : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
                     mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
                     priceFrom: project.apartments.length
-                        ? Math.min(...project.apartments.map((apt) => apt.price))
+                        ? Math.min(...project.apartments.map((apt: any) => apt.price))
                         : 0,
-                    apartments: project.apartments.map((apt) => ({
+                    apartments: project.apartments.map((apt: any) => ({
                         id: String(apt.id),
                         projectId: String(project.id),
                         rooms: apt.rooms,
@@ -72,40 +69,24 @@ export default function Home() {
                         status: "available" as const,
                         layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
                     })),
-                    floors: project.apartments.length
-                        ? Math.max(...project.apartments.map((apt) => apt.floor))
-                        : 0,
-                    district: project.location,
-                    advantages: [],
-                    mapEmbedUrl: undefined,
-                    totalFloors: project.apartments.length
-                        ? Math.max(...project.apartments.map((apt) => apt.floor))
-                        : null,
-                    totalUnits: project.apartments.length,
                     isPopular: Boolean(project.topInCatalog || project.topInHome),
                     badgeVerified: project.badgeVerified ?? false,
                     badgeTrusted: project.badgeTrusted ?? false,
-                    topInCatalog: project.topInCatalog ?? false,
-                    topInHome: project.topInHome ?? false,
-                    avgRating: project.avgRating ?? null,
-                    reviewsCount: project.reviewsCount ?? 0,
                 }));
+
                 if (mapped.length) {
-                    const ranked = [...mapped].sort((a, b) => {
-                        const rankA = a.topInHome ? 2 : a.topInCatalog ? 1 : 0;
-                        const rankB = b.topInHome ? 2 : b.topInCatalog ? 1 : 0;
-                        return rankB - rankA;
-                    });
-                    setFeaturedProjects(ranked);
+                    setFeaturedProjects(mapped.sort((a: any, b: any) => (b.isPopular ? 1 : -1)));
                 }
-            } catch {
-                // Keep local fallback data
+            } catch (err) {
+                console.error("Failed to fetch projects", err);
             }
-        })();
+        };
+
+        fetchProjects();
     }, []);
 
     return (
-        <div className="flex flex-col w-full min-h-screen  md:pt-16 lg:pt-0">
+        <div className="flex flex-col w-full min-h-screen md:pt-16 lg:pt-0">
             <section className="relative min-h-[88vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
@@ -125,7 +106,7 @@ export default function Home() {
                         className="space-y-6"
                     >
                         <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
-                            {t("heroLine1")}
+                            {t("heroLine1")}{" "}
                             <span className="text-accent">{t("heroAccent")}</span>
                             <br />
                             {t("heroLine2")}
@@ -140,7 +121,7 @@ export default function Home() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.4, duration: 0.6 }}
                     >
-                        <FilterBar />
+                        <FilterBar translations={filterBarTranslations} />
                     </motion.div>
                 </div>
             </section>
@@ -173,35 +154,6 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="py-24 bg-white border-y border-slate-200">
-                <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-16">
-                    <div className="text-center md:text-left space-y-2">
-                        <div className="text-5xl font-black text-primary tracking-tight">
-                            1,250+
-                        </div>
-                        <div className="text-[10px] uppercase tracking-[0.3em] font-black text-slate-400">
-                            {t("availableProjects")}
-                        </div>
-                    </div>
-                    <div className="text-center md:text-left space-y-2">
-                        <div className="text-5xl font-black text-primary tracking-tight">
-                            {t("launchCity")}
-                        </div>
-                        <div className="text-[10px] uppercase tracking-[0.3em] font-black text-slate-400">
-                            {t("launchCityLabel")}
-                        </div>
-                    </div>
-                    <div className="text-center md:text-left space-y-2">
-                        <div className="text-5xl font-black text-primary tracking-tight">
-                            15min
-                        </div>
-                        <div className="text-[10px] uppercase tracking-[0.3em] font-black text-slate-400">
-                            {t("responseTime")}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <section className="py-32 px-4 bg-slate-50">
                 <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-12 md:p-20 rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-12">
                     <div className="flex-1 space-y-6 text-center md:text-left">
@@ -223,7 +175,7 @@ export default function Home() {
                                 <input
                                     type="text"
                                     placeholder="Full Name"
-                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent"
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -233,11 +185,9 @@ export default function Home() {
                                 <input
                                     type="text"
                                     value={consultPhone}
-                                    onChange={(event) =>
-                                        setConsultPhone(formatUzPhoneInput(event.target.value))
-                                    }
+                                    onChange={(e) => setConsultPhone(formatUzPhoneInput(e.target.value))}
                                     placeholder="+998 90 123 45 67"
-                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent"
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white"
                                 />
                             </div>
                         </div>
@@ -251,7 +201,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            
+
             <LeadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );

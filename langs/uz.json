@@ -28,21 +28,33 @@
     "phone": "Telefon",
     "inquiryNow": "So'rov qoldirish"
   },
-  "Filter": {
-    "city": "Shahar",
-    "monthly": "Oyiga to'lov",
-    "area": "Kerakli maydon (m²)",
-    "cta": "Kvartira topish",
-    "search": "Qidirish"
+  "FilterBar": {
+    "region": "Viloyat",
+    "district": "Tuman",
+    "price_from": "Narxi/m² dan",
+    "price_to": "Narxi/m² gacha",
+    "area_from": "Maydon dan",
+    "area_to": "Maydon gacha",
+    "search_button": "Variantlarni topish"
   },
   "Catalog": {
-    "title": "Mavjud loyihalar",
+    "title": "Loyihalar katalogi",
     "filters": "Filtrlar",
-    "foundCount": "taklif topildi",
-    "monthlyHint": "Byudjet bo'yicha tanlov: {value} gacha (20 yillik oylik to'lov hisobidan).",
-    "popular": "Mashhur",
     "details": "Batafsil",
-    "from": "dan"
+    "popular": "Ommabop",
+    "from": "dan",
+    "drawer": {
+      "title": "Qidiruv filtrlari",
+      "description": "Qidiruv parametrlarini sozlang",
+      "apply": "Variantlarni ko'rsatish",
+      "reset": "Tozalash",
+      "from": "dan",
+      "to": "gacha",
+      "verified": "Tasdiqlangan quruvchi",
+      "popular": "Ommabop loyihalar",
+      "area_from": "Maydon dan",
+      "area_to": "Maydon gacha"
+    }
   },
   "About": {
     "title1": "Ko'chmas mulk bozorini yangilaymiz",

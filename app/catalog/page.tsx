@@ -5,181 +5,158 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { formatUzs } from '@/lib/currency';
+import { FilterDrawer } from '@/components/custom/FilterDrawer';
 
 type CatalogPageProps = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-const REGION_CITY_MAP: Record<string, string[]> = {
-    "Tashkent Region": ["Tashkent", "Chirchiq", "Angren", "Yangiyul"],
-    "Samarkand Region": ["Samarkand", "Urgut", "Kattakurgan"],
-    "Bukhara Region": ["Bukhara", "Gijduvan", "Kagan"],
-    "Andijan Region": ["Andijan", "Asaka", "Khanabad"],
-    "Fergana Region": ["Fergana", "Kokand", "Margilan"],
-    "Namangan Region": ["Namangan", "Chust", "Chartak"],
-    "Jizzakh Region": ["Jizzakh", "Gallaorol", "Zomin"],
-    "Sirdarya Region": ["Gulistan", "Yangiyer", "Shirin"],
-    "Kashkadarya Region": ["Karshi", "Shakhrisabz", "Kitab"],
-    "Surkhandarya Region": ["Termez", "Denau", "Sherabad"],
-    "Navoi Region": ["Navoi", "Zarafshan", "Karmana"],
-    "Khorezm Region": ["Urgench", "Khiva", "Pitnak"],
-    "Republic of Karakalpakstan": ["Nukus", "Khodjeyli", "Turtkul"],
-};
-
 const toNumber = (value?: string | string[]) => {
     if (!value || Array.isArray(value)) return undefined;
-    const parsed = Number(value);
+    const parsed = Number(value.toString().replace(/\s/g, ''));
     return Number.isNaN(parsed) ? undefined : parsed;
 };
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     const t = await getTranslations("Catalog");
     const params = await searchParams;
+
     const location = typeof params.location === "string" ? params.location : undefined;
     const district = typeof params.district === "string" ? params.district : undefined;
-    const pricePerM2Min = toNumber(params.pricePerM2Min);
-    const pricePerM2Max = toNumber(params.pricePerM2Max);
+
+    const priceMin = toNumber(params.priceMin) || toNumber(params.pricePerM2Min);
+    const priceMax = toNumber(params.priceMax) || toNumber(params.pricePerM2Max);
     const areaMin = toNumber(params.areaMin);
     const areaMax = toNumber(params.areaMax);
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
-    const backendParams = new URLSearchParams();
-    if (typeof pricePerM2Min === "number") backendParams.set("pricePerM2Min", String(pricePerM2Min));
-    if (typeof pricePerM2Max === "number") backendParams.set("pricePerM2Max", String(pricePerM2Max));
-    const projectsResponse = await fetch(
-        `${apiUrl}/projects${backendParams.toString() ? `?${backendParams.toString()}` : ""}`,
-        { cache: "no-store" },
-    );
-    const projectsData = projectsResponse.ok
-        ? (await projectsResponse.json()) as Array<{
-            id: number;
-            name: string;
-            location: string;
-            imageUrl?: string;
-            apartments: Array<{ id: number; price: number; area: number; rooms: number }>;
-            isPopular?: boolean;
-            district?: string;
-            badgeVerified?: boolean;
-            badgeTrusted?: boolean;
-            topInCatalog?: boolean;
-            reviewsCount?: number;
-            avgRating?: number | null;
-        }>
-        : [];
+    const isVerifiedFilter = params.verified === "true";
+    const isPopularFilter = params.popular === "true";
 
-    const projects = projectsData.filter((project) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+
+    let projectsData = [];
+    try {
+        const res = await fetch(`${apiUrl}/projects`, { cache: "no-store" });
+        if (res.ok) {
+            projectsData = await res.json();
+        }
+    } catch (e) {
+        console.error("Fetch error:", e);
+    }
+
+    const projects = projectsData.filter((project: any) => {
+        if (isVerifiedFilter && !project.badgeVerified) return false;
+        if (isPopularFilter && !project.isPopular) return false;
+
         if (location) {
-            const allowedCities = REGION_CITY_MAP[location] ?? [];
-            if (!allowedCities.includes(project.location)) {
-                return false;
-            }
+            const pLoc = project.location?.toLowerCase() || "";
+            const sLoc = location.toLowerCase().replace(" region", "").trim();
+            if (!pLoc.includes(sLoc)) return false;
         }
 
         if (district) {
-            const districtMatches =
-                project.location === district ||
-                (project.district ?? "").toLowerCase().includes(district.toLowerCase());
-            if (!districtMatches) {
-                return false;
-            }
+            const pDist = project.district?.toLowerCase() || "";
+            const sDist = district.toLowerCase().trim();
+            if (!pDist.includes(sDist)) return false;
         }
 
-        const matchesApartment = project.apartments.some((apartment) => {
-            if (typeof areaMin === "number" && apartment.area < areaMin) return false;
-            if (typeof areaMax === "number" && apartment.area > areaMax) return false;
-            const perM2 = apartment.area ? apartment.price / apartment.area : 0;
-            if (typeof pricePerM2Min === "number" && perM2 < pricePerM2Min) return false;
-            if (typeof pricePerM2Max === "number" && perM2 > pricePerM2Max) return false;
-            return true;
-        });
+        if (priceMin || priceMax || areaMin || areaMax) {
+            if (!project.apartments?.length) return false;
 
-        const hasApartmentFilters =
-            typeof pricePerM2Min === "number" ||
-            typeof pricePerM2Max === "number" ||
-            typeof areaMin === "number" ||
-            typeof areaMax === "number";
+            return project.apartments.some((apt: any) => {
+                const priceInUz = apt.price * 13000;
+                const area = apt.area || 0;
+                const perM2InUz = area > 0 ? priceInUz / area : 0;
 
-        if (!project.apartments.length) {
-            return !hasApartmentFilters;
+                if (priceMin) {
+                    if (perM2InUz < priceMin && priceInUz < priceMin) return false;
+                }
+                if (priceMax) {
+                    if (perM2InUz > priceMax && priceInUz > priceMax) return false;
+                }
+
+                if (areaMin && area < areaMin) return false;
+                if (areaMax && area > areaMax) return false;
+
+                return true;
+            });
         }
 
-        return matchesApartment;
-    }).sort((a, b) => {
-        const rankA = a.topInCatalog ? 1 : 0;
-        const rankB = b.topInCatalog ? 1 : 0;
-        return rankB - rankA;
-    });
+        return true;
+    }).sort((a: any, b: any) => (b.topInCatalog ? 1 : 0) - (a.topInCatalog ? 1 : 0));
+
+    const translations = {
+        filters: t("filters"),
+        title: t("drawer.title"),
+        description: t("drawer.description"),
+        apply: t("drawer.apply"),
+        reset: t("drawer.reset"),
+        from: t("drawer.from"),
+        to: t("drawer.to"),
+        verified: t("drawer.verified"),
+        popular: t("popular"),
+        area_from: t("drawer.area_from"),
+        area_to: t("drawer.area_to")
+    };
 
     return (
         <div className="lg:pt-5 md:pt-20 pb-16 px-8 max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-10">
-                <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>
-                <div className="flex gap-2">
-                    <Button variant="outline" className="border-primary text-primary">{t("filters")}</Button>
-                </div>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+                <h1 className="text-4xl font-black text-primary tracking-tight">{t("title")}</h1>
+                <FilterDrawer translations={translations} />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.map((project) => (
-                    <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <div className="h-48 bg-slate-200 relative">
-                            {project.imageUrl ? (
-                                <img
-                                    src={project.imageUrl}
-                                    alt={project.name}
-                                    className="w-full h-full object-cover"
-                                    referrerPolicy="no-referrer"
-                                />
-                            ) : (
-                                <div className="w-full h-full flex items-center justify-center text-slate-400">
-                                    No Image
-                                </div>
-                            )}
 
-                            {project.isPopular && (
-                                <Badge className="absolute top-4 left-4 bg-accent text-white">{t("popular")}</Badge>
-                            )}
-                            {project.badgeTrusted && (
-                                <Badge className="absolute top-4 right-4 bg-emerald-600 text-white">
-                                    Trusted
-                                </Badge>
-                            )}
-                        </div>
-                        <CardHeader>
-                            <h3 className="text-xl font-bold text-primary">{project.name}</h3>
-                            <div className="flex items-center text-slate-500 text-sm">
-                                <MapPin className="w-4 h-4 mr-1" /> {project.location}
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-slate-600">
-                                <Star className="h-4 w-4 text-[#F97316]" />
-                                <span className="font-semibold text-slate-800">
-                                    {project.avgRating ? project.avgRating.toFixed(1) : "—"}
-                                </span>
-                                <span>({project.reviewsCount ?? 0} отзывов)</span>
-                            </div>
-                            {project.badgeVerified && (
-                                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                                    Verified developer
-                                </p>
-                            )}
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-2xl font-bold text-accent">
-                                {t("from")}{" "}
-                                {formatUzs(
-                                    project.apartments.length
-                                        ? Math.min(...project.apartments.map((apartment) => apartment.price))
-                                        : 0,
-                                )}
-                            </p>
-                        </CardContent>
-                        <CardFooter>
-                            <Button asChild className="w-full h-11 text-base">
-                                <Link href={`/catalog/${project.id}`}>{t("details")}</Link>
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                ))}
-            </div>
+            {projects.length === 0 ? (
+                <div className="text-center py-20 border-2 border-dashed rounded-3xl text-slate-400">
+                    Ничего не найдено с такими фильтрами
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {projects.map((project: any) => {
+                        const minPrice = project.apartments?.length
+                            ? Math.min(...project.apartments.map((a: any) => a.price))
+                            : 0;
+
+                        return (
+                            <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 border-none shadow-sm bg-white">
+                                <div className="h-48 bg-slate-200 relative">
+                                    {project.imageUrl ? (
+                                        <img src={project.imageUrl} alt={project.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-slate-400">No Image</div>
+                                    )}
+                                    <div className="absolute top-4 left-4 flex flex-col gap-2">
+                                        {project.isPopular && <Badge className="bg-accent text-white border-none">{t("popular")}</Badge>}
+                                        {project.badgeTrusted && <Badge className="bg-emerald-600 text-white border-none">Trusted</Badge>}
+                                    </div>
+                                </div>
+                                <CardHeader className="space-y-1">
+                                    <h3 className="text-xl font-bold text-primary leading-tight">{project.name}</h3>
+                                    <div className="flex items-center text-slate-500 text-sm italic">
+                                        <MapPin className="w-4 h-4 mr-1 text-accent" /> {project.location}
+                                    </div>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <Star className="h-4 w-4 fill-orange-400 text-orange-400" />
+                                        <span className="font-bold text-slate-700">{project.avgRating?.toFixed(1) || "—"}</span>
+                                        <span className="text-slate-400 text-sm">({project.reviewsCount || 0})</span>
+                                    </div>
+                                    <p className="text-xs uppercase font-bold text-slate-400 mb-1">{t("from")}</p>
+                                    <p className="text-2xl font-black text-primary">
+                                        {formatUzs(minPrice)}
+                                    </p>
+                                </CardContent>
+                                <CardFooter>
+                                    <Button asChild className="w-full h-12 text-base font-bold rounded-xl shadow-md">
+                                        <Link href={`/catalog/${project.id}`}>{t("details")}</Link>
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 }
