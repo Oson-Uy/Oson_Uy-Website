@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import { formatUzs } from '@/lib/currency';
 
 type CatalogPageProps = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -164,12 +165,11 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                         <CardContent>
                             <p className="text-2xl font-bold text-accent">
                                 {t("from")}{" "}
-                                {(
-                                    (project.apartments.length
+                                {formatUzs(
+                                    project.apartments.length
                                         ? Math.min(...project.apartments.map((apartment) => apartment.price))
-                                        : 0) * 13000
-                                ).toLocaleString()}{" "}
-                                UZS
+                                        : 0,
+                                )}
                             </p>
                         </CardContent>
                         <CardFooter>

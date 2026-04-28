@@ -6,7 +6,7 @@ export interface Apartment {
   rooms: number;
   area: number; // in m2
   floor: number;
-  price: number; // in USD
+  price: number; // in UZS
   status: 'available' | 'reserved' | 'sold';
   layoutImage: string;
 }

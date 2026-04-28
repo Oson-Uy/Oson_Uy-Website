@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { Apartment } from "@/types";
 import Label from "../ui/Typography";
+import { formatUzs } from "@/lib/currency";
 
 interface ApartmentCardProps {
   apartment: Apartment;
@@ -77,7 +78,7 @@ export default function ApartmentCard({
           <div>
             <Label className="mb-1">Price</Label>
             <p className="text-2xl font-extrabold tracking-tight text-slate-900">
-              ${apartment.price.toLocaleString()}
+              {formatUzs(apartment.price)}
             </p>
           </div>
           <button

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LeadModal } from "@/components/custom/LeadModal";
+import { formatUzs } from "@/lib/currency";
 
 type Apartment = {
   id: number;
@@ -63,7 +64,7 @@ export function ApartmentList({
             <div className="flex md:block justify-between items-center">
               <span className="md:hidden text-slate-400 text-xs">Price:</span>
               <span className="text-xl font-extrabold text-[#1E3A8A]">
-                {(apt.price * 13000).toLocaleString()} UZS
+                {formatUzs(apt.price)}
               </span>
             </div>
 

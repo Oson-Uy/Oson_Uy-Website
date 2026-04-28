@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, MapPin, DollarSign, Ruler, ChevronDown } from "lucide-react";
+import { Search, MapPin, Landmark, Ruler, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatMoneyInput } from "@/lib/currency";
 
 const REGION_CITY_MAP: Record<string, string[]> = {
     "Tashkent Region": ["Tashkent", "Chirchiq", "Angren", "Yangiyul"],
@@ -31,11 +32,6 @@ export function FilterBar() {
     const [areaMax, setAreaMax] = useState("");
 
     const districtsForRegion = REGION_CITY_MAP[location] ?? [];
-
-    const formatNumber = (val: string) => {
-        const num = val.replace(/\D/g, "");
-        return num.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    };
 
     const onSearch = () => {
         const params = new URLSearchParams();
@@ -97,26 +93,26 @@ export function FilterBar() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Цена/м² от</label>
+                    <label className={labelClasses}>Цена/м² от (сум)</label>
                     <div className="relative">
-                        <DollarSign className={iconClasses} />
+                        <Landmark className={iconClasses} />
                         <input
                             value={pricePerM2Min}
-                            onChange={(e) => setPricePerM2Min(formatNumber(e.target.value))}
-                            placeholder="Минимум"
+                            onChange={(e) => setPricePerM2Min(formatMoneyInput(e.target.value))}
+                            placeholder="Минимум, сум"
                             className={inputClasses}
                         />
                     </div>
                 </div>
 
                 <div className="lg:col-span-2 space-y-1">
-                    <label className={labelClasses}>Цена/м² до</label>
+                    <label className={labelClasses}>Цена/м² до (сум)</label>
                     <div className="relative">
-                        <DollarSign className={iconClasses} />
+                        <Landmark className={iconClasses} />
                         <input
                             value={pricePerM2Max}
-                            onChange={(e) => setPricePerM2Max(formatNumber(e.target.value))}
-                            placeholder="Максимум"
+                            onChange={(e) => setPricePerM2Max(formatMoneyInput(e.target.value))}
+                            placeholder="Максимум, сум"
                             className={inputClasses}
                         />
                     </div>

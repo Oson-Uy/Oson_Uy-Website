@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { LeadModal } from "@/components/custom/LeadModal";
+import { formatUzs } from "@/lib/currency";
 import {
     Carousel,
     CarouselContent,
@@ -67,7 +68,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {project.name}
                     </h3>
                     <span className="text-lg font-black text-[#F97316] tracking-tight">
-                        ${(project.priceFrom / 1000).toFixed(0)}k+
+                        {formatUzs(project.priceFrom)}
                     </span>
                 </div>
 
