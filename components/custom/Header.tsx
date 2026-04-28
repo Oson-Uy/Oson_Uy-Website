@@ -38,7 +38,7 @@ export default function Header() {
     );
 
     return (
-        <nav className="sticky top-0 w-full z-50 bg-white/95 backdrop-blur border-b border-slate-200 h-16 flex items-center">
+        <nav className="sticky top-0 w-full z-50 bg-white/80 backdrop-blur border-b border-slate-200 h-16 flex items-center">
             <div className="container grid grid-cols-[1fr_auto_1fr] items-center w-full px-4 mx-auto">
                 <Link href="/" className="flex items-center gap-2">
                     <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={40} height={40} className="h-10 w-10 object-contain" />

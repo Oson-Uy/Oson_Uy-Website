@@ -13,11 +13,11 @@ export default async function About() {
     ];
 
     return (
-        <div className="pt-20 md:pt-24 pb-24 min-h-screen bg-white">
+        <div className="md:pt-20 lg:pt-5 pb-24 min-h-screen bg-white">
             <div className="w-full px-4 md:px-8 max-w-7xl mx-auto space-y-40">
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start lg:items-center">
-                    <div className="lg:col-span-7 space-y-7 md:space-y-10">
+                <div className="grid grid-cols-1 lg:grid-cols-11 gap-12 lg:gap-20 items-start lg:items-center">
+                    <div className="lg:col-span-6 space-y-7 md:space-y-10">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100">
                             <span className="relative flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
@@ -26,7 +26,7 @@ export default async function About() {
                             <span className="text-xs font-black uppercase tracking-widest text-orange-700">{t("stats.verified")} Trust Score</span>
                         </div>
 
-                        <h1 className="text-3xl sm:text-4xl md:text-8xl font-black text-[#1E3A8A] tracking-tighter leading-[1.05] md:leading-[0.9] uppercase italic">
+                        <h1 className="text-3xl sm:text-4xl md:text-7xl font-black text-[#1E3A8A] tracking-tighter leading-[1.05] md:leading-[0.9] uppercase italic">
                             {t("title1")} <br />
                             <span className="text-[#F97316] not-italic">{t("titleAccent")}</span>
                         </h1>

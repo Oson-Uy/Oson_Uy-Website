@@ -65,25 +65,27 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
       ? projectData.media.map((item) => item.imageUrl)
       : [projectData.imageUrl || "https://picsum.photos/seed/project-fallback/1200/800"];
 
-    const mapSrc = projectData.mapEmbedUrl
-      ? projectData.mapEmbedUrl.includes("/maps/embed") ||
-        projectData.mapEmbedUrl.includes("output=embed")
-        ? projectData.mapEmbedUrl
-        : `https://www.google.com/maps?q=${encodeURIComponent(projectData.mapEmbedUrl)}&output=embed`
-      : `https://www.google.com/maps?q=${encodeURIComponent(
-          `${projectData.location}${projectData.district ? ` ${projectData.district}` : ""}`,
-        )}&output=embed`;
+    const fallbackQuery = `${projectData.location}${projectData.district ? ` ${projectData.district}` : ""}`;
+    const fallbackMapSrc = `https://www.google.com/maps?q=${encodeURIComponent(fallbackQuery)}&output=embed`;
+    const rawMap = projectData.mapEmbedUrl?.trim();
+    const mapSrc = !rawMap
+      ? fallbackMapSrc
+      : rawMap.includes("/maps/embed") || rawMap.includes("output=embed")
+        ? rawMap
+        : rawMap.startsWith("http")
+          ? fallbackMapSrc
+          : `https://www.google.com/maps?q=${encodeURIComponent(rawMap)}&output=embed`;
 
     return (
         <div className="pt-16 md:pt-20 pb-20 bg-slate-50 min-h-screen">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row mb-16">
-                    <div className="md:w-1/2 relative h-[400px] md:h-auto">
+                    <div className="md:w-1/2 relative h-[360px] md:h-[520px]">
                         <Carousel opts={{ loop: true }} className="h-full w-full">
                           <CarouselContent className="ml-0 h-full">
                             {gallery.map((image, index) => (
                               <CarouselItem key={`${image}-${index}`} className="pl-0 h-full">
-                                <div className="relative h-[400px] md:h-full w-full">
+                                <div className="relative h-[360px] md:h-[520px] w-full">
                                   <Image
                                     src={image}
                                     alt={`${projectData.name} ${index + 1}`}
@@ -113,13 +115,13 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                             </div>
                             <span className="text-xs text-slate-500 font-medium">{projectData.developer?.name ?? "Developer"}</span>
                         </div>
-                        {!!(projectData.qrCodeUrl || projectData.developer?.qrCodeUrl) && (
+                        {!!projectData.qrCodeUrl && (
                           <div className="mb-4">
                             <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
                               QR проекта
                             </p>
                             <img
-                              src={projectData.qrCodeUrl || projectData.developer?.qrCodeUrl || ""}
+                              src={projectData.qrCodeUrl}
                               alt="Project QR"
                               className="h-24 w-24 rounded-xl border border-slate-200 object-cover"
                             />

@@ -110,7 +110,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     });
 
     return (
-        <div className="pt-24 pb-16 px-8 max-w-7xl mx-auto">
+        <div className="lg:pt-5 md:pt-20 pb-16 px-8 max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-10">
                 <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>
                 <div className="flex gap-2">

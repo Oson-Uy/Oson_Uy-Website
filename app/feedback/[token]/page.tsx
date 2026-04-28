@@ -33,7 +33,7 @@ export default function FeedbackPage() {
   };
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-24">
+    <div className="mx-auto max-w-xl px-4 py-16 md:py-20">
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h1 className="text-2xl font-bold text-[#1E3A8A]">Оценка звонка менеджера</h1>
         <p className="mt-2 text-sm text-slate-600">
