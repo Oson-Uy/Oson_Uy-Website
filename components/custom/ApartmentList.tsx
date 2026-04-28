@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LeadModal } from "@/components/custom/LeadModal";
-import { formatUzs } from "@/lib/currency";
+import { formatUzs, formatUzsPerM2 } from "@/lib/currency";
 
 type Apartment = {
   id: number;
@@ -63,9 +63,14 @@ export function ApartmentList({
 
             <div className="flex md:block justify-between items-center">
               <span className="md:hidden text-slate-400 text-xs">Price:</span>
-              <span className="text-xl font-extrabold text-[#1E3A8A]">
-                {formatUzs(apt.price)}
-              </span>
+              <div className="flex flex-col md:items-start">
+                <span className="text-xl font-extrabold text-[#1E3A8A]">
+                  {formatUzs(apt.price)}
+                </span>
+                <span className="text-xs text-slate-500 mt-1">
+                  {formatUzsPerM2(apt.area > 0 ? apt.price / apt.area : 0)}
+                </span>
+              </div>
             </div>
 
             <div className="text-right">

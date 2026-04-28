@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { Apartment } from "@/types";
 import Label from "../ui/Typography";
-import { formatUzs } from "@/lib/currency";
+import { formatUzs, formatUzsPerM2 } from "@/lib/currency";
 
 interface ApartmentCardProps {
   apartment: Apartment;
@@ -79,6 +79,11 @@ export default function ApartmentCard({
             <Label className="mb-1">Price</Label>
             <p className="text-2xl font-extrabold tracking-tight text-slate-900">
               {formatUzs(apartment.price)}
+            </p>
+            <p className="text-xs text-slate-500 mt-1">
+              {formatUzsPerM2(
+                apartment.area > 0 ? apartment.price / apartment.area : 0,
+              )}
             </p>
           </div>
           <button
