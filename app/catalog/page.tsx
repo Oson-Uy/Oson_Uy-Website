@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import { FilterDrawer } from '@/components/custom/FilterDrawer';
 
 type CatalogPageProps = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -66,56 +67,64 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         }>
         : [];
 
+    const isVerifiedFilter = params.verified === "true";
+    const isPopularFilter = params.popular === "true";
+
     const projects = projectsData.filter((project) => {
-        if (location) {
-            const allowedCities = REGION_CITY_MAP[location] ?? [];
-            if (!allowedCities.includes(project.location)) {
-                return false;
-            }
+        if (isVerifiedFilter && !project.badgeVerified) {
+            return false;
         }
 
-        if (district) {
-            const districtMatches =
-                project.location === district ||
-                (project.district ?? "").toLowerCase().includes(district.toLowerCase());
-            if (!districtMatches) {
-                return false;
-            }
+        if (isPopularFilter && !project.isPopular) {
+            return false;
         }
 
-        const matchesApartment = project.apartments.some((apartment) => {
-            if (typeof areaMin === "number" && apartment.area < areaMin) return false;
-            if (typeof areaMax === "number" && apartment.area > areaMax) return false;
-            const perM2 = apartment.area ? apartment.price / apartment.area : 0;
-            if (typeof pricePerM2Min === "number" && perM2 < pricePerM2Min) return false;
-            if (typeof pricePerM2Max === "number" && perM2 > pricePerM2Max) return false;
-            return true;
-        });
+        if (location && project.location !== location) {
+            return false;
+        }
 
         const hasApartmentFilters =
             typeof pricePerM2Min === "number" ||
-            typeof pricePerM2Max === "number" ||
-            typeof areaMin === "number" ||
-            typeof areaMax === "number";
+            typeof pricePerM2Max === "number";
 
-        if (!project.apartments.length) {
-            return !hasApartmentFilters;
+        if (hasApartmentFilters) {
+            if (!project.apartments.length) return false;
+
+            return project.apartments.some((apartment) => {
+                const perM2 = apartment.area ? apartment.price / apartment.area : 0;
+                if (pricePerM2Min && perM2 < pricePerM2Min) return false;
+                if (pricePerM2Max && perM2 > pricePerM2Max) return false;
+                return true;
+            });
         }
 
-        return matchesApartment;
-    }).sort((a, b) => {
-        const rankA = a.topInCatalog ? 1 : 0;
-        const rankB = b.topInCatalog ? 1 : 0;
-        return rankB - rankA;
-    });
+        return true;
+    }).sort((a, b) => (b.topInCatalog ? 1 : 0) - (a.topInCatalog ? 1 : 0));
+
+    const translations = {
+        filters: t("filters"),
+        title: t("drawer.title"),
+        description: t("drawer.description"),
+        apply: t("drawer.apply"),
+        reset: t("drawer.reset"),
+        from: t("drawer.from"),
+        to: t("drawer.to"),
+        verified: t("drawer.verified"),
+        popular: t("drawer.popular"),
+        area_from: t("drawer.area_from"),
+        area_to: t("drawer.area_to")
+    };
 
     return (
         <div className="lg:pt-5 md:pt-20 pb-16 px-8 max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-10">
-                <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>
-                <div className="flex gap-2">
-                    <Button variant="outline" className="border-primary text-primary">{t("filters")}</Button>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+                <div>
+                    <h1 className="text-4xl font-black text-primary tracking-tight">
+                        {t("title")}
+                    </h1>
                 </div>
+
+                <FilterDrawer translations={translations} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {projects.map((project) => (

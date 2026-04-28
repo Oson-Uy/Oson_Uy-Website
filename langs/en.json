@@ -36,13 +36,23 @@
     "search": "Search"
   },
   "Catalog": {
-    "title": "Available Projects",
+    "title": "Project Catalog",
     "filters": "Filters",
-    "foundCount": "offerings found",
-    "monthlyHint": "Budget match: up to {value} (based on 20-year monthly payment estimate).",
+    "details": "Details",
     "popular": "Popular",
-    "details": "View Details",
-    "from": "from"
+    "from": "from",
+    "drawer": {
+      "title": "Search Filters",
+      "description": "Adjust your search parameters",
+      "apply": "Show results",
+      "reset": "Reset all",
+      "from": "Min",
+      "to": "Max",
+      "verified": "Verified developer",
+      "popular": "Popular projects",
+      "area_from": "Area from",
+      "area_to": "Area to"
+    }
   },
   "About": {
     "title1": "Modernizing Real Estate in",
