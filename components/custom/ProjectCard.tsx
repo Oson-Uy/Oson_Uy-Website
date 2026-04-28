@@ -68,7 +68,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {project.name}
                     </h3>
                     <span className="text-lg font-black text-[#F97316] tracking-tight">
-                        {formatUzs(project.priceFrom)}
+                        от {formatUzs(project.priceFrom)}
                     </span>
                 </div>
 
