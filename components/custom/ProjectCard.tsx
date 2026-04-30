@@ -54,11 +54,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 >
                     <CarouselContent className="m-0 h-full flex">
                         {gallery.map((image, index) => (
-                            <CarouselItem key={`${project.id}-${index}`} className="p-0 h-full basis-full grow-0 shrink-0">
+                            <CarouselItem key={`${project.id}-${index}`} className="p-0 h-full basis-full grow-0 shrink-0 overflow-hidden">
                                 <img
                                     src={image}
                                     alt={`${project.name} ${index + 1}`}
-                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="h-full w-full object-cover transition-opacity duration-500"
                                     referrerPolicy="no-referrer"
                                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/1200/800'; }}
                                 />
