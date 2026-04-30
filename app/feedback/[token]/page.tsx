@@ -4,9 +4,8 @@ import { FormEvent, useState } from "react";
 import { useParams } from "next/navigation";
 import { Star } from "lucide-react";
 
-const rawApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
-// Убеждаемся, что в конце есть /api
-const API_URL = rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl.replace(/\/$/, '')}/api`;
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+const API_URL = rawApiUrl.replace(/\/$/, '');
 
 export default function FeedbackPage() {
   const params = useParams<{ token: string }>();
