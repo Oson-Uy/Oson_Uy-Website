@@ -30,8 +30,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const [count, setCount] = useState(0);
 
     const gallery = useMemo(
-        () => (project.images.length ? project.images : [project.image]),
-        [project.images, project.image],
+        () => (project.images?.length ? project.images : [project.image || project.mainImage || "https://picsum.photos/seed/project/1200/800"]),
+        [project.images, project.image, project.mainImage],
     );
 
     useEffect(() => {
@@ -49,17 +49,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <div className="relative aspect-[16/10] overflow-hidden">
                 <Carousel 
                     setApi={setApi}
-                    opts={{ loop: true }} 
+                    opts={{ loop: true, align: "start" }} 
                     className="h-full w-full"
                 >
-                    <CarouselContent className="ml-0 h-full">
+                    <CarouselContent className="m-0 h-full flex">
                         {gallery.map((image, index) => (
-                            <CarouselItem key={`${project.id}-${index}`} className="pl-0 h-full">
+                            <CarouselItem key={`${project.id}-${index}`} className="p-0 h-full basis-full grow-0 shrink-0">
                                 <img
                                     src={image}
                                     alt={`${project.name} ${index + 1}`}
                                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     referrerPolicy="no-referrer"
+                                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/1200/800'; }}
                                 />
                             </CarouselItem>
                         ))}
@@ -71,7 +72,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                 {Array.from({ length: count }).map((_, i) => (
                                     <button
                                         key={i}
-                                        onClick={() => api?.scrollTo(i)}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            api?.scrollTo(i);
+                                        }}
                                         className={cn(
                                             "h-1.5 rounded-full transition-all duration-300",
                                             current === i 
@@ -83,13 +88,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             </div>
                             
                             <button 
-                                onClick={() => api?.scrollPrev()}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    api?.scrollPrev();
+                                }}
                                 className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20"
                             >
                                 <ChevronLeft className="h-5 w-5" />
                             </button>
                             <button 
-                                onClick={() => api?.scrollNext()}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    api?.scrollNext();
+                                }}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20"
                             >
                                 <ChevronRight className="h-5 w-5" />
@@ -127,7 +140,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
                 <div className="flex flex-col gap-3 mb-6">
                     <p className="text-sm text-slate-500 leading-relaxed flex items-center gap-1.5 font-bold">
-                        <MapPin className="h-4 w-4 text-[#F97316]" /> {project.district},{" "}
+                        <MapPin className="h-4 w-4 text-[#F97316]" /> {project.district || project.location},{" "}
                         {project.location}
                     </p>
                     
