@@ -6,7 +6,8 @@ import {
     ChevronDown,
     CheckCircle2,
     Loader2,
-    Star
+    Star,
+    QrCode
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,13 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import { LeadModal } from "@/components/custom/LeadModal";
 
 type ProjectDetailsPageProps = {
@@ -34,6 +42,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+    const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -134,19 +143,40 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             ) : null}
                         </div>
 
-                        <div className="grid grid-cols-3 gap-3 mb-8">
-                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
                                 <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Delivery</p>
-                                <p className="text-[#1E3A8A] font-bold text-sm">{projectData.deliveryDate}</p>
+                                <p className="text-[#1E3A8A] font-bold text-sm leading-tight">{projectData.deliveryDate}</p>
                             </div>
-                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
                                 <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Floors</p>
-                                <p className="text-[#1E3A8A] font-bold text-sm">{projectData.totalFloors || "—"}</p>
+                                <p className="text-[#1E3A8A] font-bold text-sm leading-tight">{projectData.totalFloors || "—"}</p>
                             </div>
-                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
                                 <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Units</p>
-                                <p className="text-[#1E3A8A] font-bold text-sm">{projectData.totalUnits || projectData.apartments?.length || 0}</p>
+                                <p className="text-[#1E3A8A] font-bold text-sm leading-tight">{projectData.totalUnits || projectData.apartments?.length || 0}</p>
                             </div>
+                            {projectData.qrCodeUrl ? (
+                                <div 
+                                    onClick={() => setIsQrModalOpen(true)}
+                                    className="bg-[#1E3A8A] p-2 rounded-2xl border border-[#1E3A8A] text-center flex flex-col items-center justify-center group cursor-pointer hover:bg-[#3C55BE] transition-colors relative"
+                                >
+                                    <img 
+                                        src={projectData.qrCodeUrl} 
+                                        className="h-10 w-10 bg-white p-1 rounded-lg shadow-lg mb-1" 
+                                        alt="QR" 
+                                    />
+                                    <p className="text-[8px] uppercase font-black text-white/80 leading-tight">Project QR</p>
+                                    <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl">
+                                        <QrCode className="h-5 w-5 text-white" />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
+                                    <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Status</p>
+                                    <p className="text-emerald-600 font-bold text-xs uppercase tracking-tighter">Available</p>
+                                </div>
+                            )}
                         </div>
 
                         <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
@@ -175,14 +205,47 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             </CollapsibleContent>
                         </Collapsible>
 
-                        <Button 
-                            onClick={() => setIsLeadModalOpen(true)}
-                            className="mt-8 h-14 bg-[#F97316] hover:bg-orange-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98] uppercase tracking-wider"
-                        >
-                            Оставить заявку
-                        </Button>
+                        <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                            <Button 
+                                onClick={() => setIsLeadModalOpen(true)}
+                                className="flex-1 h-14 bg-[#F97316] hover:bg-orange-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98] uppercase tracking-wider"
+                            >
+                                Оставить заявку
+                            </Button>
+                            {projectData.qrCodeUrl && (
+                                <button 
+                                    onClick={() => setIsQrModalOpen(true)}
+                                    className="h-14 w-14 cursor-pointer bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center text-[#1E3A8A] hover:bg-slate-50 transition-all shadow-sm"
+                                    title="View QR Code"
+                                >
+                                    <QrCode className="h-6 w-6" />
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
+
+                <Dialog open={isQrModalOpen} onOpenChange={setIsQrModalOpen}>
+                    <DialogContent className="max-w-xs sm:max-w-md rounded-[2.5rem] border-none shadow-2xl p-10 flex flex-col items-center">
+                        <DialogHeader className="mb-6 text-center w-full">
+                            <DialogTitle className="text-2xl font-black text-[#1E3A8A] uppercase tracking-tight">QR-код проекта</DialogTitle>
+                            <p className="text-slate-500 text-sm font-medium mt-1">Отсканируйте для быстрого доступа</p>
+                        </DialogHeader>
+                        <div className="bg-white p-8 rounded-[2rem] shadow-inner border border-slate-50 w-full flex justify-center">
+                            <img 
+                                src={projectData.qrCodeUrl} 
+                                alt="QR Code Large" 
+                                className="w-full max-w-[250px] aspect-square object-contain"
+                            />
+                        </div>
+                        <Button 
+                            onClick={() => setIsQrModalOpen(false)}
+                            className="mt-8 w-full h-14 bg-slate-200 hover:bg-slate-400 cursor-pointer text-slate-600 font-bold rounded-2xl uppercase tracking-widest text-xs"
+                        >
+                            Закрыть
+                        </Button>
+                    </DialogContent>
+                </Dialog>
 
                 {projectData.media?.length > 0 && (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
