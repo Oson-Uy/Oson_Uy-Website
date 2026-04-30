@@ -1,314 +1,206 @@
-import Image from "next/image";
-import { MapPin, Calendar, Layers, ChevronRight, Star } from "lucide-react";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import {
+    MapPin,
+    ChevronDown,
+    CheckCircle2,
+    Loader2
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ApartmentList } from "@/components/custom/ApartmentList";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
 } from "@/components/ui/carousel";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 type ProjectDetailsPageProps = {
-  params: Promise<{ id: string }>;
+    params: Promise<{ id: string }>;
 };
 
-export default async function ProjectDetailsPage({
-  params,
-}: ProjectDetailsPageProps) {
-  const { id } = await params;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
-  const response = await fetch(`${apiUrl}/projects/${id}/full`, {
-    cache: "no-store",
-  });
-  const projectData = response.ok
-    ? ((await response.json()) as {
-        id: number;
-        name: string;
-        location: string;
-        district?: string;
-        description?: string;
-        advantages?: string[];
-        mapEmbedUrl?: string;
-        qrCodeUrl?: string;
-        totalFloors?: number | null;
-        totalUnits?: number | null;
-        deliveryDate: string;
-        imageUrl?: string;
-        videoUrl?: string;
-        media?: Array<{ id: number; imageUrl: string }>;
-        avgRating?: number | null;
-        reviewsCount?: number;
-        reviews?: Array<{
-          id: number;
-          rating: number;
-          comment?: string | null;
-        }>;
-        developer?: { name: string; qrCodeUrl?: string | null };
-        apartments: Array<{
-          id: number;
-          rooms: number;
-          area: number;
-          floor: number;
-          price: number;
-        }>;
-      })
-    : null;
+export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) {
+    const [projectData, setProjectData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
-  if (!projectData) {
-    return (
-      <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="rounded-3xl border border-red-100 bg-white p-8 text-red-600">
-            Project not found
-          </div>
-        </div>
-      </div>
-    );
-  }
+    useEffect(() => {
+        const fetchData = async () => {
+            const resolvedParams = await params;
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+            try {
+                const response = await fetch(`${apiUrl}/projects/${resolvedParams.id}/full`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setProjectData(data);
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [params]);
 
-  const gallery = projectData.media?.length
-    ? projectData.media.map((item) => item.imageUrl)
-    : [
-        projectData.imageUrl ||
-          "https://picsum.photos/seed/project-fallback/1200/800",
-      ];
+    if (loading) {
+        return (
+            <div className="flex h-screen items-center justify-center bg-slate-50">
+                <Loader2 className="h-10 w-10 animate-spin text-[#1E3A8A]" />
+            </div>
+        );
+    }
 
-  const fallbackQuery = `${projectData.location}${projectData.district ? ` ${projectData.district}` : ""}`;
-  const fallbackMapSrc = `https://www.google.com/maps?q=${encodeURIComponent(fallbackQuery)}&output=embed`;
-  const rawMap = projectData.mapEmbedUrl?.trim();
-  const mapSrc = !rawMap
-    ? fallbackMapSrc
-    : rawMap.includes("/maps/embed") || rawMap.includes("output=embed")
-      ? rawMap
-      : rawMap.startsWith("http")
-        ? fallbackMapSrc
-        : `https://www.google.com/maps?q=${encodeURIComponent(rawMap)}&output=embed`;
-
-  return (
-    <div className="pt-16 md:pt-20 pb-20 bg-slate-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row mb-16">
-          <div className="md:w-1/2 relative h-[360px] md:h-[520px]">
-            <Carousel opts={{ loop: true }} className="h-full w-full">
-              <CarouselContent className="ml-0 h-full">
-                {gallery.map((image, index) => (
-                  <CarouselItem
-                    key={`${image}-${index}`}
-                    className="pl-0 h-full"
-                  >
-                    <div className="relative h-[360px] md:h-[520px] w-full">
-                      <Image
-                        src={image}
-                        alt={`${projectData.name} ${index + 1}`}
-                        fill
-                        className="object-cover"
-                      />
+    if (!projectData) {
+        return (
+            <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="rounded-3xl border border-red-100 bg-white p-8 text-red-600 font-bold">
+                        Project not found
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              {gallery.length > 1 && (
-                <>
-                  <CarouselPrevious className="left-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
-                  <CarouselNext className="right-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
-                </>
-              )}
-            </Carousel>
-            <Badge className="absolute top-6 left-6 bg-[#F97316] text-white hover:bg-[#F97316] border-none px-4 py-1">
-              PREMIUM VENTURE
-            </Badge>
-          </div>
-
-          <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 bg-slate-100 rounded flex items-center justify-center">
-                <div className="w-3 h-3 border border-slate-400 rounded-sm" />
-              </div>
-              <span className="text-xs text-slate-500 font-medium">
-                {projectData.developer?.name ?? "Developer"}
-              </span>
-            </div>
-            {!!projectData.qrCodeUrl && (
-              <div className="mb-4">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  QR проекта
-                </p>
-                <img
-                  src={projectData.qrCodeUrl}
-                  alt="Project QR"
-                  className="h-24 w-24 rounded-xl border border-slate-200 object-cover"
-                />
-              </div>
-            )}
-
-            <h1 className="text-4xl font-bold text-[#1E3A8A] mb-4">
-              {projectData.name}
-            </h1>
-
-            <div className="flex items-center text-[#F97316] font-medium mb-8">
-              <MapPin className="w-4 h-4 mr-2" />
-              {projectData.location}
-              {projectData.district ? `, ${projectData.district}` : ""}
-            </div>
-            <div className="mb-6 flex items-center gap-2 text-sm text-slate-600">
-              <Star className="h-4 w-4 text-[#F97316]" />
-              <span className="font-semibold text-slate-900">
-                {projectData.avgRating ? projectData.avgRating.toFixed(1) : "—"}
-              </span>
-              <span>({projectData.reviewsCount ?? 0} отзывов)</span>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="bg-slate-50 p-4 rounded-xl">
-                <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
-                  Delivery
-                </p>
-                <div className="flex items-center gap-2 text-[#1E3A8A] font-bold">
-                  <Calendar className="w-4 h-4 text-slate-400" />{" "}
-                  {projectData.deliveryDate}
                 </div>
-              </div>
-              <div className="bg-slate-50 p-4 rounded-xl">
-                <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
-                  Floors
-                </p>
-                <div className="flex items-center gap-2 text-[#1E3A8A] font-bold">
-                  <Layers className="w-4 h-4 text-slate-400" />{" "}
-                  {projectData.totalFloors ??
-                    (projectData.apartments.length
-                      ? Math.max(
-                          ...projectData.apartments.map((apt) => apt.floor),
-                        )
-                      : 0)}
-                </div>
-              </div>
-              <div className="bg-slate-50 p-4 rounded-xl">
-                <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">
-                  Units
-                </p>
-                <div className="text-[#1E3A8A] font-bold">
-                  {projectData.totalUnits ?? projectData.apartments.length}
-                </div>
-              </div>
             </div>
+        );
+    }
 
-            {projectData.description && (
-              <p className="mb-6 text-sm leading-relaxed text-slate-600">
-                {projectData.description}
-              </p>
-            )}
+    const gallery = projectData.media && projectData.media.length > 0
+        ? projectData.media.map((item: any) => item.imageUrl)
+        : [projectData.imageUrl || "https://picsum.photos/seed/project/1200/800"];
 
-            {!!projectData.advantages?.length && (
-              <div className="mb-6 flex flex-wrap gap-2">
-                {projectData.advantages.map((advantage) => (
-                  <Badge
-                    key={advantage}
-                    className="bg-blue-50 text-[#1E3A8A] border border-blue-100"
-                  >
-                    {advantage}
-                  </Badge>
-                ))}
-              </div>
-            )}
+    const fallbackQuery = `${projectData.location} ${projectData.district || ""}`;
+    const mapSrc = projectData.mapEmbedUrl && projectData.mapEmbedUrl.includes("http")
+        ? projectData.mapEmbedUrl
+        : `https://www.google.com/maps?q=${encodeURIComponent(projectData.mapEmbedUrl || fallbackQuery)}&output=embed`;
 
-            <Button
-              variant="outline"
-              className="w-full md:w-max border-slate-200 text-[#1E3A8A] rounded-xl px-10 h-12 font-bold group"
-            >
-              View all Details{" "}
-              <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </div>
+    return (
+        <div className="pt-16 md:pt-20 pb-20 bg-slate-50 min-h-screen">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row mb-10 border border-slate-100">
+                    <div className="md:w-1/2 relative h-[400px] md:h-[550px] bg-slate-200">
+                        <Carousel opts={{ loop: true }} className="h-full w-full">
+                            <CarouselContent className="ml-0 h-full">
+                                {gallery.map((img: string, index: number) => (
+                                    <CarouselItem key={index} className="pl-0 h-full">
+                                        <div className="relative h-full w-full">
+                                            <img
+                                                src={img}
+                                                alt={projectData.name}
+                                                className="h-full w-full object-cover"
+                                                onError={(e) => { (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/1200/800'; }}
+                                            />
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            {gallery.length > 1 && (
+                                <>
+                                    <CarouselPrevious className="left-3" />
+                                    <CarouselNext className="right-3" />
+                                </>
+                            )}
+                        </Carousel>
+                        <Badge className="absolute top-6 left-6 bg-[#F97316] text-white border-none px-4 py-1 font-bold z-10">
+                            PREMIUM REAL ESTATE
+                        </Badge>
+                    </div>
+
+                    <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                        <h1 className="text-4xl font-black text-[#1E3A8A] mb-2 uppercase tracking-tight leading-none">
+                            {projectData.name}
+                        </h1>
+
+                        <div className="flex items-center text-[#F97316] font-bold mb-6">
+                            <MapPin className="w-4 h-4 mr-2" />
+                            {projectData.location}{projectData.district ? `, ${projectData.district}` : ""}
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-3 mb-8">
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Delivery</p>
+                                <p className="text-[#1E3A8A] font-bold text-sm">{projectData.deliveryDate}</p>
+                            </div>
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Floors</p>
+                                <p className="text-[#1E3A8A] font-bold text-sm">{projectData.totalFloors || "—"}</p>
+                            </div>
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Units</p>
+                                <p className="text-[#1E3A8A] font-bold text-sm">{projectData.totalUnits || projectData.apartments?.length || 0}</p>
+                            </div>
+                        </div>
+
+                        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
+                            <CollapsibleTrigger asChild>
+                                <Button variant="outline" className="w-full justify-between rounded-xl h-12 border-slate-200 text-[#1E3A8A] font-bold uppercase text-[11px] tracking-widest">
+                                    {isOpen ? "Скрыть детали" : "Описание и удобства"}
+                                    <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                                </Button>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent className="pt-4 space-y-4 overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                                {projectData.description && (
+                                    <p className="text-sm text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100 leading-relaxed">
+                                        {projectData.description}
+                                    </p>
+                                )}
+                                {projectData.advantages && (
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {projectData.advantages.map((adv: string, i: number) => (
+                                            <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-100 shadow-sm">
+                                                <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                                                <span className="text-[10px] font-bold text-slate-700 uppercase leading-tight">{adv}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </CollapsibleContent>
+                        </Collapsible>
+                    </div>
+                </div>
+
+                {projectData.media?.length > 0 && (
+                    <div className="grid grid-cols-4 gap-3 mb-10">
+                        {projectData.media.map((m: any, i: number) => (
+                            <div key={i} className="h-24 rounded-xl overflow-hidden border border-slate-200">
+                                <img src={m.imageUrl} className="w-full h-full object-cover" alt="thumb" />
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {projectData.videoUrl && (
+                    <div className="mb-10 rounded-3xl overflow-hidden border border-slate-200 bg-black aspect-video">
+                        <video controls className="w-full h-full">
+                            <source src={projectData.videoUrl} type="video/mp4" />
+                        </video>
+                    </div>
+                )}
+
+                <div className="mb-10 rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
+                    <iframe
+                        src={mapSrc}
+                        className="w-full h-80"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    />
+                </div>
+
+                <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-4 md:p-8">
+                    <h2 className="text-2xl font-black text-[#1E3A8A] mb-6 uppercase">Available Residences</h2>
+                    <ApartmentList
+                        projectId={projectData.id}
+                        projectName={projectData.name}
+                        apartments={projectData.apartments || []}
+                    />
+                </div>
+            </div>
         </div>
-
-        {!!projectData.media?.length && (
-          <div className="mb-10 grid grid-cols-2 md:grid-cols-4 gap-3">
-            {projectData.media.map((media) => (
-              <div
-                key={media.id}
-                className="relative h-32 overflow-hidden rounded-xl border border-slate-200"
-              >
-                <Image
-                  src={media.imageUrl}
-                  alt="Project gallery"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {projectData.videoUrl && (
-          <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-            <video
-              controls
-              className="h-full w-full"
-              src={projectData.videoUrl}
-            >
-              Your browser does not support video.
-            </video>
-          </div>
-        )}
-
-        {(projectData.mapEmbedUrl || projectData.location) && (
-          <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-            <iframe
-              src={mapSrc}
-              title="Project location"
-              className="h-80 w-full"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-        )}
-
-        {!!projectData.reviews?.length && (
-          <div className="mb-12 rounded-3xl bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-2xl font-bold text-[#1E3A8A]">Отзывы</h3>
-            <div className="space-y-3">
-              {projectData.reviews.slice(0, 5).map((review) => (
-                <div
-                  key={review.id}
-                  className="rounded-xl border border-slate-100 p-4"
-                >
-                  <p className="text-sm font-semibold text-[#F97316]">
-                    {"★".repeat(review.rating)}
-                  </p>
-                  <p className="text-sm text-slate-600">
-                    {review.comment || "Без комментария"}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-[#1E3A8A]">
-            Available Residences
-          </h2>
-        </div>
-
-        <div className="bg-white rounded-3xl shadow-sm overflow-hidden p-4 md:p-8">
-          <div className="hidden md:grid grid-cols-5 px-6 py-4 text-[10px] uppercase tracking-widest text-slate-400 font-bold border-b border-slate-50">
-            <div>Unit Type</div>
-            <div>Area (sq.m)</div>
-            <div>Floor</div>
-            <div>Price Total</div>
-            <div className="text-right">Action</div>
-          </div>
-
-          <ApartmentList
-            projectId={projectData.id}
-            projectName={projectData.name}
-            apartments={projectData.apartments}
-          />
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
