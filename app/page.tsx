@@ -12,9 +12,10 @@ import { FilterBar } from "@/components/custom/FilterBar";
 import { formatUzPhoneInput } from "@/lib/phone";
 
 const REGION_VIDEOS: Record<string, string> = {
-    "Tashkent Region": "/videos/tashkent.mp4",
-    "Samarkand Region": "/videos/samarkand.mp4",
-    "Bukhara Region": "/videos/bukhara.mp4",
+    "Tashkent City (г. Ташкент)": "/videos/tashkent.mp4",
+    "Tashkent Region (Ташкентская обл.)": "/videos/tashkent.mp4",
+    "Samarkand (Самаркандская обл.)": "/videos/samarkand.mp4",
+    "Bukhara (Бухарская обл.)": "/videos/bukhara.mp4",
 };
 
 export default function Home() {
@@ -36,8 +37,8 @@ export default function Home() {
     const [consultName, setConsultName] = useState("");
     const [consultPhone, setConsultPhone] = useState("+998");
     const [consultProjectId, setConsultProjectId] = useState<number | null>(null);
-    const [activeLocation, setActiveLocation] = useState("Tashkent Region");
-    const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Tashkent Region"];
+    const [activeLocation, setActiveLocation] = useState("Tashkent City (г. Ташкент)");
+    const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Tashkent City (г. Ташкент)"];
 
     useEffect(() => {
         const fetchProjects = async () => {
