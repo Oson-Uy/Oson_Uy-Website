@@ -1,5 +1,7 @@
-import React, { useMemo, useState } from "react";
-import { MapPin, Star, CheckCircle2 } from "lucide-react";
+"use client";
+
+import React, { useMemo, useState, useEffect } from "react";
+import { MapPin, Star, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Project } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,9 +14,9 @@ import {
     Carousel,
     CarouselContent,
     CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
+    type CarouselApi,
 } from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 export interface ProjectCardProps {
     project: Project;
@@ -23,90 +25,148 @@ export interface ProjectCardProps {
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const t = useTranslations("ProjectCard");
     const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+    const [api, setApi] = useState<CarouselApi>();
+    const [current, setCurrent] = useState(0);
+    const [count, setCount] = useState(0);
+
     const gallery = useMemo(
         () => (project.images.length ? project.images : [project.image]),
         [project.images, project.image],
     );
 
+    useEffect(() => {
+        if (!api) return;
+        setCount(api.scrollSnapList().length);
+        setCurrent(api.selectedScrollSnap());
+
+        api.on("select", () => {
+            setCurrent(api.selectedScrollSnap());
+        });
+    }, [api]);
+
     return (
-        <Card className="group relative overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 border border-slate-200 flex flex-col">
+        <Card className="group relative overflow-hidden rounded-[2rem] bg-white shadow-sm transition-all duration-500 border border-slate-200 flex flex-col hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-1">
             <div className="relative aspect-[16/10] overflow-hidden">
-                <Carousel opts={{ loop: true, duration: 30 }} className="h-full w-full">
+                <Carousel 
+                    setApi={setApi}
+                    opts={{ loop: true }} 
+                    className="h-full w-full"
+                >
                     <CarouselContent className="ml-0 h-full">
                         {gallery.map((image, index) => (
                             <CarouselItem key={`${project.id}-${index}`} className="pl-0 h-full">
                                 <img
                                     src={image}
                                     alt={`${project.name} ${index + 1}`}
-                                    className="h-full w-full object-cover"
+                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     referrerPolicy="no-referrer"
                                 />
                             </CarouselItem>
                         ))}
                     </CarouselContent>
+                    
                     {gallery.length > 1 && (
                         <>
-                            <CarouselPrevious className="left-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
-                            <CarouselNext className="right-3 bg-white/85 text-slate-700 hover:bg-white border-none" />
+                            <div className="absolute inset-x-0 bottom-4 flex justify-center gap-1.5 z-20">
+                                {Array.from({ length: count }).map((_, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => api?.scrollTo(i)}
+                                        className={cn(
+                                            "h-1.5 rounded-full transition-all duration-300",
+                                            current === i 
+                                                ? "w-6 bg-white shadow-lg" 
+                                                : "w-1.5 bg-white/40 hover:bg-white/60"
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                            
+                            <button 
+                                onClick={() => api?.scrollPrev()}
+                                className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20"
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                            </button>
+                            <button 
+                                onClick={() => api?.scrollNext()}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20"
+                            >
+                                <ChevronRight className="h-5 w-5" />
+                            </button>
                         </>
                     )}
                 </Carousel>
-                {(project.isPopular || project.plan === "ULTIMATE") && (
-                    <Badge className="absolute top-4 left-4 bg-[#FB7185] text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 border-none uppercase tracking-wider">
-                        {t("popular")}
-                    </Badge>
-                )}
-                {(project.badgeTrusted || project.plan === "ULTIMATE") && (
-                    <Badge className="absolute top-4 right-4 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 border-none uppercase tracking-wider shadow-lg">
-                        TOP CHOICE
-                    </Badge>
-                )}
+
+                <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
+                    {(project.isPopular || project.plan === "ULTIMATE") && (
+                        <Badge className="bg-[#FB7185] text-white text-[10px] font-black px-3 py-1 rounded-full border-none uppercase tracking-widest shadow-lg shadow-rose-900/20">
+                            {t("popular")}
+                        </Badge>
+                    )}
+                    {(project.badgeTrusted || project.plan === "ULTIMATE") && (
+                        <Badge className="bg-emerald-600 text-white text-[10px] font-black px-3 py-1 rounded-full border-none uppercase tracking-widest shadow-lg shadow-emerald-900/20">
+                            TOP CHOICE
+                        </Badge>
+                    )}
+                </div>
             </div>
-            <CardContent className="p-5 flex-1 flex flex-col">
-                <div className="mb-3 flex items-start justify-between gap-2">
-                    <h3 className="text-xl font-bold text-[#1E3A8A] leading-tight">
+
+            <CardContent className="p-6 flex-1 flex flex-col">
+                <div className="mb-4 flex items-start justify-between gap-2">
+                    <h3 className="text-xl font-black text-[#1E3A8A] leading-tight uppercase tracking-tight">
                         {project.name}
                     </h3>
-                    <span className="text-lg font-black text-[#F97316] tracking-tight">
-                        от {formatUzs(project.priceFrom)}
-                    </span>
+                    <div className="text-right">
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">от</p>
+                        <span className="text-xl font-black text-[#F97316] tracking-tighter">
+                            {formatUzs(project.priceFrom)}
+                        </span>
+                    </div>
                 </div>
 
-                <p className="text-sm text-slate-500 mb-3 leading-relaxed flex items-center gap-1.5 font-medium">
-                    <MapPin className="h-3 w-3 text-[#1E3A8A]" /> {project.district},{" "}
-                    {project.location}
-                </p>
-                {(project.badgeVerified || project.plan === "PRO" || project.plan === "ULTIMATE") && (
-                    <p className="mb-3 text-[10px] font-black uppercase tracking-widest text-emerald-600 flex items-center gap-1.5">
-                        <CheckCircle2 className="h-3 w-3" /> Verified developer
+                <div className="flex flex-col gap-3 mb-6">
+                    <p className="text-sm text-slate-500 leading-relaxed flex items-center gap-1.5 font-bold">
+                        <MapPin className="h-4 w-4 text-[#F97316]" /> {project.district},{" "}
+                        {project.location}
                     </p>
-                )}
+                    
+                    {(project.badgeVerified || project.plan === "PRO" || project.plan === "ULTIMATE") && (
+                        <div className="flex items-center gap-2 bg-emerald-50 w-fit px-3 py-1 rounded-full border border-emerald-100">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Verified developer</span>
+                        </div>
+                    )}
 
-                <div className="mb-5 flex items-center gap-2 text-sm text-slate-600">
-                    <Star className="h-4 w-4 text-[#F97316]" />
-                    <span className="font-semibold text-slate-800">
-                        {project.avgRating ? project.avgRating.toFixed(1) : "—"}
-                    </span>
-                    <span>({project.reviewsCount ?? 0} отзывов)</span>
+                    <div className="flex items-center gap-2 text-sm">
+                        <div className="flex items-center bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
+                            <Star className="h-3.5 w-3.5 fill-orange-400 text-orange-400 mr-1.5" />
+                            <span className="font-black text-orange-700">
+                                {project.avgRating ? project.avgRating.toFixed(1) : "—"}
+                            </span>
+                        </div>
+                        <span className="text-slate-400 font-bold text-xs uppercase">({project.reviewsCount ?? 0} отзывов)</span>
+                    </div>
                 </div>
 
-                <div className="mt-auto flex gap-3">
+                <div className="mt-auto flex gap-3 pt-4 border-t border-slate-50">
                     <Link href={`/catalog/${project.id}`} className="flex-1">
                         <Button
-                            variant="ghost"
-                            className="w-full bg-slate-50 border border-slate-200 text-[#1E3A8A] text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-slate-100 h-10"
+                            variant="outline"
+                            className="w-full border-slate-200 text-[#1E3A8A] text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 h-12 transition-all active:scale-[0.98]"
                         >
                             {t("details")}
                         </Button>
                     </Link>
                     <Button
                         onClick={() => setIsLeadModalOpen(true)}
-                        className="flex-1 bg-[#F97316] hover:bg-orange-600 text-white text-xs font-bold uppercase tracking-wider rounded-xl h-10"
+                        className="flex-1 bg-[#F97316] hover:bg-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl h-12 shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98]"
                     >
                         {t("inquiry")}
                     </Button>
                 </div>
             </CardContent>
+            
             <LeadModal
                 isOpen={isLeadModalOpen}
                 onClose={() => setIsLeadModalOpen(false)}
