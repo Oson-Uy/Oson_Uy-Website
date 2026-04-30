@@ -87,7 +87,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col w-full min-h-screen md:pt-16 lg:pt-0">
-            <section className="relative min-h-[88vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
+            <section className="relative min-h-[98vh] md:h-[92vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://picsum.photos/seed/central-asia/1920/1080?blur=1"
@@ -98,14 +98,14 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-transparent to-slate-50"></div>
                 </div>
 
-                <div className="relative pt-10 pb-6 md:pt-7 md:pb-7 z-10 w-full px-4 text-center max-w-5xl mx-auto space-y-6 md:space-y-10 group">
+                <div className="relative pb-6 md:pt-7 md:pb-7 z-10 w-full px-4 text-center max-w-5xl mx-auto space-y-6 md:space-y-10 group">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className="space-y-6"
                     >
-                        <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
+                        <h1 className="text-4xl pt-10 sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
                             {t("heroLine1")}{" "}
                             <span className="text-accent">{t("heroAccent")}</span>
                             <br />
@@ -126,11 +126,11 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="py-32 bg-slate-50">
-                <div className="w-full px-4 md:px-8 max-w-7xl mx-auto space-y-16">
-                    <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+            <section className="py-20 md:py-32 bg-slate-50">
+                <div className="w-full px-4 md:px-8 max-w-7xl mx-auto space-y-10 md:space-y-16">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                         <div className="space-y-3">
-                            <h2 className="text-5xl font-black text-primary tracking-tight">
+                            <h2 className="text-4xl md:text-5xl font-black text-primary tracking-tight">
                                 {t("featuredTitle")}
                             </h2>
                             <div className="h-1.5 w-24 bg-accent rounded-full"></div>
@@ -154,10 +154,10 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="py-32 px-4 bg-slate-50">
-                <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-12 md:p-20 rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-12">
-                    <div className="flex-1 space-y-6 text-center md:text-left">
-                        <h2 className="text-4xl md:text-6xl font-black text-primary tracking-tight leading-[1.1]">
+            <section className="py-20 md:py-32 px-4 bg-slate-50">
+                <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-6 sm:p-12 md:p-20 rounded-[2rem] md:rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                    <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-primary tracking-tight leading-[1.1]">
                             {t("consultTitle1")}{" "}
                             <span className="text-accent">{t("consultTitleAccent")}</span>{" "}
                             {t("consultTitle2")}
@@ -166,7 +166,7 @@ export default function Home() {
                             {t("consultSubtitle")}
                         </p>
                     </div>
-                    <div className="w-full md:w-auto shrink-0 bg-primary p-10 rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white space-y-8">
+                    <div className="w-full md:w-auto shrink-0 bg-primary p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white space-y-6 sm:space-y-8">
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
