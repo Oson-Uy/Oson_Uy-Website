@@ -126,7 +126,7 @@ export default function Home() {
                             {t("heroLine1")}{" "}
                             <span className="text-accent">{t("heroAccent")}</span>
                             <br />
-                            {t("heroLine2")}
+                            <span className="text-7xl">{t("heroLine2")}</span>
                         </h1>
                         <p className="text-white/85 text-base sm:text-lg md:text-2xl font-medium max-w-2xl mx-auto tracking-tight leading-relaxed">
                             {t("heroSubtitle")}
