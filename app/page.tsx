@@ -1,17 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ProjectCard } from "@/components/custom/ProjectCard";
 import { LeadModal } from "@/components/custom/LeadModal";
 import { PROJECTS } from "@/lib/data";
-
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { FilterBar } from "@/components/custom/FilterBar";
 import { formatUzPhoneInput } from "@/lib/phone";
+
+const REGION_VIDEOS: Record<string, string> = {
+    "Tashkent Region": "/videos/tashkent.mp4",
+    "Samarkand Region": "/videos/samarkand.mp4",
+    "Bukhara Region": "/videos/bukhara.mp4",
+};
 
 export default function Home() {
     const t = useTranslations("Home");
@@ -30,6 +34,8 @@ export default function Home() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [featuredProjects, setFeaturedProjects] = useState(PROJECTS.filter((p) => p.isPopular));
     const [consultPhone, setConsultPhone] = useState("+998");
+    const [activeLocation, setActiveLocation] = useState("Tashkent Region");
+    const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Tashkent Region"];
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -89,11 +95,22 @@ export default function Home() {
         <div className="flex flex-col w-full min-h-screen md:pt-16 lg:pt-0">
             <section className="relative min-h-[98vh] md:h-[92vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src="https://picsum.photos/seed/central-asia/1920/1080?blur=1"
-                        className="w-full h-full object-cover"
-                        alt="Hero background"
-                    />
+                    <AnimatePresence mode="wait">
+                        <motion.video
+                            key={videoSrc}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1 }}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            src={videoSrc}
+                            className="w-full h-full object-cover"
+                        />
+                    </AnimatePresence>
+
                     <div className="absolute inset-0 bg-primary/70 mix-blend-multiply"></div>
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-transparent to-slate-50"></div>
                 </div>
@@ -121,7 +138,10 @@ export default function Home() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.4, duration: 0.6 }}
                     >
-                        <FilterBar translations={filterBarTranslations} />
+                        <FilterBar
+                            translations={filterBarTranslations}
+                            onLocationChange={(loc) => setActiveLocation(loc)}
+                        />
                     </motion.div>
                 </div>
             </section>

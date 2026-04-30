@@ -32,12 +32,13 @@ type FilterBarProps = {
         area_to: string;
         search_button: string;
     };
+    onLocationChange?: (location: string) => void;
 };
 
-export function FilterBar({ translations }: FilterBarProps) {
+export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
     const router = useRouter();
-    const [location, setLocation] = useState("Samarkand Region");
-    const [district, setDistrict] = useState("Samarkand");
+    const [location, setLocation] = useState("Tashkent Region");
+    const [district, setDistrict] = useState("Tashkent");
     const [pricePerM2Min, setPricePerM2Min] = useState("");
     const [pricePerM2Max, setPricePerM2Max] = useState("");
     const [areaMin, setAreaMin] = useState("");
@@ -63,7 +64,6 @@ export function FilterBar({ translations }: FilterBarProps) {
     return (
         <div className="bg-primary/95 backdrop-blur-2xl p-5 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] max-w-[1000px] mx-auto w-full border border-white/10 text-white flex flex-col gap-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-4">
-                {/* Column 1: Location */}
                 <div className="flex flex-col gap-3">
                     <div className="space-y-1">
                         <label className={labelClasses}>{translations.region}</label>
@@ -75,6 +75,7 @@ export function FilterBar({ translations }: FilterBarProps) {
                                     const nextRegion = e.target.value;
                                     setLocation(nextRegion);
                                     setDistrict(REGION_CITY_MAP[nextRegion]?.[0] ?? "");
+                                    if (onLocationChange) onLocationChange(nextRegion);
                                 }}
                                 className={`${inputClasses} cursor-pointer pr-10`}
                             >
@@ -103,7 +104,6 @@ export function FilterBar({ translations }: FilterBarProps) {
                     </div>
                 </div>
 
-                {/* Column 2: Price */}
                 <div className="flex flex-col gap-3">
                     <div className="space-y-1">
                         <label className={labelClasses}>{translations.price_from}</label>
@@ -131,7 +131,6 @@ export function FilterBar({ translations }: FilterBarProps) {
                     </div>
                 </div>
 
-                {/* Column 3: Area */}
                 <div className="flex flex-col gap-3">
                     <div className="space-y-1">
                         <label className={labelClasses}>{translations.area_from}</label>
@@ -160,7 +159,6 @@ export function FilterBar({ translations }: FilterBarProps) {
                 </div>
             </div>
 
-            {/* Centered Search Button Below */}
             <div className="flex justify-center">
                 <Button
                     onClick={onSearch}
