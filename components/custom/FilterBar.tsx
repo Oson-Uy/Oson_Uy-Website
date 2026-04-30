@@ -5,22 +5,7 @@ import { useRouter } from "next/navigation";
 import { Search, MapPin, Landmark, Ruler, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatMoneyInput } from "@/lib/currency";
-
-const REGION_CITY_MAP: Record<string, string[]> = {
-    "Tashkent Region": ["Tashkent", "Chirchiq", "Angren", "Yangiyul"],
-    "Samarkand Region": ["Samarkand", "Urgut", "Kattakurgan"],
-    "Bukhara Region": ["Bukhara", "Gijduvan", "Kagan"],
-    "Andijan Region": ["Andijan", "Asaka", "Khanabad"],
-    "Fergana Region": ["Fergana", "Kokand", "Margilan"],
-    "Namangan Region": ["Namangan", "Chust", "Chartak"],
-    "Jizzakh Region": ["Jizzakh", "Gallaorol", "Zomin"],
-    "Sirdarya Region": ["Gulistan", "Yangiyer", "Shirin"],
-    "Kashkadarya Region": ["Karshi", "Shakhrisabz", "Kitab"],
-    "Surkhandarya Region": ["Termez", "Denau", "Sherabad"],
-    "Navoi Region": ["Navoi", "Zarafshan", "Karmana"],
-    "Khorezm Region": ["Urgench", "Khiva", "Pitnak"],
-    "Republic of Karakalpakstan": ["Nukus", "Khodjeyli", "Turtkul"],
-};
+import { UZB_LOCATIONS } from "@/lib/locations";
 
 type FilterBarProps = {
     translations: {
@@ -37,14 +22,14 @@ type FilterBarProps = {
 
 export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
     const router = useRouter();
-    const [location, setLocation] = useState("Tashkent Region");
-    const [district, setDistrict] = useState("Tashkent");
+    const [location, setLocation] = useState(UZB_LOCATIONS[0].region);
+    const [district, setDistrict] = useState(UZB_LOCATIONS[0].districts[0]);
     const [pricePerM2Min, setPricePerM2Min] = useState("");
     const [pricePerM2Max, setPricePerM2Max] = useState("");
     const [areaMin, setAreaMin] = useState("");
     const [areaMax, setAreaMax] = useState("");
 
-    const districtsForRegion = REGION_CITY_MAP[location] ?? [];
+    const districtsForRegion = UZB_LOCATIONS.find(l => l.region === location)?.districts ?? [];
 
     const onSearch = () => {
         const params = new URLSearchParams();
@@ -74,13 +59,13 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                                 onChange={(e) => {
                                     const nextRegion = e.target.value;
                                     setLocation(nextRegion);
-                                    setDistrict(REGION_CITY_MAP[nextRegion]?.[0] ?? "");
+                                    setDistrict(UZB_LOCATIONS.find(l => l.region === nextRegion)?.districts[0] ?? "");
                                     if (onLocationChange) onLocationChange(nextRegion);
                                 }}
                                 className={`${inputClasses} cursor-pointer pr-10`}
                             >
-                                {Object.keys(REGION_CITY_MAP).map((region) => (
-                                    <option key={region} className="bg-slate-900 text-white" value={region}>{region}</option>
+                                {UZB_LOCATIONS.map((l) => (
+                                    <option key={l.region} className="bg-slate-900 text-white" value={l.region}>{l.region}</option>
                                 ))}
                             </select>
                             <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />

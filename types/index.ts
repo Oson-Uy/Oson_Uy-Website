@@ -41,6 +41,7 @@ export interface Project {
   topInHome?: boolean;
   avgRating?: number | null;
   reviewsCount?: number;
+  plan?: "START" | "PRO" | "PREMIUM" | "ULTIMATE";
 }
 
 export interface FilterState {

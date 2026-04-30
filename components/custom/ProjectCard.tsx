@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { MapPin, Star } from "lucide-react";
+import { MapPin, Star, CheckCircle2 } from "lucide-react";
 import { Project } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -51,14 +51,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </>
                     )}
                 </Carousel>
-                {project.isPopular && (
+                {(project.isPopular || project.plan === "ULTIMATE") && (
                     <Badge className="absolute top-4 left-4 bg-[#FB7185] text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 border-none uppercase tracking-wider">
                         {t("popular")}
                     </Badge>
                 )}
-                {project.badgeTrusted && (
-                    <Badge className="absolute top-4 right-4 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 border-none uppercase tracking-wider">
-                        Trusted
+                {(project.badgeTrusted || project.plan === "ULTIMATE") && (
+                    <Badge className="absolute top-4 right-4 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full z-10 border-none uppercase tracking-wider shadow-lg">
+                        TOP CHOICE
                     </Badge>
                 )}
             </div>
@@ -76,9 +76,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <MapPin className="h-3 w-3 text-[#1E3A8A]" /> {project.district},{" "}
                     {project.location}
                 </p>
-                {project.badgeVerified && (
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                        Verified developer
+                {(project.badgeVerified || project.plan === "PRO" || project.plan === "ULTIMATE") && (
+                    <p className="mb-3 text-[10px] font-black uppercase tracking-widest text-emerald-600 flex items-center gap-1.5">
+                        <CheckCircle2 className="h-3 w-3" /> Verified developer
                     </p>
                 )}
 

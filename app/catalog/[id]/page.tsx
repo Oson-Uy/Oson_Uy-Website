@@ -119,15 +119,27 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                 </>
                             )}
                         </Carousel>
-                        <Badge className="absolute top-6 left-6 bg-[#F97316] text-white border-none px-4 py-1 font-bold z-10">
-                            PREMIUM REAL ESTATE
-                        </Badge>
+                        <div className="absolute top-6 left-6 flex flex-col gap-2 z-10">
+                            {projectData.plan === "ULTIMATE" && (
+                                <Badge className="bg-[#FB7185] text-white border-none px-4 py-1.5 font-black uppercase tracking-widest shadow-xl shadow-rose-900/20">
+                                    Popular Choice
+                                </Badge>
+                            )}
+                            <Badge className="bg-[#F97316] text-white border-none px-4 py-1.5 font-black uppercase tracking-widest shadow-xl shadow-orange-900/20">
+                                {projectData.plan || "PREMIUM REAL ESTATE"}
+                            </Badge>
+                        </div>
                     </div>
 
                     <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-                        <h1 className="text-4xl font-black text-[#1E3A8A] mb-2 uppercase tracking-tight leading-none">
-                            {projectData.name}
-                        </h1>
+                        <div className="flex items-center gap-2 mb-4">
+                            <h1 className="text-4xl font-black text-[#1E3A8A] uppercase tracking-tight leading-none">
+                                {projectData.name}
+                            </h1>
+                            {(projectData.plan === "PRO" || projectData.plan === "ULTIMATE") && (
+                                <CheckCircle2 className="h-6 w-6 text-emerald-500 shadow-sm" />
+                            )}
+                        </div>
 
                         <div className="flex flex-wrap items-center gap-4 mb-6">
                             <div className="flex items-center text-[#F97316] font-bold">
@@ -258,10 +270,26 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                 )}
 
                 {projectData.videoUrl && (
-                    <div className="mb-10 rounded-3xl overflow-hidden border border-slate-200 bg-black aspect-video">
-                        <video controls className="w-full h-full">
-                            <source src={projectData.videoUrl} type="video/mp4" />
-                        </video>
+                    <div className="mb-12 bg-white rounded-[2.5rem] border border-slate-100 p-8 md:p-12 shadow-sm">
+                        <div className="flex flex-col md:flex-row gap-10 items-center">
+                            <div className="w-full md:w-[350px] shrink-0">
+                                <div className="rounded-3xl overflow-hidden shadow-2xl bg-black border border-slate-200">
+                                    <VideoPlayer url={projectData.videoUrl} />
+                                </div>
+                            </div>
+                            <div className="flex-1 space-y-4">
+                                <h2 className="text-2xl font-black text-[#1E3A8A] uppercase tracking-tight italic">Видео-обзор проекта</h2>
+                                <p className="text-slate-500 font-medium leading-relaxed">
+                                    Посмотрите короткий видео-обзор данного жилого комплекса. В этом видео вы сможете увидеть архитектуру проекта, планировки и окружающую инфраструктуру в динамике. 
+                                    <br/><br/>
+                                    Мы подготовили этот формат специально для того, чтобы вы могли прочувствовать атмосферу будущего дома прямо со своего смартфона.
+                                </p>
+                                <div className="pt-4 flex items-center gap-3 text-emerald-600 font-bold text-sm">
+                                    <CheckCircle2 className="h-5 w-5" />
+                                    <span>Эксклюзивные кадры со стройплощадки</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 )}
 
@@ -317,6 +345,61 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                 projectId={projectData.id}
                 projectName={projectData.name}
             />
+        </div>
+    );
+}
+
+function VideoPlayer({ url }: { url: string }) {
+    // YouTube detection
+    const getYoutubeId = (url: string) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    };
+
+    // Instagram detection
+    const isInstagram = url.includes("instagram.com");
+    const getInstagramEmbed = (url: string) => {
+        const cleanUrl = url.split("?")[0];
+        return `${cleanUrl.endsWith("/") ? cleanUrl : cleanUrl + "/"}embed`;
+    };
+
+    const youtubeId = getYoutubeId(url);
+
+    if (youtubeId) {
+        return (
+            <div className="aspect-video w-full bg-slate-900">
+                <iframe
+                    src={`https://www.youtube.com/embed/${youtubeId}`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                />
+            </div>
+        );
+    }
+
+    if (isInstagram) {
+        return (
+            <div className="w-full bg-black flex justify-center">
+                <iframe
+                    src={getInstagramEmbed(url)}
+                    className="w-full h-[550px] md:h-[650px]"
+                    frameBorder="0"
+                    scrolling="no"
+                    allowTransparency={true}
+                    allow="encrypted-media"
+                />
+            </div>
+        );
+    }
+
+    return (
+        <div className="aspect-[9/16] w-full bg-black">
+            <video controls className="w-full h-full object-cover">
+                <source src={url} type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
         </div>
     );
 }
