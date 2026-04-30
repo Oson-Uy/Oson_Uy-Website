@@ -5,7 +5,8 @@ import {
     MapPin,
     ChevronDown,
     CheckCircle2,
-    Loader2
+    Loader2,
+    Star
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
             const resolvedParams = await params;
             const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
             try {
-                const response = await fetch(`${apiUrl}/projects/${resolvedParams.id}/full`);
+                const response = await fetch(`${apiUrl}/projects/${resolvedParams.id}/full`, { cache: 'no-store' });
                 if (response.ok) {
                     const data = await response.json();
                     setProjectData(data);
@@ -117,9 +118,18 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             {projectData.name}
                         </h1>
 
-                        <div className="flex items-center text-[#F97316] font-bold mb-6">
-                            <MapPin className="w-4 h-4 mr-2" />
-                            {projectData.location}{projectData.district ? `, ${projectData.district}` : ""}
+                        <div className="flex flex-wrap items-center gap-4 mb-6">
+                            <div className="flex items-center text-[#F97316] font-bold">
+                                <MapPin className="w-4 h-4 mr-2" />
+                                {projectData.location}{projectData.district ? `, ${projectData.district}` : ""}
+                            </div>
+                            {projectData.avgRating ? (
+                                <div className="flex items-center bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
+                                    <Star className="h-4 w-4 fill-orange-400 text-orange-400 mr-1.5" />
+                                    <span className="font-bold text-orange-700">{projectData.avgRating.toFixed(1)}</span>
+                                    <span className="text-orange-400 text-xs ml-1 font-semibold">({projectData.reviewsCount} отзывов)</span>
+                                </div>
+                            ) : null}
                         </div>
 
                         <div className="grid grid-cols-3 gap-3 mb-8">
@@ -166,9 +176,9 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                 </div>
 
                 {projectData.media?.length > 0 && (
-                    <div className="grid grid-cols-4 gap-3 mb-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
                         {projectData.media.map((m: any, i: number) => (
-                            <div key={i} className="h-24 rounded-xl overflow-hidden border border-slate-200">
+                            <div key={i} className="h-24 md:h-32 rounded-xl overflow-hidden border border-slate-200">
                                 <img src={m.imageUrl} className="w-full h-full object-cover" alt="thumb" />
                             </div>
                         ))}
@@ -192,7 +202,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                     />
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-4 md:p-8">
+                <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 mb-10">
                     <h2 className="text-2xl font-black text-[#1E3A8A] mb-6 uppercase">Available Residences</h2>
                     <ApartmentList
                         projectId={projectData.id}
@@ -200,6 +210,34 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                         apartments={projectData.apartments || []}
                     />
                 </div>
+
+                {projectData.reviews?.length > 0 && (
+                    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-2xl font-black text-[#1E3A8A] uppercase">Отзывы клиентов</h2>
+                            <div className="flex items-center gap-2">
+                                <Star className="h-6 w-6 fill-orange-400 text-orange-400" />
+                                <span className="text-2xl font-black text-slate-800">{projectData.avgRating?.toFixed(1)}</span>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {projectData.reviews.map((review: any, i: number) => (
+                                <div key={i} className="bg-slate-50 rounded-2xl p-6 border border-slate-100 relative">
+                                    <div className="flex text-orange-400 mb-4">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <svg key={star} className={`h-4 w-4 ${star <= review.rating ? "fill-orange-400" : "fill-slate-200 text-slate-200"}`} viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                        ))}
+                                    </div>
+                                    <p className="text-slate-700 italic text-sm leading-relaxed">
+                                        &quot;{review.comment || "Без комментария"}&quot;
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

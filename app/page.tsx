@@ -78,6 +78,8 @@ export default function Home() {
                     isPopular: Boolean(project.topInCatalog || project.topInHome),
                     badgeVerified: project.badgeVerified ?? false,
                     badgeTrusted: project.badgeTrusted ?? false,
+                    avgRating: project.avgRating ?? null,
+                    reviewsCount: project.reviewsCount ?? 0,
                 }));
 
                 if (mapped.length) {
