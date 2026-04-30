@@ -23,6 +23,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { LeadModal } from "@/components/custom/LeadModal";
 
 type ProjectDetailsPageProps = {
     params: Promise<{ id: string }>;
@@ -32,6 +33,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
     const [projectData, setProjectData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
+    const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -172,6 +174,13 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                 )}
                             </CollapsibleContent>
                         </Collapsible>
+
+                        <Button 
+                            onClick={() => setIsLeadModalOpen(true)}
+                            className="mt-8 h-14 bg-[#F97316] hover:bg-orange-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98] uppercase tracking-wider"
+                        >
+                            Оставить заявку
+                        </Button>
                     </div>
                 </div>
 
@@ -239,6 +248,12 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                     </div>
                 )}
             </div>
+            <LeadModal 
+                isOpen={isLeadModalOpen} 
+                onClose={() => setIsLeadModalOpen(false)} 
+                projectId={projectData.id}
+                projectName={projectData.name}
+            />
         </div>
     );
 }

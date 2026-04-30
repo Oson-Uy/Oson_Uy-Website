@@ -33,7 +33,9 @@ export default function Home() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [featuredProjects, setFeaturedProjects] = useState(PROJECTS.filter((p) => p.isPopular));
+    const [consultName, setConsultName] = useState("");
     const [consultPhone, setConsultPhone] = useState("+998");
+    const [consultProjectId, setConsultProjectId] = useState<number | null>(null);
     const [activeLocation, setActiveLocation] = useState("Tashkent Region");
     const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Tashkent Region"];
 
@@ -84,6 +86,7 @@ export default function Home() {
 
                 if (mapped.length) {
                     setFeaturedProjects(mapped.sort((a: any, b: any) => (b.isPopular ? 1 : -1)));
+                    setConsultProjectId(Number(mapped[0].id));
                 }
             } catch (err) {
                 console.error("Failed to fetch projects", err);
@@ -180,22 +183,38 @@ export default function Home() {
                 <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-6 sm:p-12 md:p-20 rounded-[2rem] md:rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-primary tracking-tight leading-[1.1]">
-                            {t("consultTitle1")}{" "}
-                            <span className="text-accent">{t("consultTitleAccent")}</span>{" "}
-                            {t("consultTitle2")}
+                            {t("consultTitle1") || "Персональная"} <span className="text-accent">{t("consultTitleAccent") || "консультация"}</span> {t("consultTitle2") || "по любому проекту"}
                         </h2>
                         <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
-                            {t("consultSubtitle")}
+                            {t("consultSubtitle") || "Выберите интересующий вас жилой комплекс и получите подробную информацию от наших экспертов."}
                         </p>
                     </div>
                     <div className="w-full md:w-auto shrink-0 bg-primary p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white space-y-6 sm:space-y-8">
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
+                                    {t("selectProject") || "Выберите проект"}
+                                </label>
+                                <select
+                                    value={consultProjectId ?? ""}
+                                    onChange={(e) => setConsultProjectId(Number(e.target.value))}
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white appearance-none cursor-pointer"
+                                >
+                                    {featuredProjects.map((p) => (
+                                        <option key={p.id} value={p.id} className="text-primary">
+                                            {p.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
                                     {t("yourName")}
                                 </label>
                                 <input
                                     type="text"
+                                    value={consultName}
+                                    onChange={(e) => setConsultName(e.target.value)}
                                     placeholder="Full Name"
                                     className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white"
                                 />
@@ -224,7 +243,13 @@ export default function Home() {
                 </div>
             </section>
 
-            <LeadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <LeadModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                initialName={consultName}
+                initialPhone={consultPhone}
+                projectId={consultProjectId ?? undefined}
+            />
         </div>
     );
 }

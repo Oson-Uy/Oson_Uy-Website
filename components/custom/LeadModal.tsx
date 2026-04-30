@@ -24,15 +24,25 @@ interface LeadModalProps {
     projectName?: string;
     projectId?: number;
     apartmentId?: number;
+    initialName?: string;
+    initialPhone?: string;
 }
 
 type ProjectOption = { id: number; name: string };
 type ApartmentOption = { id: number; rooms: number; area: number; price: number };
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
 
-export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId }: LeadModalProps) {
+export function LeadModal({ 
+    isOpen, 
+    onClose, 
+    projectName, 
+    projectId, 
+    apartmentId,
+    initialName = "",
+    initialPhone = "+998"
+}: LeadModalProps) {
     const t = useTranslations("LeadModal");
-    const [formState, setFormState] = useState({ name: "", phone: "+998" });
+    const [formState, setFormState] = useState({ name: initialName, phone: initialPhone });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [projects, setProjects] = useState<ProjectOption[]>([]);
@@ -41,6 +51,16 @@ export function LeadModal({ isOpen, onClose, projectName, projectId, apartmentId
     const [selectedApartmentId, setSelectedApartmentId] = useState<number | null>(apartmentId ?? null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+    // Update formState when initial props change or when modal opens
+    useEffect(() => {
+        if (isOpen) {
+            setFormState({ name: initialName, phone: initialPhone });
+            setSelectedProjectId(projectId ?? null);
+            setSelectedApartmentId(apartmentId ?? null);
+            setIsSubmitted(false);
+        }
+    }, [isOpen, initialName, initialPhone, projectId, apartmentId]);
+    
     useEffect(() => {
         if (!isOpen || projectId) return;
         (async () => {
