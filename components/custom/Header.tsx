@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation'; 
 import { Menu, X } from 'lucide-react';
+import { Drawer, DrawerContent, DrawerHeader, DrawerClose } from '../ui/drawer';
 
 export default function Header() {
     const t = useTranslations("Header");
@@ -91,34 +92,80 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            {isMenuOpen && (
-                <div className="fixed inset-0 top-16 z-40 bg-white md:hidden animate-in fade-in slide-in-from-top-4 duration-300">
-                    <div className="flex flex-col p-6 gap-6">
-                        <Link 
-                            href="/" 
-                            onClick={() => setIsMenuOpen(false)}
-                            className={cn("text-lg font-bold transition-colors", pathname === "/" ? "text-[#F97316]" : "text-[#1E3A8A]")}
-                        >
-                            {t("home")}
-                        </Link>
-                        <Link 
-                            href="/catalog" 
-                            onClick={() => setIsMenuOpen(false)}
-                            className={cn("text-lg font-bold transition-colors", pathname === "/catalog" ? "text-[#F97316]" : "text-[#1E3A8A]")}
-                        >
-                            {t("catalog")}
-                        </Link>
-                        <Link 
-                            href="/about" 
-                            onClick={() => setIsMenuOpen(false)}
-                            className={cn("text-lg font-bold transition-colors", pathname === "/about" ? "text-[#F97316]" : "text-[#1E3A8A]")}
-                        >
-                            {t("about")}
-                        </Link>
+            {/* Mobile Menu Drawer */}
+            <Drawer open={isMenuOpen} onOpenChange={setIsMenuOpen} direction="right">
+                <DrawerContent className="h-screen top-0 right-0 left-auto mt-0 w-[280px] rounded-none border-l shadow-2xl outline-none">
+                    <div className="flex flex-col h-full bg-white">
+                        <DrawerHeader className="border-b p-5 flex justify-between items-center text-left">
+                            <div className="flex items-center gap-2">
+                                <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={32} height={32} className="h-8 w-8 object-contain" />
+                                <span className="font-black text-[#1E3A8A] text-lg tracking-tight">Oson Uy</span>
+                            </div>
+                            <DrawerClose asChild>
+                                <button className="p-2 rounded-full hover:bg-slate-100 transition-colors">
+                                    <X className="h-5 w-5 text-slate-400" />
+                                </button>
+                            </DrawerClose>
+                        </DrawerHeader>
+                        
+                        <div className="flex flex-col p-6 gap-2">
+                            <Link 
+                                href="/" 
+                                onClick={() => setIsMenuOpen(false)}
+                                className={cn(
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    pathname === "/" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
+                                )}
+                            >
+                                {t("home")}
+                            </Link>
+                            <Link 
+                                href="/catalog" 
+                                onClick={() => setIsMenuOpen(false)}
+                                className={cn(
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    pathname === "/catalog" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
+                                )}
+                            >
+                                {t("catalog")}
+                            </Link>
+                            <Link 
+                                href="/about" 
+                                onClick={() => setIsMenuOpen(false)}
+                                className={cn(
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    pathname === "/about" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
+                                )}
+                            >
+                                {t("about")}
+                            </Link>
+                        </div>
+
+                        <div className="mt-auto p-6 border-t bg-slate-50/50">
+                            <p className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-3">{t("home")}</p>
+                            <div className="flex flex-wrap gap-2">
+                                {languages.map((lang) => (
+                                    <button
+                                        key={lang.code}
+                                        onClick={() => {
+                                            handleLocaleChange(lang.code);
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className={cn(
+                                            "px-4 py-2 rounded-lg text-sm font-bold border transition-all",
+                                            locale === lang.code 
+                                                ? "bg-[#1E3A8A] border-[#1E3A8A] text-white shadow-lg shadow-blue-900/20" 
+                                                : "bg-white border-slate-200 text-slate-600 hover:border-blue-200"
+                                        )}
+                                    >
+                                        {lang.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            )}
+                </DrawerContent>
+            </Drawer>
         </nav>
     );
 }
