@@ -3,11 +3,13 @@
 import { FormEvent, useState } from "react";
 import { useParams } from "next/navigation";
 import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const rawApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 const API_URL = rawApiUrl.replace(/\/$/, '');
 
 export default function FeedbackPage() {
+  const t = useTranslations("Feedback");
   const params = useParams<{ token: string }>();
   const token = params?.token;
   const [rating, setRating] = useState(0);
@@ -20,7 +22,7 @@ export default function FeedbackPage() {
     event.preventDefault();
     if (!token) return;
     if (rating === 0) {
-      setError("Пожалуйста, выберите оценку (звёзды)");
+      setError(t("errorRating"));
       return;
     }
     try {
@@ -31,11 +33,11 @@ export default function FeedbackPage() {
         body: JSON.stringify({ rating, comment }),
       });
       if (!response.ok) {
-        throw new Error("Не удалось отправить отзыв");
+        throw new Error("SUBMIT_ERROR");
       }
       setSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ошибка при отправке");
+      setError(t("errorSubmit"));
     }
   };
 
@@ -43,9 +45,9 @@ export default function FeedbackPage() {
     <div className="flex min-h-[80vh] items-center justify-center bg-slate-50 px-4 py-16">
       <div className="w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-xl border border-slate-100">
         <div className="bg-[#1E3A8A] p-8 text-center text-white">
-          <h1 className="text-3xl font-black">Оцените звонок</h1>
+          <h1 className="text-3xl font-black">{t("title")}</h1>
           <p className="mt-2 text-blue-100">
-            Мы заботимся о качестве работы наших менеджеров.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -57,14 +59,14 @@ export default function FeedbackPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-slate-800">Спасибо за отзыв!</h2>
-              <p className="mt-2 text-slate-500">Ваша оценка поможет нам стать лучше.</p>
+              <h2 className="text-2xl font-bold text-slate-800">{t("success")}</h2>
+              <p className="mt-2 text-slate-500">{t("successSubtitle")}</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="space-y-8">
               <div className="flex flex-col items-center">
-                <span className="mb-4 text-sm font-bold uppercase tracking-wider text-slate-500">
-                  Как бы вы оценили общение?
+                <span className="mb-4 text-sm font-bold uppercase tracking-wider text-slate-500 text-center">
+                  {t("question")}
                 </span>
                 <div className="flex gap-2 sm:gap-4">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -90,18 +92,18 @@ export default function FeedbackPage() {
 
               <div>
                 <label className="mb-2 block text-sm font-bold text-slate-700">
-                  Что вам понравилось или не понравилось? (необязательно)
+                  {t("commentLabel")}
                 </label>
                 <textarea
                   value={comment}
                   onChange={(event) => setComment(event.target.value)}
                   className="min-h-32 w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-[#1E3A8A] focus:bg-white focus:ring-2 focus:ring-[#1E3A8A]/10"
-                  placeholder="Напишите пару слов о менеджере..."
+                  placeholder={t("commentPlaceholder")}
                 />
               </div>
 
               {error && (
-                <div className="rounded-xl bg-red-50 p-3 text-center text-sm font-semibold text-red-600">
+                <div className="rounded-xl bg-red-50 p-3 text-center text-sm font-semibold text-red-600 italic">
                   {error}
                 </div>
               )}
@@ -109,9 +111,9 @@ export default function FeedbackPage() {
               <button
                 type="submit"
                 disabled={rating === 0}
-                className="h-14 w-full rounded-2xl bg-[#1E3A8A] text-lg font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50"
+                className="h-14 w-full rounded-2xl bg-[#1E3A8A] text-lg font-black uppercase tracking-widest text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50 shadow-xl shadow-blue-900/10 active:scale-[0.98]"
               >
-                Отправить оценку
+                {t("submit")}
               </button>
             </form>
           )}

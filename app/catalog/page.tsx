@@ -1,11 +1,6 @@
-import { MapPin, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { formatUzs, formatUzsPerM2 } from "@/lib/currency";
 import { FilterDrawer } from "@/components/custom/FilterDrawer";
-import { ProjectCard } from "@/components/custom/ProjectCard";
+import { ProjectGrid } from "@/components/custom/ProjectGrid";
 import { Project } from "@/types";
 
 type CatalogPageProps = {
@@ -47,7 +42,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     console.error("Fetch error:", e);
   }
 
-  const projects = projectsData
+  const filteredProjects = projectsData
     .filter((project: any) => {
       if (isVerifiedFilter && !project.badgeVerified) return false;
       if (isPopularFilter && !project.isPopular) return false;
@@ -89,7 +84,52 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     })
     .sort(
       (a: any, b: any) => (b.topInCatalog ? 1 : 0) - (a.topInCatalog ? 1 : 0),
-    );
+    )
+    .map((project: any) => {
+      const minPrice = project.apartments?.length
+        ? Math.min(...project.apartments.map((a: any) => a.price))
+        : 0;
+
+      const mappedProject: Project = {
+        id: String(project.id),
+        name: project.name,
+        description: project.description || "",
+        image: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
+        mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
+        location: project.location,
+        district: project.district || "",
+        developer: {
+          name: project.developer?.name ?? "Developer",
+          verified: project.badgeVerified ?? false,
+          logo: "https://picsum.photos/seed/dev/100/100",
+        },
+        deliveryDate: project.deliveryDate,
+        tags: [],
+        images: project.media?.length
+          ? project.media.map((item: any) => item.imageUrl)
+          : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
+        priceFrom: minPrice,
+        apartments: project.apartments.map((apt: any) => ({
+          id: String(apt.id),
+          projectId: String(project.id),
+          rooms: apt.rooms,
+          area: apt.area,
+          floor: apt.floor,
+          price: apt.price,
+          status: "available" as const,
+          layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
+        })),
+        isPopular: Boolean(project.topInCatalog || project.topInHome || project.isPopular),
+        badgeVerified: project.badgeVerified ?? false,
+        badgeTrusted: project.badgeTrusted ?? false,
+        avgRating: project.avgRating ?? null,
+        reviewsCount: project.reviewsCount ?? 0,
+        plan: project.plan,
+        floors: project.totalFloors || 0,
+      };
+
+      return mappedProject;
+    });
 
   const translations = {
     filters: t("filters"),
@@ -103,6 +143,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     popular: t("popular"),
     area_from: t("drawer.area_from"),
     area_to: t("drawer.area_to"),
+    pricePerM2Label: t("drawer.pricePerM2Label"),
+    areaLabel: t("drawer.areaLabel"),
+    additionalLabel: t("drawer.additionalLabel"),
   };
 
   return (
@@ -114,58 +157,12 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         <FilterDrawer translations={translations} />
       </div>
 
-      {projects.length === 0 ? (
+      {filteredProjects.length === 0 ? (
         <div className="text-center py-20 border-2 border-dashed rounded-3xl text-slate-400">
-          Ничего не найдено с такими фильтрами
+          {t("noResults")}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project: any) => {
-            const minPrice = project.apartments?.length
-              ? Math.min(...project.apartments.map((a: any) => a.price))
-              : 0;
-
-            const mappedProject: Project = {
-              id: String(project.id),
-              name: project.name,
-              description: project.description || "",
-              image: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
-              mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
-              location: project.location,
-              district: project.district || "",
-              developer: {
-                name: project.developer?.name ?? "Developer",
-                verified: project.badgeVerified ?? false,
-                logo: "https://picsum.photos/seed/dev/100/100",
-              },
-              deliveryDate: project.deliveryDate,
-              tags: [],
-              images: project.media?.length
-                  ? project.media.map((item: any) => item.imageUrl)
-                  : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
-              priceFrom: minPrice,
-              apartments: project.apartments.map((apt: any) => ({
-                  id: String(apt.id),
-                  projectId: String(project.id),
-                  rooms: apt.rooms,
-                  area: apt.area,
-                  floor: apt.floor,
-                  price: apt.price,
-                  status: "available" as const,
-                  layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
-              })),
-              isPopular: Boolean(project.topInCatalog || project.topInHome || project.isPopular),
-              badgeVerified: project.badgeVerified ?? false,
-              badgeTrusted: project.badgeTrusted ?? false,
-              avgRating: project.avgRating ?? null,
-              reviewsCount: project.reviewsCount ?? 0,
-              plan: project.plan,
-              floors: project.totalFloors || 0,
-            };
-
-            return <ProjectCard key={project.id} project={mappedProject} />;
-          })}
-        </div>
+        <ProjectGrid projects={filteredProjects} />
       )}
     </div>
   );

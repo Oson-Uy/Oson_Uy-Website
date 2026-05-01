@@ -119,7 +119,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     )}
                     {(project.badgeTrusted || project.plan === "ULTIMATE") && (
                         <Badge className="bg-emerald-600 text-white text-[10px] font-black px-3 py-1 rounded-full border-none uppercase tracking-widest shadow-lg shadow-emerald-900/20">
-                            TOP CHOICE
+                            {t("topChoice")}
                         </Badge>
                     )}
                 </div>
@@ -131,7 +131,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {project.name}
                     </h3>
                     <div className="text-right">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">от</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{t("from")}</p>
                         <span className="text-xl font-black text-[#F97316] tracking-tighter">
                             {formatUzs(project.priceFrom)}
                         </span>
@@ -147,7 +147,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     {(project.badgeVerified || project.plan === "PRO" || project.plan === "ULTIMATE") && (
                         <div className="flex items-center gap-2 bg-emerald-50 w-fit px-3 py-1 rounded-full border border-emerald-100">
                             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Verified developer</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">{t("verifiedDeveloper")}</span>
                         </div>
                     )}
 
@@ -158,12 +158,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                 {project.avgRating ? project.avgRating.toFixed(1) : "—"}
                             </span>
                         </div>
-                        <span className="text-slate-400 font-bold text-xs uppercase">({project.reviewsCount ?? 0} отзывов)</span>
+                        <span className="text-slate-400 font-bold text-xs uppercase">({project.reviewsCount ?? 0} {t("reviews")})</span>
                     </div>
                 </div>
 
-                <div className="mt-auto flex gap-3 pt-4 border-t border-slate-50">
-                    <Link href={`/catalog/${project.id}`} className="flex-1">
+                <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4 border-t border-slate-50">
+                    <Link href={`/catalog/${project.id}`} className="w-full sm:flex-1">
                         <Button
                             variant="outline"
                             className="w-full border-slate-200 text-[#1E3A8A] text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 h-12 transition-all active:scale-[0.98]"
@@ -173,7 +173,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     </Link>
                     <Button
                         onClick={() => setIsLeadModalOpen(true)}
-                        className="flex-1 bg-[#F97316] hover:bg-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl h-12 shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98]"
+                        className="w-full sm:flex-1 bg-[#F97316] hover:bg-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl h-12 shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98]"
                     >
                         {t("inquiry")}
                     </Button>

@@ -32,6 +32,9 @@ type FilterDrawerProps = {
     popular: string;
     area_from: string;
     area_to: string;
+    pricePerM2Label: string;
+    areaLabel: string;
+    additionalLabel: string;
   };
 };
 
@@ -87,12 +90,15 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
     setOpen(false);
   };
 
+  const inputClasses = "h-12 bg-slate-50/50 border-slate-200 focus:border-accent focus:ring-accent/10 transition-all font-bold text-primary";
+  const labelHeaderClasses = "text-xs font-black uppercase tracking-[0.15em] text-slate-400";
+
   return (
     <Drawer open={open} onOpenChange={setOpen} direction="right">
       <DrawerTrigger asChild>
         <Button
           variant="outline"
-          className="flex gap-2 border-primary text-primary hover:bg-primary/5 h-11 px-5"
+          className="flex gap-2 border-primary text-primary hover:bg-primary/5 h-11 px-5 font-black uppercase tracking-widest text-[10px]"
         >
           <SlidersHorizontal className="h-4 w-4" />
           {translations.filters}
@@ -102,24 +108,24 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
         <div className="flex flex-col h-full bg-white">
           <DrawerHeader className="border-b p-6 flex justify-between items-center text-left">
             <div className="space-y-1">
-              <DrawerTitle className="text-2xl font-black text-primary">
+              <DrawerTitle className="text-2xl font-black text-[#1E3A8A] uppercase tracking-tight">
                 {translations.title}
               </DrawerTitle>
-              <DrawerDescription>{translations.description}</DrawerDescription>
+              <DrawerDescription className="font-medium text-slate-500">{translations.description}</DrawerDescription>
             </div>
             <DrawerClose asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <X className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-slate-100">
+                <X className="h-5 w-5 text-slate-400" />
               </Button>
             </DrawerClose>
           </DrawerHeader>
 
-          <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar text-left">
-            <div className="space-y-4">
-              <Label className="text-xs font-black uppercase tracking-[0.15em] text-slate-400">
-                Цена за м² (сум)
+          <div className="flex-1 overflow-y-auto p-8 space-y-10 no-scrollbar text-left">
+            <div className="space-y-5">
+              <Label className={labelHeaderClasses}>
+                {translations.pricePerM2Label}
               </Label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
                 <Input
                   type="text"
                   placeholder={translations.from}
@@ -130,7 +136,7 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
                       formatMoneyInput(e.target.value),
                     )
                   }
-                  className="h-12 bg-slate-50/50"
+                  className={inputClasses}
                 />
                 <Input
                   type="text"
@@ -142,40 +148,40 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
                       formatMoneyInput(e.target.value),
                     )
                   }
-                  className="h-12 bg-slate-50/50"
+                  className={inputClasses}
                 />
               </div>
             </div>
 
-            <div className="space-y-4">
-              <Label className="text-xs font-black uppercase tracking-[0.15em] text-slate-400">
-                Площадь (м²)
+            <div className="space-y-5">
+              <Label className={labelHeaderClasses}>
+                {translations.areaLabel}
               </Label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
                 <Input
                   type="number"
                   placeholder={translations.area_from}
                   value={filters.areaMin}
                   onChange={(e) => handleChange("areaMin", e.target.value)}
-                  className="h-12 bg-slate-50/50"
+                  className={inputClasses}
                 />
                 <Input
                   type="number"
                   placeholder={translations.area_to}
                   value={filters.areaMax}
                   onChange={(e) => handleChange("areaMax", e.target.value)}
-                  className="h-12 bg-slate-50/50"
+                  className={inputClasses}
                 />
               </div>
             </div>
 
-            <div className="space-y-4 pt-2">
-              <Label className="text-xs font-black uppercase tracking-[0.15em] text-slate-400">
-                Дополнительно
+            <div className="space-y-5">
+              <Label className={labelHeaderClasses}>
+                {translations.additionalLabel}
               </Label>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div
-                  className="flex items-center space-x-3 bg-slate-50 p-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors"
+                  className="flex items-center space-x-3 bg-slate-50 p-5 rounded-2xl cursor-pointer hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
                   onClick={() => handleChange("verified", !filters.verified)}
                 >
                   <Checkbox
@@ -183,16 +189,17 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
                     checked={filters.verified}
                     onCheckedChange={(c) => handleChange("verified", !!c)}
                     onClick={(e) => e.stopPropagation()}
+                    className="h-5 w-5 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
                   />
                   <label
                     htmlFor="verified"
-                    className="text-sm font-bold cursor-pointer select-none"
+                    className="text-sm font-bold cursor-pointer select-none text-slate-700"
                   >
                     {translations.verified}
                   </label>
                 </div>
                 <div
-                  className="flex items-center space-x-3 bg-slate-50 p-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors"
+                  className="flex items-center space-x-3 bg-slate-50 p-5 rounded-2xl cursor-pointer hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
                   onClick={() => handleChange("popular", !filters.popular)}
                 >
                   <Checkbox
@@ -200,10 +207,11 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
                     checked={filters.popular}
                     onCheckedChange={(c) => handleChange("popular", !!c)}
                     onClick={(e) => e.stopPropagation()}
+                    className="h-5 w-5 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                   />
                   <label
                     htmlFor="popular"
-                    className="text-sm font-bold cursor-pointer select-none"
+                    className="text-sm font-bold cursor-pointer select-none text-slate-700"
                   >
                     {translations.popular}
                   </label>
@@ -212,17 +220,17 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
             </div>
           </div>
 
-          <DrawerFooter className="border-t p-6 gap-3">
+          <DrawerFooter className="border-t p-8 gap-4 bg-slate-50/50">
             <Button
               onClick={applyFilters}
-              className="w-full h-14 text-sm font-black uppercase tracking-widest bg-accent hover:bg-accent/90 shadow-xl shadow-accent/20"
+              className="w-full h-14 text-sm font-black uppercase tracking-widest bg-accent hover:bg-orange-600 shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98]"
             >
               <Search className="mr-2 h-4 w-4" /> {translations.apply}
             </Button>
             <Button
               variant="ghost"
               onClick={resetFilters}
-              className="w-full h-12 text-slate-400 font-bold hover:text-red-500 hover:bg-red-50 transition-colors"
+              className="w-full h-12 text-slate-400 font-bold hover:text-red-500 hover:bg-red-50 transition-colors uppercase tracking-widest text-[10px]"
             >
               <RotateCcw className="mr-2 h-4 w-4" /> {translations.reset}
             </Button>

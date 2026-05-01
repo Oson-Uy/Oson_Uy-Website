@@ -29,15 +29,16 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { LeadModal } from "@/components/custom/LeadModal";
+import { useTranslations } from "next-intl";
 
 type ProjectDetailsPageProps = {
     params: Promise<{ id: string }>;
 };
 
 export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) {
+    const t = useTranslations("ProjectDetails");
     const [projectData, setProjectData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
@@ -75,8 +76,8 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
         return (
             <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="rounded-3xl border border-red-100 bg-white p-8 text-red-600 font-bold">
-                        Project not found
+                    <div className="rounded-3xl border border-red-100 bg-white p-8 text-red-600 font-bold text-center uppercase tracking-widest">
+                        {t("notFound")}
                     </div>
                 </div>
             </div>
@@ -120,7 +121,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             )}
                         </Carousel>
                         <div className="absolute top-6 left-6 flex flex-col gap-2 z-10">
-                            {projectData.plan === "ULTIMATE" && (
+                            {(projectData.topInCatalog || projectData.topInHome) && (
                                 <Badge className="bg-[#FB7185] text-white border-none px-4 py-1.5 font-black uppercase tracking-widest shadow-xl shadow-rose-900/20">
                                     Popular Choice
                                 </Badge>
@@ -150,22 +151,22 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                 <div className="flex items-center bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
                                     <Star className="h-4 w-4 fill-orange-400 text-orange-400 mr-1.5" />
                                     <span className="font-bold text-orange-700">{projectData.avgRating.toFixed(1)}</span>
-                                    <span className="text-orange-400 text-xs ml-1 font-semibold">({projectData.reviewsCount} отзывов)</span>
+                                    <span className="text-orange-400 text-xs ml-1 font-semibold">({projectData.reviewsCount} {t("noComment").toLowerCase()})</span>
                                 </div>
                             ) : null}
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
                             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
-                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Delivery</p>
+                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">{t("delivery")}</p>
                                 <p className="text-[#1E3A8A] font-bold text-sm leading-tight">{projectData.deliveryDate}</p>
                             </div>
                             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
-                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Floors</p>
+                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">{t("floors")}</p>
                                 <p className="text-[#1E3A8A] font-bold text-sm leading-tight">{projectData.totalFloors || "—"}</p>
                             </div>
                             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
-                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Units</p>
+                                <p className="text-[10px] uppercase font-black text-slate-400 mb-1">{t("units")}</p>
                                 <p className="text-[#1E3A8A] font-bold text-sm leading-tight">{projectData.totalUnits || projectData.apartments?.length || 0}</p>
                             </div>
                             {projectData.qrCodeUrl ? (
@@ -178,15 +179,15 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                         className="h-10 w-10 bg-white p-1 rounded-lg shadow-lg mb-1" 
                                         alt="QR" 
                                     />
-                                    <p className="text-[8px] uppercase font-black text-white/80 leading-tight">Project QR</p>
+                                    <p className="text-[8px] uppercase font-black text-white/80 leading-tight">{t("qrTitle")}</p>
                                     <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl">
                                         <QrCode className="h-5 w-5 text-white" />
                                     </div>
                                 </div>
                             ) : (
                                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
-                                    <p className="text-[10px] uppercase font-black text-slate-400 mb-1">Status</p>
-                                    <p className="text-emerald-600 font-bold text-xs uppercase tracking-tighter">Available</p>
+                                    <p className="text-[10px] uppercase font-black text-slate-400 mb-1">{t("status")}</p>
+                                    <p className="text-emerald-600 font-bold text-xs uppercase tracking-tighter">{t("available")}</p>
                                 </div>
                             )}
                         </div>
@@ -194,7 +195,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                         <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
                             <CollapsibleTrigger asChild>
                                 <Button variant="outline" className="w-full justify-between rounded-xl h-12 border-slate-200 text-[#1E3A8A] font-bold uppercase text-[11px] tracking-widest">
-                                    {isOpen ? "Скрыть детали" : "Описание и удобства"}
+                                    {isOpen ? t("hideDetails") : t("showDetails")}
                                     <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                                 </Button>
                             </CollapsibleTrigger>
@@ -222,7 +223,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                 onClick={() => setIsLeadModalOpen(true)}
                                 className="flex-1 h-14 bg-[#F97316] hover:bg-orange-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-orange-900/10 transition-all active:scale-[0.98] uppercase tracking-wider"
                             >
-                                Оставить заявку
+                                {t("close") === "Close" ? "Request a Call" : "Оставить заявку"}
                             </Button>
                             {projectData.qrCodeUrl && (
                                 <button 
@@ -240,8 +241,8 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                 <Dialog open={isQrModalOpen} onOpenChange={setIsQrModalOpen}>
                     <DialogContent className="max-w-xs sm:max-w-md rounded-[2.5rem] border-none shadow-2xl p-10 flex flex-col items-center">
                         <DialogHeader className="mb-6 text-center w-full">
-                            <DialogTitle className="text-2xl font-black text-[#1E3A8A] uppercase tracking-tight">QR-код проекта</DialogTitle>
-                            <p className="text-slate-500 text-sm font-medium mt-1">Отсканируйте для быстрого доступа</p>
+                            <DialogTitle className="text-2xl font-black text-[#1E3A8A] uppercase tracking-tight">{t("qrTitle")}</DialogTitle>
+                            <p className="text-slate-500 text-sm font-medium mt-1">{t("qrSubtitle")}</p>
                         </DialogHeader>
                         <div className="bg-white p-8 rounded-[2rem] shadow-inner border border-slate-50 w-full flex justify-center">
                             <img 
@@ -254,7 +255,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             onClick={() => setIsQrModalOpen(false)}
                             className="mt-8 w-full h-14 bg-slate-200 hover:bg-slate-400 cursor-pointer text-slate-600 font-bold rounded-2xl uppercase tracking-widest text-xs"
                         >
-                            Закрыть
+                            {t("close")}
                         </Button>
                     </DialogContent>
                 </Dialog>
@@ -278,15 +279,13 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                 </div>
                             </div>
                             <div className="flex-1 space-y-4">
-                                <h2 className="text-2xl font-black text-[#1E3A8A] uppercase tracking-tight italic">Видео-обзор проекта</h2>
+                                <h2 className="text-2xl font-black text-[#1E3A8A] uppercase tracking-tight italic">{t("videoReview")}</h2>
                                 <p className="text-slate-500 font-medium leading-relaxed">
-                                    Посмотрите короткий видео-обзор данного жилого комплекса. В этом видео вы сможете увидеть архитектуру проекта, планировки и окружающую инфраструктуру в динамике. 
-                                    <br/><br/>
-                                    Мы подготовили этот формат специально для того, чтобы вы могли прочувствовать атмосферу будущего дома прямо со своего смартфона.
+                                    {t("videoReviewText")}
                                 </p>
                                 <div className="pt-4 flex items-center gap-3 text-emerald-600 font-bold text-sm">
                                     <CheckCircle2 className="h-5 w-5" />
-                                    <span>Эксклюзивные кадры со стройплощадки</span>
+                                    <span>{t("exclusiveFootage")}</span>
                                 </div>
                             </div>
                         </div>
@@ -303,7 +302,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                 </div>
 
                 <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 mb-10">
-                    <h2 className="text-2xl font-black text-[#1E3A8A] mb-6 uppercase">Available Residences</h2>
+                    <h2 className="text-2xl font-black text-[#1E3A8A] mb-6 uppercase">{t("availableResidences")}</h2>
                     <ApartmentList
                         projectId={projectData.id}
                         projectName={projectData.name}
@@ -314,7 +313,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                 {projectData.reviews?.length > 0 && (
                     <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8">
                         <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-2xl font-black text-[#1E3A8A] uppercase">Отзывы клиентов</h2>
+                            <h2 className="text-2xl font-black text-[#1E3A8A] uppercase">{t("customerReviews")}</h2>
                             <div className="flex items-center gap-2">
                                 <Star className="h-6 w-6 fill-orange-400 text-orange-400" />
                                 <span className="text-2xl font-black text-slate-800">{projectData.avgRating?.toFixed(1)}</span>
@@ -331,7 +330,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                         ))}
                                     </div>
                                     <p className="text-slate-700 italic text-sm leading-relaxed">
-                                        &quot;{review.comment || "Без комментария"}&quot;
+                                        &quot;{review.comment || t("noComment")}&quot;
                                     </p>
                                 </div>
                             ))}
@@ -350,14 +349,12 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
 }
 
 function VideoPlayer({ url }: { url: string }) {
-    // YouTube detection
     const getYoutubeId = (url: string) => {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         const match = url.match(regExp);
         return (match && match[2].length === 11) ? match[2] : null;
     };
 
-    // Instagram detection
     const isInstagram = url.includes("instagram.com");
     const getInstagramEmbed = (url: string) => {
         const cleanUrl = url.split("?")[0];

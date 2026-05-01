@@ -5,6 +5,7 @@ import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LeadModal } from "@/components/custom/LeadModal";
 import { formatUzs, formatUzsPerM2 } from "@/lib/currency";
+import { useTranslations } from "next-intl";
 
 type Apartment = {
   id: number;
@@ -25,6 +26,7 @@ export function ApartmentList({
   projectName,
   apartments,
 }: ApartmentListProps) {
+  const t = useTranslations("ApartmentList");
   const [selectedApartmentId, setSelectedApartmentId] = useState<number | null>(
     null,
   );
@@ -43,26 +45,26 @@ export function ApartmentList({
               </div>
               <div>
                 <div className="font-bold text-[#1E3A8A]">
-                  {apt.rooms}-room apartment
+                  {t("roomsCount", { count: apt.rooms })}
                 </div>
                 <div className="text-[10px] text-slate-400 uppercase">
-                  Apartment #{apt.id}
+                  {t("apartmentId", { id: apt.id })}
                 </div>
               </div>
             </div>
 
             <div className="flex md:block justify-between items-center">
-              <span className="md:hidden text-slate-400 text-xs">Area:</span>
+              <span className="md:hidden text-slate-400 text-xs">{t("area")}:</span>
               <span className="font-bold text-[#1E3A8A]">{apt.area} m²</span>
             </div>
 
             <div className="flex md:block justify-between items-center">
-              <span className="md:hidden text-slate-400 text-xs">Floor:</span>
+              <span className="md:hidden text-slate-400 text-xs">{t("floor")}:</span>
               <span className="text-slate-600 font-medium">{apt.floor}</span>
             </div>
 
             <div className="flex md:block justify-between items-center">
-              <span className="md:hidden text-slate-400 text-xs">Price:</span>
+              <span className="md:hidden text-slate-400 text-xs">{t("price")}:</span>
               <div className="flex flex-col md:items-start">
                 <span className="text-xl font-extrabold text-[#1E3A8A]">
                   {formatUzs(apt.price)}
@@ -76,9 +78,9 @@ export function ApartmentList({
             <div className="text-right">
               <Button
                 onClick={() => setSelectedApartmentId(apt.id)}
-                className="bg-[#1E3A8A] hover:bg-[#3C55BE] text-white rounded-xl px-8 w-full md:w-auto"
+                className="bg-[#1E3A8A] hover:bg-[#3C55BE] text-white rounded-xl px-8 w-full md:w-auto font-bold uppercase tracking-widest text-xs h-11"
               >
-                Select
+                {t("select")}
               </Button>
             </div>
           </div>

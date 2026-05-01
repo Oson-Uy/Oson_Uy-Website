@@ -97,7 +97,7 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                             <input
                                 value={pricePerM2Min}
                                 onChange={(e) => setPricePerM2Min(formatMoneyInput(e.target.value))}
-                                placeholder="0"
+                                placeholder="0 сум"
                                 className={inputClasses}
                             />
                         </div>
@@ -109,7 +109,7 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                             <input
                                 value={pricePerM2Max}
                                 onChange={(e) => setPricePerM2Max(formatMoneyInput(e.target.value))}
-                                placeholder="0"
+                                placeholder="10 000 000 сум"
                                 className={inputClasses}
                             />
                         </div>

@@ -8,12 +8,14 @@ import { CiGlobe } from "react-icons/ci";
 import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation'; 
+import { Menu, X } from 'lucide-react';
 
 export default function Header() {
     const t = useTranslations("Header");
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const handleLocaleChange = (newLocale: string) => {
         fetch("/api/locale", {
@@ -75,8 +77,44 @@ export default function Header() {
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
+
+                    <button 
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="md:hidden p-2 text-[#1E3A8A] hover:bg-slate-50 rounded-xl transition-colors"
+                    >
+                        {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    </button>
                 </div>
             </div>
+
+            {/* Mobile Menu Overlay */}
+            {isMenuOpen && (
+                <div className="fixed inset-0 top-16 z-40 bg-white md:hidden animate-in fade-in slide-in-from-top-4 duration-300">
+                    <div className="flex flex-col p-6 gap-6">
+                        <Link 
+                            href="/" 
+                            onClick={() => setIsMenuOpen(false)}
+                            className={cn("text-lg font-bold transition-colors", pathname === "/" ? "text-[#F97316]" : "text-[#1E3A8A]")}
+                        >
+                            {t("home")}
+                        </Link>
+                        <Link 
+                            href="/catalog" 
+                            onClick={() => setIsMenuOpen(false)}
+                            className={cn("text-lg font-bold transition-colors", pathname === "/catalog" ? "text-[#F97316]" : "text-[#1E3A8A]")}
+                        >
+                            {t("catalog")}
+                        </Link>
+                        <Link 
+                            href="/about" 
+                            onClick={() => setIsMenuOpen(false)}
+                            className={cn("text-lg font-bold transition-colors", pathname === "/about" ? "text-[#F97316]" : "text-[#1E3A8A]")}
+                        >
+                            {t("about")}
+                        </Link>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 }

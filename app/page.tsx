@@ -83,6 +83,7 @@ export default function Home() {
                     badgeTrusted: project.badgeTrusted ?? false,
                     avgRating: project.avgRating ?? null,
                     reviewsCount: project.reviewsCount ?? 0,
+                    plan: project.plan,
                 }));
 
                 if (mapped.length) {
@@ -128,11 +129,11 @@ export default function Home() {
                         transition={{ duration: 0.8 }}
                         className="space-y-6"
                     >
-                        <h1 className="text-4xl pt-10 sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
+                        <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
                             {t("heroLine1")}{" "}
                             <span className="text-accent">{t("heroAccent")}</span>
                             <br />
-                            <span className="text-7xl">{t("heroLine2")}</span>
+                            <span className="text-3xl md:text-7xl">{t("heroLine2")}</span>
                         </h1>
                         <p className="text-white/85 text-base sm:text-lg md:text-2xl font-medium max-w-2xl mx-auto tracking-tight leading-relaxed">
                             {t("heroSubtitle")}
@@ -173,7 +174,7 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-                        {featuredProjects.map((project) => (
+                        {featuredProjects.slice(0, 4).map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
@@ -184,17 +185,17 @@ export default function Home() {
                 <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-6 sm:p-12 md:p-20 rounded-[2rem] md:rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-primary tracking-tight leading-[1.1]">
-                            {t("consultTitle1") || "Персональная"} <span className="text-accent">{t("consultTitleAccent") || "консультация"}</span> {t("consultTitle2") || "по любому проекту"}
+                            {t("consultTitle1")} <br className="md:hidden" /> <span className="text-accent">{t("consultTitleAccent")}</span> <br className="md:hidden" /> {t("consultTitle2")}
                         </h2>
                         <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
-                            {t("consultSubtitle") || "Выберите интересующий вас жилой комплекс и получите подробную информацию от наших экспертов."}
+                            {t("consultSubtitle")}
                         </p>
                     </div>
                     <div className="w-full md:w-auto shrink-0 bg-primary p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white space-y-6 sm:space-y-8">
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
-                                    {t("selectProject") || "Выберите проект"}
+                                    {t("selectProject")}
                                 </label>
                                 <select
                                     value={consultProjectId ?? ""}

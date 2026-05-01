@@ -103,7 +103,7 @@ export function LeadModal({
         try {
             const cleanPhone = normalizeUzPhoneDigits(formState.phone);
             if (cleanPhone.length !== 12) {
-                throw new Error("Неверный формат номера");
+                throw new Error("INVALID_PHONE");
             }
 
             const response = await fetch(`${API_URL}/leads`, {
@@ -116,12 +116,14 @@ export function LeadModal({
                     apartmentId: selectedApartmentId,
                 }),
             });
-            if (!response.ok) throw new Error("Error");
+            if (!response.ok) throw new Error("SUBMIT_ERROR");
             setIsSubmitted(true);
         } catch (error: any) {
-            setErrorMessage(error.message === "Неверный формат номера"
-                ? "Введите полный номер телефона"
-                : "Произошла ошибка при отправке");
+            if (error.message === "INVALID_PHONE") {
+                setErrorMessage(t("incompletePhone"));
+            } else {
+                setErrorMessage(t("submitError"));
+            }
         } finally {
             setIsLoading(false);
         }
@@ -189,7 +191,7 @@ export function LeadModal({
                                                     value={formState.name}
                                                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                                                     className={sharedInputClass}
-                                                    placeholder="Ваше имя"
+                                                    placeholder={t("namePlaceholder")}
                                                 />
                                             </div>
 
@@ -225,7 +227,7 @@ export function LeadModal({
                                     </form>
 
                                     <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest leading-relaxed px-4">
-                                        {t("privacy") || "Отправляя форму, вы соглашаетесь на обработку персональных данных"}
+                                        {t("privacy")}
                                     </p>
                                 </motion.div>
                             ) : (
