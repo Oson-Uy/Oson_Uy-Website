@@ -41,35 +41,38 @@ export default function Header() {
 
     return (
         <nav className="sticky top-0 w-full z-50 bg-white/80 backdrop-blur border-b border-slate-200 h-16 flex items-center">
-            <div className="container grid grid-cols-[1fr_auto_1fr] items-center w-full px-4 mx-auto">
-                <Link href="/" className="flex items-center gap-2">
-                    <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={40} height={40} className="h-10 w-10 object-contain" />
-                    <span className="text-2xl font-bold tracking-tight text-[#1E3A8A]">
+            <div className="container flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] w-full px-4 mx-auto">
+                {/* Mobile: Left | Desktop: Left */}
+                <Link href="/" className="flex items-center gap-2 order-1 md:order-1 transition-transform active:scale-95">
+                    <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={40} height={40} className="h-9 w-9 md:h-10 md:w-10 object-contain" />
+                    <span className="text-xl md:text-2xl font-black tracking-tighter text-[#1E3A8A]">
                         {t("brand").slice(0, 2)}<span className="text-[#F97316]">{t("brand").slice(2)}</span>
                     </span>
                 </Link>
 
-                <div className="hidden md:flex h-10 items-center justify-center gap-7 font-semibold text-sm text-[#1E3A8A]">
+                {/* Desktop: Center Navigation */}
+                <div className="hidden md:flex h-10 items-center justify-center gap-7 font-semibold text-sm text-[#1E3A8A] md:order-2">
                     <Link href="/" className={navLinkStyles("/")}>{t("home")}</Link>
                     <Link href="/catalog" className={navLinkStyles("/catalog")}>{t("catalog")}</Link>
                     <Link href="/about" className={navLinkStyles("/about")}>{t("about")}</Link>
                 </div>
 
-                <div className="flex items-center justify-end gap-2">
+                {/* Mobile: Right (Burger + Locale) | Desktop: Right */}
+                <div className="flex items-center gap-1 md:gap-2 order-2 md:order-3 md:justify-end">
                     <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
-                            <button className="flex items-center justify-center p-2 text-gray-500 hover:text-[#3C55BE] outline-none cursor-pointer">
-                                <CiGlobe className="h-6 w-6" />
+                            <button className="flex items-center justify-center p-2 text-gray-500 hover:text-[#3C55BE] outline-none cursor-pointer transition-colors">
+                                <CiGlobe className="h-6 w-6 md:h-7 md:w-7" />
                             </button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-white z-110 shadow-xl border-gray-100 rounded-xl">
+                        <DropdownMenuContent align="end" className="bg-white z-[110] shadow-xl border-gray-100 rounded-xl">
                             {languages.map((lang) => (
                                 <DropdownMenuItem
                                     key={lang.code}
                                     onClick={() => handleLocaleChange(lang.code)}
                                     className={cn(
-                                        "cursor-pointer",
-                                        locale === lang.code && "text-[#3C55BE] font-bold"
+                                        "cursor-pointer font-medium",
+                                        locale === lang.code && "text-[#3C55BE] font-bold bg-slate-50"
                                     )}
                                 >
                                     {lang.name}
@@ -80,9 +83,10 @@ export default function Header() {
 
                     <button 
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="md:hidden p-2 text-[#1E3A8A] hover:bg-slate-50 rounded-xl transition-colors"
+                        className="md:hidden p-2 text-[#1E3A8A] hover:bg-slate-100 rounded-xl transition-all active:scale-95"
+                        aria-label="Toggle menu"
                     >
-                        {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        {isMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
                     </button>
                 </div>
             </div>
