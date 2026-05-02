@@ -124,7 +124,7 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                             <input
                                 value={areaMin}
                                 onChange={(e) => setAreaMin(e.target.value.replace(/\D/g, ""))}
-                                placeholder="50"
+                                placeholder="50m²"
                                 className={inputClasses}
                             />
                         </div>
@@ -136,7 +136,7 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                             <input
                                 value={areaMax}
                                 onChange={(e) => setAreaMax(e.target.value.replace(/\D/g, ""))}
-                                placeholder="120"
+                                placeholder="120m²"
                                 className={inputClasses}
                             />
                         </div>
