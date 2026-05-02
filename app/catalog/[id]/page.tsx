@@ -451,7 +451,6 @@ function VideoPlayer({ url }: { url: string }) {
                     className="w-full h-[550px] md:h-[650px]"
                     frameBorder="0"
                     scrolling="no"
-                    allowTransparency={true}
                     allow="encrypted-media"
                 />
             </div>
