@@ -8,12 +8,15 @@ import { CiGlobe } from "react-icons/ci";
 import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation'; 
+import { Menu, X } from 'lucide-react';
+import { Drawer, DrawerContent, DrawerHeader, DrawerClose } from '../ui/drawer';
 
 export default function Header() {
     const t = useTranslations("Header");
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const handleLocaleChange = (newLocale: string) => {
         fetch("/api/locale", {
@@ -39,35 +42,38 @@ export default function Header() {
 
     return (
         <nav className="sticky top-0 w-full z-50 bg-white/80 backdrop-blur border-b border-slate-200 h-16 flex items-center">
-            <div className="container grid grid-cols-[1fr_auto_1fr] items-center w-full px-4 mx-auto">
-                <Link href="/" className="flex items-center gap-2">
-                    <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={40} height={40} className="h-10 w-10 object-contain" />
-                    <span className="text-2xl font-bold tracking-tight text-[#1E3A8A]">
+            <div className="container flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] w-full px-4 mx-auto">
+                {/* Mobile: Left | Desktop: Left */}
+                <Link href="/" className="flex items-center gap-2 order-1 md:order-1 transition-transform active:scale-95">
+                    <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={40} height={40} className="h-9 w-9 md:h-10 md:w-10 object-contain" />
+                    <span className="text-xl md:text-2xl font-black tracking-tighter text-[#1E3A8A]">
                         {t("brand").slice(0, 2)}<span className="text-[#F97316]">{t("brand").slice(2)}</span>
                     </span>
                 </Link>
 
-                <div className="hidden md:flex h-10 items-center justify-center gap-7 font-semibold text-sm text-[#1E3A8A]">
+                {/* Desktop: Center Navigation */}
+                <div className="hidden md:flex h-10 items-center justify-center gap-7 font-semibold text-sm text-[#1E3A8A] md:order-2">
                     <Link href="/" className={navLinkStyles("/")}>{t("home")}</Link>
                     <Link href="/catalog" className={navLinkStyles("/catalog")}>{t("catalog")}</Link>
                     <Link href="/about" className={navLinkStyles("/about")}>{t("about")}</Link>
                 </div>
 
-                <div className="flex items-center justify-end gap-2">
+                {/* Mobile: Right (Burger + Locale) | Desktop: Right */}
+                <div className="flex items-center gap-1 md:gap-2 order-2 md:order-3 md:justify-end">
                     <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
-                            <button className="flex items-center justify-center p-2 text-gray-500 hover:text-[#3C55BE] outline-none cursor-pointer">
-                                <CiGlobe className="h-6 w-6" />
+                            <button className="flex items-center justify-center p-2 text-gray-500 hover:text-[#3C55BE] outline-none cursor-pointer transition-colors">
+                                <CiGlobe className="h-6 w-6 md:h-7 md:w-7" />
                             </button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-white z-110 shadow-xl border-gray-100 rounded-xl">
+                        <DropdownMenuContent align="end" className="bg-white z-[110] shadow-xl border-gray-100 rounded-xl">
                             {languages.map((lang) => (
                                 <DropdownMenuItem
                                     key={lang.code}
                                     onClick={() => handleLocaleChange(lang.code)}
                                     className={cn(
-                                        "cursor-pointer",
-                                        locale === lang.code && "text-[#3C55BE] font-bold"
+                                        "cursor-pointer font-medium",
+                                        locale === lang.code && "text-[#3C55BE] font-bold bg-slate-50"
                                     )}
                                 >
                                     {lang.name}
@@ -75,8 +81,91 @@ export default function Header() {
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
+
+                    <button 
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="md:hidden p-2 text-[#1E3A8A] hover:bg-slate-100 rounded-xl transition-all active:scale-95"
+                        aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+                    </button>
                 </div>
             </div>
+
+            {/* Mobile Menu Drawer */}
+            <Drawer open={isMenuOpen} onOpenChange={setIsMenuOpen} direction="right">
+                <DrawerContent className="h-screen top-0 right-0 left-auto mt-0 w-[280px] rounded-none border-l shadow-2xl outline-none">
+                    <div className="flex flex-col h-full bg-white">
+                        <DrawerHeader className="border-b p-5 flex justify-between items-center text-left">
+                            <div className="flex items-center gap-2">
+                                <Image src="/osonuy-logo-removebg-preview.png" alt="Oson Uy logo" width={32} height={32} className="h-8 w-8 object-contain" />
+                                <span className="font-black text-[#1E3A8A] text-lg tracking-tight">Oson Uy</span>
+                            </div>
+                            <DrawerClose asChild>
+                                <button className="p-2 rounded-full hover:bg-slate-100 transition-colors">
+                                    <X className="h-5 w-5 text-slate-400" />
+                                </button>
+                            </DrawerClose>
+                        </DrawerHeader>
+                        
+                        <div className="flex flex-col p-6 gap-2">
+                            <Link 
+                                href="/" 
+                                onClick={() => setIsMenuOpen(false)}
+                                className={cn(
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    pathname === "/" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
+                                )}
+                            >
+                                {t("home")}
+                            </Link>
+                            <Link 
+                                href="/catalog" 
+                                onClick={() => setIsMenuOpen(false)}
+                                className={cn(
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    pathname === "/catalog" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
+                                )}
+                            >
+                                {t("catalog")}
+                            </Link>
+                            <Link 
+                                href="/about" 
+                                onClick={() => setIsMenuOpen(false)}
+                                className={cn(
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    pathname === "/about" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
+                                )}
+                            >
+                                {t("about")}
+                            </Link>
+                        </div>
+
+                        <div className="mt-auto p-6 border-t bg-slate-50/50">
+                            <p className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-3">{t("home")}</p>
+                            <div className="flex flex-wrap gap-2">
+                                {languages.map((lang) => (
+                                    <button
+                                        key={lang.code}
+                                        onClick={() => {
+                                            handleLocaleChange(lang.code);
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className={cn(
+                                            "px-4 py-2 rounded-lg text-sm font-bold border transition-all",
+                                            locale === lang.code 
+                                                ? "bg-[#1E3A8A] border-[#1E3A8A] text-white shadow-lg shadow-blue-900/20" 
+                                                : "bg-white border-slate-200 text-slate-600 hover:border-blue-200"
+                                        )}
+                                    >
+                                        {lang.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </DrawerContent>
+            </Drawer>
         </nav>
     );
 }

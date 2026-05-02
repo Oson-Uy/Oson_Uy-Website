@@ -25,14 +25,15 @@
     "consultTitle2": "konsultatsiya",
     "consultSubtitle": "Byudjetingiz va ehtiyojingiz asosida eng yaxshi variantlar bo'yicha shaxsiy tanlov oling.",
     "yourName": "Ismingiz",
+    "selectProject": "Loyihani tanlang",
     "phone": "Telefon",
     "inquiryNow": "So'rov qoldirish"
   },
   "FilterBar": {
     "region": "Viloyat",
     "district": "Tuman",
-    "price_from": "Narxi/m² dan",
-    "price_to": "Narxi/m² gacha",
+    "price_from": "Narxi/m² dan (so'm)",
+    "price_to": "Narxi/m² gacha (so'm)",
     "area_from": "Maydon dan",
     "area_to": "Maydon gacha",
     "search_button": "Variantlarni topish"
@@ -42,6 +43,8 @@
     "filters": "Filtrlar",
     "details": "Batafsil",
     "popular": "Ommabop",
+    "showMore": "Yana ko'rsatish",
+    "noResults": "Bunday filtrlar bilan hech narsa topilmadi",
     "from": "dan",
     "drawer": {
       "title": "Qidiruv filtrlari",
@@ -53,7 +56,10 @@
       "verified": "Tasdiqlangan quruvchi",
       "popular": "Ommabop loyihalar",
       "area_from": "Maydon dan",
-      "area_to": "Maydon gacha"
+      "area_to": "Maydon gacha",
+      "pricePerM2Label": "Narxi m² uchun (so'm)",
+      "areaLabel": "Maydon (m²)",
+      "additionalLabel": "Qo'shimcha"
     }
   },
   "About": {
@@ -70,7 +76,13 @@
       "projects": "Faol loyihalar",
       "transactions": "Muvaffaqiyatli bitimlar",
       "verified": "Tasdiqlangan ma'lumot"
-    }
+    },
+    "trustScore": "Ishonch ko'rsatkichi",
+    "trustedBy": "Bizga 5000+ mijoz ishonadi",
+    "agency": "Litsenziyalangan agentlik",
+    "startJourney": "Qidiruvni boshlash",
+    "support": "24/7 Qo'llab-quvvatlash",
+    "readyToAssist": "Sizga yordamga tayyormiz"
   },
   "Footer": {
     "description": "O'zbekistondagi birlamchi ko'chmas mulk bo'yicha eng ishonchli platforma. Sizni eng yaxshi yashash joylari bilan bog'laymiz.",
@@ -89,7 +101,11 @@
     "popular": "Mashhur",
     "developer": "Quruvchi",
     "details": "Batafsil",
-    "inquiry": "So'rov"
+    "inquiry": "So'rov",
+    "topChoice": "Eng yaxshi tanlov",
+    "from": "dan",
+    "verifiedDeveloper": "Tasdiqlangan quruvchi",
+    "reviews": "sharhlar"
   },
   "LeadModal": {
     "title": "Bog'lanish",
@@ -106,6 +122,49 @@
     "close": "Yopish",
     "privacy": "Xavfsiz platforma · Ma'lumotlar maxfiyligi kafolatlangan",
     "projectLabel": "Loyihani tanlang",
-    "apartmentLabel": "Kvartirani tanlang"
+    "apartmentLabel": "Kvartirani tanlang",
+    "invalidPhone": "Raqam formati noto'g'ri",
+    "incompletePhone": "Telefon raqamini to'liq kiriting",
+    "submitError": "Yuborishda xatolik yuz berdi",
+    "namePlaceholder": "Ismingiz"
+  },
+  "ProjectDetails": {
+    "notFound": "Loyiha topilmadi",
+    "delivery": "Topshirish muddati",
+    "floors": "Qavatlar soni",
+    "units": "Obyektlar",
+    "status": "Holati",
+    "available": "Sotuvda",
+    "hideDetails": "Batafsil yopish",
+    "showDetails": "Tavsif va qulayliklar",
+    "videoReview": "Loyiha video-sharhi",
+    "videoReviewText": "Ushbu turar-joy majmuasining qisqacha video-sharhini tomosha qiling. Bu videoda siz loyihaning arxitekturasi, rejalashtirish va atrofdagi infratuzilmani dinamikada ko'rishingiz mumkin. Biz ushbu formatni maxsus smartfoningizdan kelajakdagi uyingiz atmosferasini his qilishingiz uchun tayyorladik.",
+    "exclusiveFootage": "Qurilish maydonchasidan eksklyuziv kadrlar",
+    "availableResidences": "Mavjud xonadonlar",
+    "customerReviews": "Mijozlar fikrlari",
+    "noComment": "Izohsiz",
+    "qrTitle": "Loyiha QR-kodi",
+    "qrSubtitle": "Tezkor kirish uchun skanerlang",
+    "close": "Yopish"
+  },
+  "ApartmentList": {
+    "roomsCount": "{count}-xonali kvartira",
+    "apartmentId": "Kvartira #{id}",
+    "area": "Maydoni",
+    "floor": "Qavat",
+    "price": "Narxi",
+    "select": "Tanlash"
+  },
+  "Feedback": {
+    "title": "Qo'ng'iroqni baholang",
+    "subtitle": "Biz menejerlarimiz ish sifatiga e'tibor beramiz.",
+    "success": "Fikringiz uchun rahmat!",
+    "successSubtitle": "Sizning bahoingiz bizga yaxshiroq bo'lishga yordam beradi.",
+    "question": "Muloqotni qanday baholaysiz?",
+    "commentLabel": "Sizga nima yoqdi yoki yoqmadi? (ixtiyoriy)",
+    "commentPlaceholder": "Menejer haqida bir necha so'z yozing...",
+    "submit": "Bahoni yuborish",
+    "errorRating": "Iltimos, bahoni tanlang (yulduzchalar)",
+    "errorSubmit": "Fikr yuborishda xatolik yuz berdi"
   }
 }

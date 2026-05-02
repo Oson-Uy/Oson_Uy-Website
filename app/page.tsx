@@ -12,9 +12,10 @@ import { FilterBar } from "@/components/custom/FilterBar";
 import { formatUzPhoneInput } from "@/lib/phone";
 
 const REGION_VIDEOS: Record<string, string> = {
-    "Tashkent Region": "/videos/tashkent.mp4",
-    "Samarkand Region": "/videos/samarkand.mp4",
-    "Bukhara Region": "/videos/bukhara.mp4",
+    "Tashkent City (г. Ташкент)": "/videos/tashkent.mp4",
+    "Tashkent Region (Ташкентская обл.)": "/videos/tashkent.mp4",
+    "Samarkand (Самаркандская обл.)": "/videos/samarkand.mp4",
+    "Bukhara (Бухарская обл.)": "/videos/bukhara.mp4",
 };
 
 export default function Home() {
@@ -33,9 +34,11 @@ export default function Home() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [featuredProjects, setFeaturedProjects] = useState(PROJECTS.filter((p) => p.isPopular));
+    const [consultName, setConsultName] = useState("");
     const [consultPhone, setConsultPhone] = useState("+998");
-    const [activeLocation, setActiveLocation] = useState("Tashkent Region");
-    const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Tashkent Region"];
+    const [consultProjectId, setConsultProjectId] = useState<number | null>(null);
+    const [activeLocation, setActiveLocation] = useState("Tashkent City (г. Ташкент)");
+    const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Tashkent City (г. Ташкент)"];
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -78,10 +81,14 @@ export default function Home() {
                     isPopular: Boolean(project.topInCatalog || project.topInHome),
                     badgeVerified: project.badgeVerified ?? false,
                     badgeTrusted: project.badgeTrusted ?? false,
+                    avgRating: project.avgRating ?? null,
+                    reviewsCount: project.reviewsCount ?? 0,
+                    plan: project.plan,
                 }));
 
                 if (mapped.length) {
                     setFeaturedProjects(mapped.sort((a: any, b: any) => (b.isPopular ? 1 : -1)));
+                    setConsultProjectId(Number(mapped[0].id));
                 }
             } catch (err) {
                 console.error("Failed to fetch projects", err);
@@ -122,11 +129,11 @@ export default function Home() {
                         transition={{ duration: 0.8 }}
                         className="space-y-6"
                     >
-                        <h1 className="text-4xl pt-10 sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
+                        <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
                             {t("heroLine1")}{" "}
                             <span className="text-accent">{t("heroAccent")}</span>
                             <br />
-                            <span className="text-7xl">{t("heroLine2")}</span>
+                            <span className="text-3xl md:text-7xl">{t("heroLine2")}</span>
                         </h1>
                         <p className="text-white/85 text-base sm:text-lg md:text-2xl font-medium max-w-2xl mx-auto tracking-tight leading-relaxed">
                             {t("heroSubtitle")}
@@ -167,7 +174,7 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-                        {featuredProjects.map((project) => (
+                        {featuredProjects.slice(0, 4).map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
@@ -178,9 +185,7 @@ export default function Home() {
                 <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-6 sm:p-12 md:p-20 rounded-[2rem] md:rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-primary tracking-tight leading-[1.1]">
-                            {t("consultTitle1")}{" "}
-                            <span className="text-accent">{t("consultTitleAccent")}</span>{" "}
-                            {t("consultTitle2")}
+                            {t("consultTitle1")} <br className="md:hidden" /> <span className="text-accent">{t("consultTitleAccent")}</span> <br className="md:hidden" /> {t("consultTitle2")}
                         </h2>
                         <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
                             {t("consultSubtitle")}
@@ -190,10 +195,28 @@ export default function Home() {
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
+                                    {t("selectProject")}
+                                </label>
+                                <select
+                                    value={consultProjectId ?? ""}
+                                    onChange={(e) => setConsultProjectId(Number(e.target.value))}
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white appearance-none cursor-pointer"
+                                >
+                                    {featuredProjects.map((p) => (
+                                        <option key={p.id} value={p.id} className="text-primary">
+                                            {p.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
                                     {t("yourName")}
                                 </label>
                                 <input
                                     type="text"
+                                    value={consultName}
+                                    onChange={(e) => setConsultName(e.target.value)}
                                     placeholder="Full Name"
                                     className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white"
                                 />
@@ -222,7 +245,13 @@ export default function Home() {
                 </div>
             </section>
 
-            <LeadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <LeadModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                initialName={consultName}
+                initialPhone={consultPhone}
+                projectId={consultProjectId ?? undefined}
+            />
         </div>
     );
 }

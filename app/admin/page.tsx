@@ -6,7 +6,8 @@ import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 // Assumes the backend runs on port 4000 locally
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+const API_URL = rawApiUrl.replace(/\/$/, '');
 
 type Invoice = {
   id: number;

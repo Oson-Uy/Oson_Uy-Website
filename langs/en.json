@@ -25,14 +25,15 @@
     "consultTitle2": "Consultation",
     "consultSubtitle": "Get a personalized selection of the best properties based on your budget and preferences.",
     "yourName": "Your Name",
+    "selectProject": "Select Project",
     "phone": "Phone",
     "inquiryNow": "Inquiry Now"
   },
   "FilterBar": {
     "region": "Region",
     "district": "District",
-    "price_from": "Price/sqm from",
-    "price_to": "Price/sqm to",
+    "price_from": "Price/m² from (UZS)",
+    "price_to": "Price/m² to (UZS)",
     "area_from": "Area from",
     "area_to": "Area to",
     "search_button": "Find options"
@@ -42,6 +43,8 @@
     "filters": "Filters",
     "details": "Details",
     "popular": "Popular",
+    "showMore": "Show more",
+    "noResults": "No results found with these filters",
     "from": "from",
     "drawer": {
       "title": "Search Filters",
@@ -53,7 +56,10 @@
       "verified": "Verified developer",
       "popular": "Popular projects",
       "area_from": "Area from",
-      "area_to": "Area to"
+      "area_to": "Area to",
+      "pricePerM2Label": "Price per m² (UZS)",
+      "areaLabel": "Area (m²)",
+      "additionalLabel": "Additional"
     }
   },
   "About": {
@@ -68,9 +74,15 @@
     "stats": {
       "developers": "Partner Developers",
       "projects": "Active Projects",
-      "transactions": "Success Transactions",
+      "transactions": "Successful Transactions",
       "verified": "Verified Data"
-    }
+    },
+    "trustScore": "Trust Score",
+    "trustedBy": "Trusted by 5,000+ clients",
+    "agency": "Licensed Agency",
+    "startJourney": "Start Your Journey",
+    "support": "24/7 Support",
+    "readyToAssist": "Ready to assist you"
   },
   "Footer": {
     "description": "The most trusted primary real estate platform in Uzbekistan. Connecting you with premium living spaces.",
@@ -89,7 +101,11 @@
     "popular": "Popular",
     "developer": "Developer",
     "details": "Details",
-    "inquiry": "Inquiry"
+    "inquiry": "Inquiry",
+    "topChoice": "Top Choice",
+    "from": "from",
+    "verifiedDeveloper": "Verified Developer",
+    "reviews": "reviews"
   },
   "LeadModal": {
     "title": "Get In Touch",
@@ -106,6 +122,49 @@
     "close": "Close Window",
     "privacy": "Secure Platform · Data Privacy Guaranteed",
     "projectLabel": "Select Project",
-    "apartmentLabel": "Select Apartment"
+    "apartmentLabel": "Select Apartment",
+    "invalidPhone": "Invalid phone format",
+    "incompletePhone": "Enter full phone number",
+    "submitError": "An error occurred while sending",
+    "namePlaceholder": "Your Name"
+  },
+  "ProjectDetails": {
+    "notFound": "Project not found",
+    "delivery": "Delivery",
+    "floors": "Floors",
+    "units": "Units",
+    "status": "Status",
+    "available": "Available",
+    "hideDetails": "Hide details",
+    "showDetails": "Description & Advantages",
+    "videoReview": "Project Video Review",
+    "videoReviewText": "Check out a short video overview of this residential complex. In this video, you can see the architecture of the project, layouts, and surrounding infrastructure in dynamics. We have prepared this format specifically so that you can feel the atmosphere of your future home right from your smartphone.",
+    "exclusiveFootage": "Exclusive footage from the construction site",
+    "availableResidences": "Available Residences",
+    "customerReviews": "Customer Reviews",
+    "noComment": "No comment",
+    "qrTitle": "Project QR-code",
+    "qrSubtitle": "Scan for quick access",
+    "close": "Close"
+  },
+  "ApartmentList": {
+    "roomsCount": "{count}-room apartment",
+    "apartmentId": "Apartment #{id}",
+    "area": "Area",
+    "floor": "Floor",
+    "price": "Price",
+    "select": "Select"
+  },
+  "Feedback": {
+    "title": "Rate the call",
+    "subtitle": "We care about the quality of our managers' work.",
+    "success": "Thank you for your feedback!",
+    "successSubtitle": "Your rating will help us become better.",
+    "question": "How would you rate the communication?",
+    "commentLabel": "What did you like or dislike? (optional)",
+    "commentPlaceholder": "Write a few words about the manager...",
+    "submit": "Submit rating",
+    "errorRating": "Please select a rating (stars)",
+    "errorSubmit": "Failed to send feedback"
   }
 }

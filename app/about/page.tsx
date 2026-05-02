@@ -23,7 +23,7 @@ export default async function About() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                             </span>
-                            <span className="text-xs font-black uppercase tracking-widest text-orange-700">{t("stats.verified")} Trust Score</span>
+                            <span className="text-xs font-black uppercase tracking-widest text-orange-700">{t("trustScore")}</span>
                         </div>
 
                         <h1 className="text-3xl sm:text-4xl md:text-7xl font-black text-[#1E3A8A] tracking-tighter leading-[1.05] md:leading-[0.9] uppercase italic">
@@ -47,7 +47,7 @@ export default async function About() {
                                     </div>
                                 ))}
                                 <div className="pl-8 text-sm font-bold text-slate-400 uppercase tracking-tighter">
-                                    Trusted by 5k+ clients
+                                    {t("trustedBy")}
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@ export default async function About() {
                                     </div>
                                     <div>
                                         <p className="text-sm font-black text-[#1E3A8A] uppercase">{t("stats.verified")}</p>
-                                        <p className="text-xs text-slate-500 font-bold">Government Licensed Agency</p>
+                                        <p className="text-xs text-slate-500 font-bold">{t("agency")}</p>
                                     </div>
                                 </div>
                             </div>
@@ -119,11 +119,11 @@ export default async function About() {
 
                         <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
                             <Button className="bg-[#F97316] hover:bg-orange-600 text-white px-14 h-20 rounded-[2rem] font-black text-xl shadow-2xl shadow-orange-950/40 active:scale-95 transition-all w-full md:w-auto uppercase tracking-tighter">
-                                Start Your Journey
+                                {t("startJourney")}
                             </Button>
                             <div className="flex flex-col items-start px-6 py-4 border-l border-white/20 text-left">
-                                <p className="text-white font-black text-lg leading-none">24/7 Support</p>
-                                <p className="text-blue-300/60 text-sm font-bold uppercase mt-1">Ready to assist you</p>
+                                <p className="text-white font-black text-lg leading-none">{t("support")}</p>
+                                <p className="text-blue-300/60 text-sm font-bold uppercase mt-1">{t("readyToAssist")}</p>
                             </div>
                         </div>
                     </div>
