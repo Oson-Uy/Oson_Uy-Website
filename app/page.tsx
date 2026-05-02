@@ -181,26 +181,28 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="py-20 md:py-32 px-4 bg-slate-50">
-                <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-6 sm:p-12 md:p-20 rounded-[2rem] md:rounded-[4rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                    <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-primary tracking-tight leading-[1.1]">
+            <section className="py-12 md:py-20 px-4 bg-slate-50">
+                <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-6 sm:p-10 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-16">
+                    <div className="flex-1 space-y-4 md:space-y-5 text-center md:text-left">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-primary tracking-tight leading-[1.1]">
                             {t("consultTitle1")} <br className="md:hidden" /> <span className="text-accent">{t("consultTitleAccent")}</span> <br className="md:hidden" /> {t("consultTitle2")}
                         </h2>
-                        <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
+                        <p className="text-base md:text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
                             {t("consultSubtitle")}
                         </p>
                     </div>
-                    <div className="w-full md:w-auto shrink-0 bg-primary p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white space-y-6 sm:space-y-8">
-                        <div className="space-y-4">
-                            <div className="space-y-2">
+
+                    <div className="w-full md:w-[400px] shrink-0 bg-primary p-6 sm:p-8 rounded-[2rem] shadow-2xl shadow-blue-900/20 text-white space-y-5 sm:space-y-6">
+
+                        <div className="space-y-3">
+                            <div className="space-y-1.5">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
                                     {t("selectProject")}
                                 </label>
                                 <select
                                     value={consultProjectId ?? ""}
                                     onChange={(e) => setConsultProjectId(Number(e.target.value))}
-                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white appearance-none cursor-pointer"
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 ring-accent text-white appearance-none cursor-pointer"
                                 >
                                     {featuredProjects.map((p) => (
                                         <option key={p.id} value={p.id} className="text-primary">
@@ -209,7 +211,8 @@ export default function Home() {
                                     ))}
                                 </select>
                             </div>
-                            <div className="space-y-2">
+
+                            <div className="space-y-1.5">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
                                     {t("yourName")}
                                 </label>
@@ -218,10 +221,11 @@ export default function Home() {
                                     value={consultName}
                                     onChange={(e) => setConsultName(e.target.value)}
                                     placeholder="Full Name"
-                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white"
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 ring-accent text-white"
                                 />
                             </div>
-                            <div className="space-y-2">
+
+                            <div className="space-y-1.5">
                                 <label className="text-[10px] uppercase font-black tracking-widest opacity-60">
                                     {t("phone")}
                                 </label>
@@ -230,14 +234,15 @@ export default function Home() {
                                     value={consultPhone}
                                     onChange={(e) => setConsultPhone(formatUzPhoneInput(e.target.value))}
                                     placeholder="+998 90 123 45 67"
-                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-5 py-4 text-sm outline-none focus:ring-2 ring-accent text-white"
+                                    className="w-full bg-blue-800/50 border border-blue-700/50 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 ring-accent text-white"
                                 />
                             </div>
                         </div>
+
                         <Button
                             onClick={() => setIsModalOpen(true)}
                             variant="cta"
-                            className="w-full text-white h-16 rounded-xl font-black text-xl shadow-xl shadow-orange-900/20 transition-all active:scale-95 border-none"
+                            className="w-full text-white h-14 rounded-xl font-black text-lg shadow-xl shadow-orange-900/20 transition-all active:scale-95 border-none"
                         >
                             {t("inquiryNow")}
                         </Button>
@@ -245,9 +250,9 @@ export default function Home() {
                 </div>
             </section>
 
-            <LeadModal 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
+            <LeadModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
                 initialName={consultName}
                 initialPhone={consultPhone}
                 projectId={consultProjectId ?? undefined}
