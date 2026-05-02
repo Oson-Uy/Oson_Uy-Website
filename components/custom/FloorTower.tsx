@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { formatUzs, formatUzsPerM2 } from "@/lib/currency";
+import { formatUzsPerM2 } from "@/lib/currency";
 import { LeadModal } from "@/components/custom/LeadModal";
 import { BuildingModelStatic } from "@/components/custom/BuildingModelStatic";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ import {
   minFloorInProject,
   residentialStoryNumber,
 } from "@/lib/floorDisplay";
-import { Building2 } from "lucide-react";
+import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
 
 type FloorTowerProps = {
   projectId: number;
@@ -27,6 +27,15 @@ type FloorTowerProps = {
   floors: ProjectFloor[];
   totalFloorsHint?: number | null;
 };
+
+function areaChipsText(f: ProjectFloor): string {
+  const areas = (f.areaOptions ?? [])
+    .map((o) => o.areaSqm)
+    .filter((n) => n > 0)
+    .sort((a, b) => a - b);
+  if (!areas.length) return "—";
+  return `${areas.map((a) => (Number.isInteger(a) ? String(a) : a.toFixed(1))).join(" · ")} m²`;
+}
 
 export function FloorTower({
   projectId,
@@ -36,6 +45,7 @@ export function FloorTower({
 }: FloorTowerProps) {
   const t = useTranslations("FloorTower");
   const [activeFloor, setActiveFloor] = useState<ProjectFloor | null>(null);
+  const [layoutIdx, setLayoutIdx] = useState(0);
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadFloorId, setLeadFloorId] = useState<number | undefined>();
   const [hoverId, setHoverId] = useState<number | null>(null);
@@ -55,6 +65,12 @@ export function FloorTower({
     if (!totalFloorsHint || totalFloorsHint <= sorted.length) return 0;
     return Math.min(totalFloorsHint - sorted.length, 24);
   }, [totalFloorsHint, sorted.length]);
+
+  const activeLayouts = activeFloor?.layouts ?? [];
+
+  useEffect(() => {
+    setLayoutIdx(0);
+  }, [activeFloor?.id]);
 
   if (!sorted.length) {
     return (
@@ -98,7 +114,6 @@ export function FloorTower({
 
         <div className="mt-3 flex flex-wrap justify-center gap-2 sm:gap-2.5">
           {sorted.map((f) => {
-            const total = f.pricePerM2 * f.areaSqm;
             const active = hoverId === f.id;
             return (
               <button
@@ -118,10 +133,10 @@ export function FloorTower({
                   {floorTitle(f)}
                 </span>
                 <span className="mt-0.5 block text-xs font-black tabular-nums text-slate-800">
-                  {formatUzs(total)}
+                  {formatUzsPerM2(f.pricePerM2)}
                 </span>
                 <span className="text-[9px] font-semibold text-slate-500">
-                  {formatUzsPerM2(f.pricePerM2)}
+                  {t("areaVariantsShort")}: {areaChipsText(f)}
                 </span>
               </button>
             );
@@ -143,52 +158,95 @@ export function FloorTower({
           {activeFloor ? (
             <>
               <div className="relative aspect-[16/10] w-full bg-slate-200">
-                <img
-                  src={
-                    activeFloor.sampleImageUrl ||
-                    "https://picsum.photos/seed/floor/1200/800"
-                  }
-                  alt=""
-                  className="h-full w-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "https://picsum.photos/seed/floor/1200/800";
-                  }}
-                />
+                {activeLayouts.length > 0 ? (
+                  <>
+                    <img
+                      src={activeLayouts[layoutIdx]?.imageUrl}
+                      alt={activeLayouts[layoutIdx]?.title ?? ""}
+                      className="h-full w-full object-cover"
+                    />
+                    {activeLayouts.length > 1 ? (
+                      <>
+                        <button
+                          type="button"
+                          aria-label="Previous layout"
+                          className="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/55"
+                          onClick={() =>
+                            setLayoutIdx((i) =>
+                              i <= 0 ? activeLayouts.length - 1 : i - 1,
+                            )
+                          }
+                        >
+                          <ChevronLeft className="h-5 w-5" />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="Next layout"
+                          className="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/55"
+                          onClick={() =>
+                            setLayoutIdx((i) =>
+                              i >= activeLayouts.length - 1 ? 0 : i + 1,
+                            )
+                          }
+                        >
+                          <ChevronRight className="h-5 w-5" />
+                        </button>
+                        <div className="absolute bottom-14 left-0 right-0 flex justify-center gap-1">
+                          {activeLayouts.map((_, i) => (
+                            <button
+                              key={i}
+                              type="button"
+                              aria-label={`Layout ${i + 1}`}
+                              className={cn(
+                                "h-1.5 rounded-full transition-all",
+                                i === layoutIdx
+                                  ? "w-6 bg-white shadow"
+                                  : "w-1.5 bg-white/45 hover:bg-white/70",
+                              )}
+                              onClick={() => setLayoutIdx(i)}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    ) : null}
+                  </>
+                ) : (
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-slate-100 px-6 text-center">
+                    <Building2 className="h-10 w-10 text-slate-300" />
+                    <p className="text-xs font-bold text-slate-500">
+                      {t("noLayouts")}
+                    </p>
+                  </div>
+                )}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 pt-16">
                   <DialogHeader className="space-y-0 text-left">
                     <DialogTitle className="text-2xl font-black uppercase italic text-white">
                       {floorTitle(activeFloor)}
                       {activeFloor.title ? ` · ${activeFloor.title}` : ""}
                     </DialogTitle>
+                    {activeLayouts[layoutIdx]?.title ? (
+                      <p className="mt-1 text-sm font-semibold text-white/90">
+                        {activeLayouts[layoutIdx].title}
+                      </p>
+                    ) : null}
                   </DialogHeader>
                 </div>
               </div>
               <div className="space-y-4 p-6 md:p-8">
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                      {t("pricePerM2")}
-                    </p>
-                    <p className="mt-1 text-lg font-black text-[#1E3A8A]">
-                      {formatUzsPerM2(activeFloor.pricePerM2)}
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                      {t("area")}
-                    </p>
-                    <p className="mt-1 text-lg font-black text-[#1E3A8A]">
-                      {activeFloor.areaSqm} m²
-                    </p>
-                  </div>
-                </div>
-                <div className="rounded-2xl border border-orange-100 bg-orange-50/50 p-4">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-orange-800/70">
-                    {t("indicativeTotal")}
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                    {t("pricePerM2")}
                   </p>
-                  <p className="mt-1 text-2xl font-black text-[#F97316]">
-                    {formatUzs(activeFloor.pricePerM2 * activeFloor.areaSqm)}
+                  <p className="mt-1 text-lg font-black text-[#1E3A8A]">
+                    {formatUzsPerM2(activeFloor.pricePerM2)}
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                    {t("areaVariants")}
+                  </p>
+                  <p className="mt-2 text-base font-black leading-relaxed text-[#1E3A8A]">
+                    {areaChipsText(activeFloor)}
                   </p>
                 </div>
                 <Button

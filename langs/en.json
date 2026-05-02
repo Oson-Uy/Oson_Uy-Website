@@ -9,9 +9,9 @@
   "Home": {
     "heroLine1": "Oson",
     "heroAccent": "Uy",
-    "heroLine2": "Your step to your apartment",
+    "heroLine2": "Your step to a new home",
     "heroSubtitle": "Connecting you with the best and most affordable living spaces.",
-    "slogan": "Your path to an apartment is now easier",
+    "slogan": "Primary market projects, clear floor pricing",
     "featuredTitle": "Featured Projects",
     "featuredSubtitle": "Uzbekistan's top residential complexes",
     "viewCatalog": "View Catalog ->",
@@ -104,6 +104,7 @@
     "inquiry": "Inquiry",
     "topChoice": "Top Choice",
     "from": "from",
+    "fromPerM2": "from / m²",
     "verifiedDeveloper": "Verified Developer",
     "reviews": "reviews"
   },
@@ -122,7 +123,6 @@
     "close": "Close Window",
     "privacy": "Secure Platform · Data Privacy Guaranteed",
     "projectLabel": "Select Project",
-    "apartmentLabel": "Select Apartment",
     "invalidPhone": "Invalid phone format",
     "incompletePhone": "Enter full phone number",
     "submitError": "An error occurred while sending",
@@ -142,6 +142,7 @@
     "exclusiveFootage": "Exclusive footage from the construction site",
     "availableResidences": "Available Residences",
     "floorStackTitle": "Floors & pricing",
+    "floorNotPublished": "Floor plans and pricing are not published for this project yet.",
     "customerReviews": "Customer Reviews",
     "noComment": "No comment",
     "qrTitle": "Project QR-code",
@@ -162,16 +163,10 @@
     "floorRetail": "Retail level",
     "pricePerM2": "Price per m²",
     "area": "Area",
-    "indicativeTotal": "Indicative total",
+    "areaVariants": "Available area options",
+    "areaVariantsShort": "m²",
+    "noLayouts": "No floor plans uploaded yet",
     "cta": "Request a call"
-  },
-  "ApartmentList": {
-    "roomsCount": "{count}-room apartment",
-    "apartmentId": "Apartment #{id}",
-    "area": "Area",
-    "floor": "Floor",
-    "price": "Price",
-    "select": "Select"
   },
   "Feedback": {
     "title": "Rate the call",

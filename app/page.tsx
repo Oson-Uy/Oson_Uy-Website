@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { FilterBar } from "@/components/custom/FilterBar";
 import { formatUzPhoneInput } from "@/lib/phone";
-import { minListingPriceFromApiProject } from "@/lib/project-price";
+import { minPricePerM2FromApiProject } from "@/lib/project-price";
 
 const REGION_VIDEOS: Record<string, string> = {
     "Tashkent City (г. Ташкент)": "/videos/tashkent.mp4",
@@ -53,32 +53,28 @@ export default function Home() {
                     id: String(project.id),
                     name: project.name,
                     description: "",
-                    image: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
+                    image: project.imageUrl || "",
                     location: project.location,
                     district: project.district || "",
                     developer: {
                         name: project.developer?.name ?? "Developer",
                         verified: true,
-                        logo: "https://picsum.photos/seed/dev/100/100",
+                        logo: "",
                     },
                     deliveryDate: project.deliveryDate,
                     tags: [],
                     images: project.media?.length
                         ? project.media.map((item: any) => item.imageUrl)
-                        : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
-                    mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
-                    priceFrom: minListingPriceFromApiProject(project),
-                    apartments: (project.apartments ?? []).map((apt: any) => ({
-                        id: String(apt.id),
-                        projectId: String(project.id),
-                        rooms: apt.rooms,
-                        area: apt.area,
-                        floor: apt.floor,
-                        price: apt.price,
-                        status: "available" as const,
-                        layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
+                        : project.imageUrl
+                          ? [project.imageUrl]
+                          : [],
+                    mainImage: project.imageUrl || "",
+                    priceFrom: minPricePerM2FromApiProject(project),
+                    projectFloors: (project.floors ?? []).map((f: any) => ({
+                        ...f,
+                        areaOptions: f.areaOptions ?? [],
+                        layouts: f.layouts ?? [],
                     })),
-                    projectFloors: project.floors ?? [],
                     floors: project.totalFloors || 0,
                     isPopular: Boolean(project.topInCatalog || project.topInHome),
                     badgeVerified: project.badgeVerified ?? false,

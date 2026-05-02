@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { FilterDrawer } from "@/components/custom/FilterDrawer";
 import { ProjectGrid } from "@/components/custom/ProjectGrid";
 import { Project } from "@/types";
-import { minListingPriceFromApiProject } from "@/lib/project-price";
+import { minPricePerM2FromApiProject } from "@/lib/project-price";
 
 type CatalogPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -61,39 +61,31 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       }
 
       if (priceMin || priceMax || areaMin || areaMax) {
-        const hasApts = (project.apartments?.length ?? 0) > 0;
         const hasFloors = (project.floors?.length ?? 0) > 0;
-        if (!hasApts && !hasFloors) return false;
+        if (!hasFloors) return false;
 
-        const aptOk =
-          hasApts &&
-          project.apartments.some((apt: any) => {
-            const area = apt.area || 0;
-            const perM2InUz = area > 0 ? apt.price / area : 0;
+        return project.floors.some((fl: any) => {
+          const perM2 = fl.pricePerM2 || 0;
+          if (priceMin && perM2 < priceMin) return false;
+          if (priceMax && perM2 > priceMax) return false;
 
-            if (priceMin && perM2InUz < priceMin) return false;
-            if (priceMax && perM2InUz > priceMax) return false;
-            if (areaMin && area < areaMin) return false;
-            if (areaMax && area > areaMax) return false;
+          const areas: number[] = (fl.areaOptions?.length
+            ? fl.areaOptions
+            : []
+          ).map((o: any) => Number(o.areaSqm) || 0);
 
-            return true;
-          });
+          if (areaMin || areaMax) {
+            const areaMatch = areas.some((area: number) => {
+              if (!area) return false;
+              if (areaMin && area < areaMin) return false;
+              if (areaMax && area > areaMax) return false;
+              return true;
+            });
+            if (!areaMatch) return false;
+          }
 
-        const floorOk =
-          hasFloors &&
-          project.floors.some((fl: any) => {
-            const area = fl.areaSqm || 0;
-            const perM2 = fl.pricePerM2 || 0;
-
-            if (priceMin && perM2 < priceMin) return false;
-            if (priceMax && perM2 > priceMax) return false;
-            if (areaMin && area < areaMin) return false;
-            if (areaMax && area > areaMax) return false;
-
-            return true;
-          });
-
-        return aptOk || floorOk;
+          return true;
+        });
       }
 
       return true;
@@ -102,38 +94,34 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       (a: any, b: any) => (b.topInCatalog ? 1 : 0) - (a.topInCatalog ? 1 : 0),
     )
     .map((project: any) => {
-      const minPrice = minListingPriceFromApiProject(project);
+      const minPerM2 = minPricePerM2FromApiProject(project);
 
       const mappedProject: Project = {
         id: String(project.id),
         name: project.name,
         description: project.description || "",
-        image: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
-        mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
+        image: project.imageUrl || "",
+        mainImage: project.imageUrl || "",
         location: project.location,
         district: project.district || "",
         developer: {
           name: project.developer?.name ?? "Developer",
           verified: project.badgeVerified ?? false,
-          logo: "https://picsum.photos/seed/dev/100/100",
+          logo: "",
         },
         deliveryDate: project.deliveryDate,
         tags: [],
         images: project.media?.length
           ? project.media.map((item: any) => item.imageUrl)
-          : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
-        priceFrom: minPrice,
-        apartments: (project.apartments ?? []).map((apt: any) => ({
-          id: String(apt.id),
-          projectId: String(project.id),
-          rooms: apt.rooms,
-          area: apt.area,
-          floor: apt.floor,
-          price: apt.price,
-          status: "available" as const,
-          layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
+          : project.imageUrl
+            ? [project.imageUrl]
+            : [],
+        priceFrom: minPerM2,
+        projectFloors: (project.floors ?? []).map((f: any) => ({
+          ...f,
+          areaOptions: f.areaOptions ?? [],
+          layouts: f.layouts ?? [],
         })),
-        projectFloors: project.floors ?? [],
         isPopular: Boolean(project.topInCatalog || project.topInHome || project.isPopular),
         badgeVerified: project.badgeVerified ?? false,
         badgeTrusted: project.badgeTrusted ?? false,

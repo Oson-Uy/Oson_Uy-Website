@@ -104,6 +104,7 @@
     "inquiry": "Заявка",
     "topChoice": "Лучший выбор",
     "from": "от",
+    "fromPerM2": "от / м²",
     "verifiedDeveloper": "Проверенный застройщик",
     "reviews": "отзывов"
   },
@@ -122,7 +123,6 @@
     "close": "Закрыть",
     "privacy": "Безопасная платформа · Конфиденциальность данных гарантирована",
     "projectLabel": "Выберите проект",
-    "apartmentLabel": "Выберите квартиру",
     "invalidPhone": "Неверный формат номера",
     "incompletePhone": "Введите полный номер телефона",
     "submitError": "Произошла ошибка при отправке",
@@ -142,6 +142,7 @@
     "exclusiveFootage": "Эксклюзивные кадры со стройплощадки",
     "availableResidences": "Доступные варианты",
     "floorStackTitle": "Этажи и цены",
+    "floorNotPublished": "По этому проекту этажи и цены ещё не опубликованы.",
     "customerReviews": "Отзывы клиентов",
     "noComment": "Без комментария",
     "qrTitle": "QR-код проекта",
@@ -162,16 +163,10 @@
     "floorRetail": "Торговый уровень",
     "pricePerM2": "Цена за м²",
     "area": "Площадь",
-    "indicativeTotal": "Ориентировочная сумма",
+    "areaVariants": "Доступные площади",
+    "areaVariantsShort": "м²",
+    "noLayouts": "Планировки для этажа ещё не загружены",
     "cta": "Оставить заявку"
-  },
-  "ApartmentList": {
-    "roomsCount": "{count}-комнатная квартира",
-    "apartmentId": "Квартира #{id}",
-    "area": "Площадь",
-    "floor": "Этаж",
-    "price": "Цена",
-    "select": "Выбрать"
   },
   "Feedback": {
     "title": "Оцените звонок",

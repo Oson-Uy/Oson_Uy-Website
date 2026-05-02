@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ApartmentList } from "@/components/custom/ApartmentList";
 import { FloorTower } from "@/components/custom/FloorTower";
 import {
     Carousel,
@@ -82,9 +81,19 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
 
     const gallery = useMemo(() => {
         if (!projectData) return [];
-        return projectData.media && projectData.media.length > 0
-            ? projectData.media.map((item: any) => item.imageUrl)
-            : [projectData.imageUrl || "https://picsum.photos/seed/project/1200/800"];
+        if (projectData.media?.length > 0) {
+            return projectData.media.map((item: any) => item.imageUrl).filter(Boolean);
+        }
+        return projectData.imageUrl ? [projectData.imageUrl] : [];
+    }, [projectData]);
+
+    const apiFloors = useMemo(() => {
+        const raw = projectData?.floors ?? [];
+        return raw.map((f: any) => ({
+            ...f,
+            areaOptions: f.areaOptions ?? [],
+            layouts: f.layouts ?? [],
+        }));
     }, [projectData]);
 
     if (loading) {
@@ -107,7 +116,6 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
         );
     }
 
-    const apiFloors = projectData.floors ?? [];
     const hasFloors = apiFloors.length > 0;
 
     const fallbackQuery = `${projectData.location} ${projectData.district || ""}`;
@@ -127,15 +135,16 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                                 className="h-full w-full"
                             >
                                 <CarouselContent className="m-0 h-full flex">
-                                    {gallery.map((img: string, index: number) => (
+                                    {(gallery.length ? gallery : [""]).map((img: string, index: number) => (
                                         <CarouselItem key={index} className="p-0 h-full basis-full grow-0 shrink-0">
-                                            <div className="relative h-full w-full">
-                                                <img
-                                                    src={img}
-                                                    alt={projectData.name}
-                                                    className="h-full w-full object-cover"
-                                                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/1200/800'; }}
-                                                />
+                                            <div className="relative h-full w-full bg-slate-200">
+                                                {img ? (
+                                                    <img
+                                                        src={img}
+                                                        alt={projectData.name}
+                                                        className="h-full w-full object-cover"
+                                                    />
+                                                ) : null}
                                             </div>
                                         </CarouselItem>
                                     ))}
@@ -227,7 +236,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             </div>
                             <div className="bg-slate-50 p-3 md:p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
                                 <p className="text-[9px] md:text-[10px] uppercase font-black text-slate-400 mb-1">{t("units")}</p>
-                                <p className="text-[#1E3A8A] font-bold text-xs md:text-sm leading-tight">{projectData.totalUnits || apiFloors.length || projectData.apartments?.length || 0}</p>
+                                <p className="text-[#1E3A8A] font-bold text-xs md:text-sm leading-tight">{projectData.totalUnits || apiFloors.length || "—"}</p>
                             </div>
                             {projectData.qrCodeUrl ? (
                                 <div
@@ -369,11 +378,9 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             totalFloorsHint={projectData.totalFloors}
                         />
                     ) : (
-                        <ApartmentList
-                            projectId={projectData.id}
-                            projectName={projectData.name}
-                            apartments={projectData.apartments || []}
-                        />
+                        <p className="text-center text-sm font-semibold text-slate-500">
+                            {t("floorNotPublished")}
+                        </p>
                     )}
                 </div>
 

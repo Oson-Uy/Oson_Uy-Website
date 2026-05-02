@@ -1,14 +1,16 @@
 export type Location = 'Tashkent' | 'Samarkand' | 'Bukhara';
 
-export interface Apartment {
-  id: string;
-  projectId: string;
-  rooms: number;
-  area: number; // in m2
-  floor: number;
-  price: number; // in UZS
-  status: 'available' | 'reserved' | 'sold';
-  layoutImage: string;
+export interface ProjectFloorAreaOption {
+  id?: number;
+  areaSqm: number;
+  sortOrder?: number;
+}
+
+export interface ProjectFloorLayout {
+  id?: number;
+  imageUrl: string;
+  title?: string | null;
+  sortOrder?: number;
 }
 
 /** Per-floor listing from developer cabinet (matches API / Prisma). */
@@ -17,10 +19,10 @@ export interface ProjectFloor {
   projectId: number;
   floor: number;
   pricePerM2: number;
-  areaSqm: number;
-  sampleImageUrl?: string | null;
   title?: string | null;
   sortOrder?: number;
+  areaOptions: ProjectFloorAreaOption[];
+  layouts: ProjectFloorLayout[];
 }
 
 export interface Project {
@@ -38,8 +40,8 @@ export interface Project {
   tags: string[];
   images: string[];
   mainImage: string;
+  /** Minimum price per m² (UZS) across published floors, for catalog cards. */
   priceFrom: number;
-  apartments: Apartment[];
   /** Building height (storeys), not the `floors` relation from API. */
   floors: number;
   /** Populated from API `floors` (ProjectFloor[]). */
@@ -49,7 +51,7 @@ export interface Project {
   mapEmbedUrl?: string;
   totalFloors?: number | null;
   totalUnits?: number | null;
-  isPopular?: boolean; // Optional field to indicate if the project is popular
+  isPopular?: boolean;
   badgeVerified?: boolean;
   badgeTrusted?: boolean;
   topInCatalog?: boolean;

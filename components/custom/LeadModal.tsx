@@ -23,8 +23,6 @@ interface LeadModalProps {
     onClose: () => void;
     projectName?: string;
     projectId?: number;
-    /** @deprecated Prefer floorId for new listings */
-    apartmentId?: number;
     floorId?: number;
     initialName?: string;
     initialPhone?: string;
@@ -38,7 +36,6 @@ export function LeadModal({
     onClose, 
     projectName, 
     projectId, 
-    apartmentId,
     floorId,
     initialName = "",
     initialPhone = "+998"
@@ -98,8 +95,6 @@ export function LeadModal({
             };
             if (floorId != null) {
                 payload.floorId = floorId;
-            } else if (apartmentId != null) {
-                payload.apartmentId = apartmentId;
             }
 
             const response = await fetch(`${API_URL}/leads`, {

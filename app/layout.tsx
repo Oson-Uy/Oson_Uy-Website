@@ -12,23 +12,23 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 export const metadata: Metadata = {
     metadataBase: new URL("https://osonuy.uz"),
     title: {
-        default: "Oson Uy - New Building Apartments in Uzbekistan",
+        default: "Oson Uy — new builds in Uzbekistan",
         template: "%s | Oson Uy",
     },
     description:
-        "Oson Uy is a simple and user-friendly platform. Your path to an apartment is now easier. Launching in Samarkand.",
+        "Oson Uy is a simple platform for the primary housing market in Uzbekistan.",
     keywords: [
         "Oson Uy",
         "real estate Uzbekistan",
         "new buildings Tashkent",
-        "apartments Uzbekistan",
+        "new buildings Uzbekistan",
         "novostroyki",
     ],
     applicationName: "Oson Uy",
     openGraph: {
-        title: "Oson Uy - New Building Apartments in Uzbekistan",
+        title: "Oson Uy — new builds in Uzbekistan",
         description:
-            "Simple apartment search in new buildings. Launching in Samarkand.",
+            "Browse developer projects, floor pricing, and layouts.",
         type: "website",
         siteName: "Oson Uy",
         images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Oson Uy",
         description:
-            "Your path to an apartment is now easier. Launching in Samarkand.",
+            "Browse developer projects and floor-by-floor pricing.",
         images: ["/osonuy-logo-removebg-preview.png"],
     },
     icons: {

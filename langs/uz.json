@@ -104,6 +104,7 @@
     "inquiry": "So'rov",
     "topChoice": "Eng yaxshi tanlov",
     "from": "dan",
+    "fromPerM2": "m² dan",
     "verifiedDeveloper": "Tasdiqlangan quruvchi",
     "reviews": "sharhlar"
   },
@@ -122,7 +123,6 @@
     "close": "Yopish",
     "privacy": "Xavfsiz platforma · Ma'lumotlar maxfiyligi kafolatlangan",
     "projectLabel": "Loyihani tanlang",
-    "apartmentLabel": "Kvartirani tanlang",
     "invalidPhone": "Raqam formati noto'g'ri",
     "incompletePhone": "Telefon raqamini to'liq kiriting",
     "submitError": "Yuborishda xatolik yuz berdi",
@@ -142,6 +142,7 @@
     "exclusiveFootage": "Qurilish maydonchasidan eksklyuziv kadrlar",
     "availableResidences": "Mavjud xonadonlar",
     "floorStackTitle": "Qavatlar va narxlar",
+    "floorNotPublished": "Ushbu loyiha bo'yicha qavatlar va narxlar hali e'lon qilinmagan.",
     "customerReviews": "Mijozlar fikrlari",
     "noComment": "Izohsiz",
     "qrTitle": "Loyiha QR-kodi",
@@ -162,16 +163,10 @@
     "floorRetail": "Savdo qavati",
     "pricePerM2": "m² narxi",
     "area": "Maydon",
-    "indicativeTotal": "Taxminiy summa",
+    "areaVariants": "Mavjud maydon variantlari",
+    "areaVariantsShort": "m²",
+    "noLayouts": "Ushbu qavat uchun reja rasmlari hali yuklanmagan",
     "cta": "Ariza qoldirish"
-  },
-  "ApartmentList": {
-    "roomsCount": "{count}-xonali kvartira",
-    "apartmentId": "Kvartira #{id}",
-    "area": "Maydoni",
-    "floor": "Qavat",
-    "price": "Narxi",
-    "select": "Tanlash"
   },
   "Feedback": {
     "title": "Qo'ng'iroqni baholang",

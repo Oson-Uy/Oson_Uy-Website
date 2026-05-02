@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { LeadModal } from "@/components/custom/LeadModal";
-import { formatUzs } from "@/lib/currency";
+import { formatUzsPerM2 } from "@/lib/currency";
 import {
     Carousel,
     CarouselContent,
@@ -30,7 +30,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const [count, setCount] = useState(0);
 
     const gallery = useMemo(
-        () => (project.images?.length ? project.images : [project.image || project.mainImage || "https://picsum.photos/seed/project/1200/800"]),
+        () =>
+            project.images?.length
+                ? project.images
+                : [project.image || project.mainImage].filter(Boolean),
         [project.images, project.image, project.mainImage],
     );
 
@@ -53,15 +56,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     className="h-full w-full"
                 >
                     <CarouselContent className="m-0 h-full flex">
-                        {gallery.map((image, index) => (
+                        {(gallery.length ? gallery : [""]).map((image, index) => (
                             <CarouselItem key={`${project.id}-${index}`} className="p-0 h-full basis-full grow-0 shrink-0 overflow-hidden">
-                                <img
-                                    src={image}
-                                    alt={`${project.name} ${index + 1}`}
-                                    className="h-full w-full object-cover transition-opacity duration-500"
-                                    referrerPolicy="no-referrer"
-                                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/1200/800'; }}
-                                />
+                                {image ? (
+                                    <img
+                                        src={image}
+                                        alt={`${project.name} ${index + 1}`}
+                                        className="h-full w-full object-cover transition-opacity duration-500"
+                                        referrerPolicy="no-referrer"
+                                    />
+                                ) : (
+                                    <div className="h-full w-full bg-slate-200" />
+                                )}
                             </CarouselItem>
                         ))}
                     </CarouselContent>
@@ -131,9 +137,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {project.name}
                     </h3>
                     <div className="text-right">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{t("from")}</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{t("fromPerM2")}</p>
                         <span className="text-xl font-black text-[#F97316] tracking-tighter">
-                            {formatUzs(project.priceFrom)}
+                            {project.priceFrom > 0 ? formatUzsPerM2(project.priceFrom) : "—"}
                         </span>
                     </div>
                 </div>
