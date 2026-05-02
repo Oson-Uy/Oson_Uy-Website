@@ -11,6 +11,18 @@ export interface Apartment {
   layoutImage: string;
 }
 
+/** Per-floor listing from developer cabinet (matches API / Prisma). */
+export interface ProjectFloor {
+  id: number;
+  projectId: number;
+  floor: number;
+  pricePerM2: number;
+  areaSqm: number;
+  sampleImageUrl?: string | null;
+  title?: string | null;
+  sortOrder?: number;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -28,7 +40,10 @@ export interface Project {
   mainImage: string;
   priceFrom: number;
   apartments: Apartment[];
+  /** Building height (storeys), not the `floors` relation from API. */
   floors: number;
+  /** Populated from API `floors` (ProjectFloor[]). */
+  projectFloors?: ProjectFloor[];
   district: string;
   advantages?: string[];
   mapEmbedUrl?: string;

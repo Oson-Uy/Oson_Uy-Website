@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { FilterBar } from "@/components/custom/FilterBar";
 import { formatUzPhoneInput } from "@/lib/phone";
+import { minListingPriceFromApiProject } from "@/lib/project-price";
 
 const REGION_VIDEOS: Record<string, string> = {
     "Tashkent City (г. Ташкент)": "/videos/tashkent.mp4",
@@ -54,6 +55,7 @@ export default function Home() {
                     description: "",
                     image: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
                     location: project.location,
+                    district: project.district || "",
                     developer: {
                         name: project.developer?.name ?? "Developer",
                         verified: true,
@@ -65,10 +67,8 @@ export default function Home() {
                         ? project.media.map((item: any) => item.imageUrl)
                         : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
                     mainImage: project.imageUrl || "https://picsum.photos/seed/project/1200/800",
-                    priceFrom: project.apartments.length
-                        ? Math.min(...project.apartments.map((apt: any) => apt.price))
-                        : 0,
-                    apartments: project.apartments.map((apt: any) => ({
+                    priceFrom: minListingPriceFromApiProject(project),
+                    apartments: (project.apartments ?? []).map((apt: any) => ({
                         id: String(apt.id),
                         projectId: String(project.id),
                         rooms: apt.rooms,
@@ -78,6 +78,8 @@ export default function Home() {
                         status: "available" as const,
                         layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
                     })),
+                    projectFloors: project.floors ?? [],
+                    floors: project.totalFloors || 0,
                     isPopular: Boolean(project.topInCatalog || project.topInHome),
                     badgeVerified: project.badgeVerified ?? false,
                     badgeTrusted: project.badgeTrusted ?? false,

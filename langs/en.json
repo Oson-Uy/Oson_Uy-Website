@@ -141,11 +141,26 @@
     "videoReviewText": "Check out a short video overview of this residential complex. In this video, you can see the architecture of the project, layouts, and surrounding infrastructure in dynamics. We have prepared this format specifically so that you can feel the atmosphere of your future home right from your smartphone.",
     "exclusiveFootage": "Exclusive footage from the construction site",
     "availableResidences": "Available Residences",
+    "floorStackTitle": "Floors & pricing",
     "customerReviews": "Customer Reviews",
     "noComment": "No comment",
     "qrTitle": "Project QR-code",
     "qrSubtitle": "Scan for quick access",
     "close": "Close"
+  },
+  "FloorTower": {
+    "title": "Scale-model block",
+    "description": "Red brick, beige vertical bands, white-framed windows, a dark plinth, and two entrance canopies—like an architectural maquette. Tap a floor for prices and a lead.",
+    "hint": "Click a floor on the building to open details.",
+    "floorShort": "fl.",
+    "floorBand": "Floor",
+    "empty": "Floors are not published yet. Check back later or leave a general inquiry.",
+    "placeholder": "No data",
+    "floorLabel": "Floor {n}",
+    "pricePerM2": "Price per m²",
+    "area": "Area",
+    "indicativeTotal": "Indicative total",
+    "cta": "Request a call"
   },
   "ApartmentList": {
     "roomsCount": "{count}-room apartment",

@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { FilterDrawer } from "@/components/custom/FilterDrawer";
 import { ProjectGrid } from "@/components/custom/ProjectGrid";
 import { Project } from "@/types";
+import { minListingPriceFromApiProject } from "@/lib/project-price";
 
 type CatalogPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -60,24 +61,39 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       }
 
       if (priceMin || priceMax || areaMin || areaMax) {
-        if (!project.apartments?.length) return false;
+        const hasApts = (project.apartments?.length ?? 0) > 0;
+        const hasFloors = (project.floors?.length ?? 0) > 0;
+        if (!hasApts && !hasFloors) return false;
 
-        return project.apartments.some((apt: any) => {
-          const area = apt.area || 0;
-          const perM2InUz = area > 0 ? apt.price / area : 0;
+        const aptOk =
+          hasApts &&
+          project.apartments.some((apt: any) => {
+            const area = apt.area || 0;
+            const perM2InUz = area > 0 ? apt.price / area : 0;
 
-          if (priceMin) {
-            if (perM2InUz < priceMin) return false;
-          }
-          if (priceMax) {
-            if (perM2InUz > priceMax) return false;
-          }
+            if (priceMin && perM2InUz < priceMin) return false;
+            if (priceMax && perM2InUz > priceMax) return false;
+            if (areaMin && area < areaMin) return false;
+            if (areaMax && area > areaMax) return false;
 
-          if (areaMin && area < areaMin) return false;
-          if (areaMax && area > areaMax) return false;
+            return true;
+          });
 
-          return true;
-        });
+        const floorOk =
+          hasFloors &&
+          project.floors.some((fl: any) => {
+            const area = fl.areaSqm || 0;
+            const perM2 = fl.pricePerM2 || 0;
+
+            if (priceMin && perM2 < priceMin) return false;
+            if (priceMax && perM2 > priceMax) return false;
+            if (areaMin && area < areaMin) return false;
+            if (areaMax && area > areaMax) return false;
+
+            return true;
+          });
+
+        return aptOk || floorOk;
       }
 
       return true;
@@ -86,9 +102,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       (a: any, b: any) => (b.topInCatalog ? 1 : 0) - (a.topInCatalog ? 1 : 0),
     )
     .map((project: any) => {
-      const minPrice = project.apartments?.length
-        ? Math.min(...project.apartments.map((a: any) => a.price))
-        : 0;
+      const minPrice = minListingPriceFromApiProject(project);
 
       const mappedProject: Project = {
         id: String(project.id),
@@ -109,7 +123,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           ? project.media.map((item: any) => item.imageUrl)
           : [project.imageUrl || "https://picsum.photos/seed/project/1200/800"],
         priceFrom: minPrice,
-        apartments: project.apartments.map((apt: any) => ({
+        apartments: (project.apartments ?? []).map((apt: any) => ({
           id: String(apt.id),
           projectId: String(project.id),
           rooms: apt.rooms,
@@ -119,6 +133,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           status: "available" as const,
           layoutImage: apt.imageUrl || "https://picsum.photos/seed/layout/600/400",
         })),
+        projectFloors: project.floors ?? [],
         isPopular: Boolean(project.topInCatalog || project.topInHome || project.isPopular),
         badgeVerified: project.badgeVerified ?? false,
         badgeTrusted: project.badgeTrusted ?? false,

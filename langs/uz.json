@@ -141,11 +141,26 @@
     "videoReviewText": "Ushbu turar-joy majmuasining qisqacha video-sharhini tomosha qiling. Bu videoda siz loyihaning arxitekturasi, rejalashtirish va atrofdagi infratuzilmani dinamikada ko'rishingiz mumkin. Biz ushbu formatni maxsus smartfoningizdan kelajakdagi uyingiz atmosferasini his qilishingiz uchun tayyorladik.",
     "exclusiveFootage": "Qurilish maydonchasidan eksklyuziv kadrlar",
     "availableResidences": "Mavjud xonadonlar",
+    "floorStackTitle": "Qavatlar va narxlar",
     "customerReviews": "Mijozlar fikrlari",
     "noComment": "Izohsiz",
     "qrTitle": "Loyiha QR-kodi",
     "qrSubtitle": "Tezkor kirish uchun skanerlang",
     "close": "Yopish"
+  },
+  "FloorTower": {
+    "title": "Uy maketi",
+    "description": "Qizil g'isht, bej vertikal chiziqlar, oq deraza ramkalari, qorong'u sokil va ikki kirish navesi — arxitektura maketiga o'xshash. Qavatni bosing: narx va ariza.",
+    "hint": "Binodagi qavatni bosing — batafsil ochiladi.",
+    "floorShort": "q.",
+    "floorBand": "Qavat",
+    "empty": "Qavatlar hali joylashtirilmagan. Keyinroq kiring yoki umumiy ariza qoldiring.",
+    "placeholder": "Ma'lumot yo'q",
+    "floorLabel": "{n}-qavat",
+    "pricePerM2": "m² narxi",
+    "area": "Maydon",
+    "indicativeTotal": "Taxminiy summa",
+    "cta": "Ariza qoldirish"
   },
   "ApartmentList": {
     "roomsCount": "{count}-xonali kvartira",

@@ -23,13 +23,14 @@ interface LeadModalProps {
     onClose: () => void;
     projectName?: string;
     projectId?: number;
+    /** @deprecated Prefer floorId for new listings */
     apartmentId?: number;
+    floorId?: number;
     initialName?: string;
     initialPhone?: string;
 }
 
 type ProjectOption = { id: number; name: string };
-type ApartmentOption = { id: number; rooms: number; area: number; price: number };
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
 
 export function LeadModal({ 
@@ -38,6 +39,7 @@ export function LeadModal({
     projectName, 
     projectId, 
     apartmentId,
+    floorId,
     initialName = "",
     initialPhone = "+998"
 }: LeadModalProps) {
@@ -46,9 +48,7 @@ export function LeadModal({
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [projects, setProjects] = useState<ProjectOption[]>([]);
-    const [apartments, setApartments] = useState<ApartmentOption[]>([]);
     const [selectedProjectId, setSelectedProjectId] = useState<number | null>(projectId ?? null);
-    const [selectedApartmentId, setSelectedApartmentId] = useState<number | null>(apartmentId ?? null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     // Update formState when initial props change or when modal opens
@@ -56,10 +56,9 @@ export function LeadModal({
         if (isOpen) {
             setFormState({ name: initialName, phone: initialPhone });
             setSelectedProjectId(projectId ?? null);
-            setSelectedApartmentId(apartmentId ?? null);
             setIsSubmitted(false);
         }
-    }, [isOpen, initialName, initialPhone, projectId, apartmentId]);
+    }, [isOpen, initialName, initialPhone, projectId]);
     
     useEffect(() => {
         if (!isOpen || projectId) return;
@@ -74,20 +73,6 @@ export function LeadModal({
             } catch (e) { console.error(e); }
         })();
     }, [isOpen, projectId, selectedProjectId]);
-
-    useEffect(() => {
-        if (!isOpen || !selectedProjectId) return;
-        (async () => {
-            try {
-                const response = await fetch(`${API_URL}/apartments?projectId=${selectedProjectId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setApartments(data);
-                    if (!apartmentId && data.length) setSelectedApartmentId(data[0].id);
-                }
-            } catch (e) { console.error(e); }
-        })();
-    }, [isOpen, selectedProjectId, apartmentId]);
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormState((prev) => ({
@@ -106,15 +91,21 @@ export function LeadModal({
                 throw new Error("INVALID_PHONE");
             }
 
+            const payload: Record<string, unknown> = {
+                name: formState.name,
+                phone: cleanPhone,
+                projectId: selectedProjectId,
+            };
+            if (floorId != null) {
+                payload.floorId = floorId;
+            } else if (apartmentId != null) {
+                payload.apartmentId = apartmentId;
+            }
+
             const response = await fetch(`${API_URL}/leads`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: formState.name,
-                    phone: cleanPhone,
-                    projectId: selectedProjectId,
-                    apartmentId: selectedApartmentId,
-                }),
+                body: JSON.stringify(payload),
             });
             if (!response.ok) throw new Error("SUBMIT_ERROR");
             setIsSubmitted(true);

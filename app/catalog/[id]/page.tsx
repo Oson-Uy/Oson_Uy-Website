@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ApartmentList } from "@/components/custom/ApartmentList";
+import { FloorTower } from "@/components/custom/FloorTower";
 import {
     Carousel,
     CarouselContent,
@@ -105,6 +106,9 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
             </div>
         );
     }
+
+    const apiFloors = projectData.floors ?? [];
+    const hasFloors = apiFloors.length > 0;
 
     const fallbackQuery = `${projectData.location} ${projectData.district || ""}`;
     const mapSrc = projectData.mapEmbedUrl && projectData.mapEmbedUrl.includes("http")
@@ -223,7 +227,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                             </div>
                             <div className="bg-slate-50 p-3 md:p-4 rounded-2xl border border-slate-100 text-center flex flex-col justify-center">
                                 <p className="text-[9px] md:text-[10px] uppercase font-black text-slate-400 mb-1">{t("units")}</p>
-                                <p className="text-[#1E3A8A] font-bold text-xs md:text-sm leading-tight">{projectData.totalUnits || projectData.apartments?.length || 0}</p>
+                                <p className="text-[#1E3A8A] font-bold text-xs md:text-sm leading-tight">{projectData.totalUnits || apiFloors.length || projectData.apartments?.length || 0}</p>
                             </div>
                             {projectData.qrCodeUrl ? (
                                 <div
@@ -354,12 +358,23 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsPageProps) 
                 </div>
 
                 <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 mb-10">
-                    <h2 className="text-2xl font-black text-[#1E3A8A] mb-6 uppercase">{t("availableResidences")}</h2>
-                    <ApartmentList
-                        projectId={projectData.id}
-                        projectName={projectData.name}
-                        apartments={projectData.apartments || []}
-                    />
+                    <h2 className="text-2xl font-black text-[#1E3A8A] mb-6 uppercase">
+                        {hasFloors ? t("floorStackTitle") : t("availableResidences")}
+                    </h2>
+                    {hasFloors ? (
+                        <FloorTower
+                            projectId={projectData.id}
+                            projectName={projectData.name}
+                            floors={apiFloors}
+                            totalFloorsHint={projectData.totalFloors}
+                        />
+                    ) : (
+                        <ApartmentList
+                            projectId={projectData.id}
+                            projectName={projectData.name}
+                            apartments={projectData.apartments || []}
+                        />
+                    )}
                 </div>
 
                 {projectData.reviews?.length > 0 && (
