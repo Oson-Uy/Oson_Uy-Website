@@ -5,7 +5,7 @@ import { formatUzs } from "@/lib/currency";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const rawApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
 const API_URL = rawApiUrl.replace(/\/$/, "");
 
 type Invoice = {

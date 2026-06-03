@@ -201,10 +201,9 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
     }
 
     const hasFloors = apiFloors.length > 0;
-    const fallbackQuery = `${projectData.location} ${projectData.district || ""}`;
-    const mapSrc = projectData.mapEmbedUrl && projectData.mapEmbedUrl.includes("http")
+    const mapSrc = projectData.mapEmbedUrl && projectData.mapEmbedUrl.startsWith("http")
         ? projectData.mapEmbedUrl
-        : `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(projectData.mapEmbedUrl || fallbackQuery)}`;
+        : null;
 
     return (
         <div className="pt-16 md:pt-20 pb-20 bg-slate-50 min-h-screen">
@@ -645,14 +644,16 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
                     </div>
                 )}
 
-                <div className="mb-10 rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
-                    <iframe
-                        src={mapSrc}
-                        className="w-full h-80"
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    />
-                </div>
+                {mapSrc && (
+                    <div className="mb-10 rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
+                        <iframe
+                            src={mapSrc}
+                            className="w-full h-80"
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        />
+                    </div>
+                )}
 
                 <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 mb-10">
                     <h2 className="text-2xl font-black text-[#1E3A8A] mb-6 uppercase">
