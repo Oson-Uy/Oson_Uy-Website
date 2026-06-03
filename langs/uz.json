@@ -141,18 +141,20 @@
     "readyToAssist": "Sizga yordamga tayyormiz"
   },
   "Footer": {
-    "description": "O'zbekistonda birlamchi ko'chmas mulk: JK katalogi, quruvchilarga arizalar va xaridor kabineti.",
+    "description": "O'zbekistondagi birlamchi ko'chmas mulk platformasi: turar-joy majmualari katalogi, quruvchilarga buyurtmalar va xaridorning shaxsiy kabineti.",
     "navTitle": "Navigatsiya",
     "legalTitle": "Hujjatlar",
-    "contactsTitle": "Aloqa",
+    "contactsTitle": "Bog'lanish",
     "about": "Biz haqimizda",
     "privacy": "Maxfiylik siyosati",
     "terms": "Foydalanish shartlari",
-    "faq": "Savollar-javoblar",
+    "faq": "Ko'p so'raladigan savollar",
     "phoneLabel": "Telefon",
     "instagramLabel": "Instagram",
     "phonePlaceholder": "Telefon raqami tez orada saytda ko'rsatiladi",
-    "copyright": "© 2026 Oson Uy. Barcha huquqlar himoyalangan."
+    "copyright": "© 2026 Oson Uy. Barcha huquqlar himoyalangan.",
+    "appDownloadTitle": "Hozir yuklab oling! Chegirmalarni o'tkazib yubormang",
+    "qrLabel": "Yuklab olish uchun QR-kodga kamerangizni yo'naltiring"
   },
   "ProjectCard": {
     "popular": "Mashhur",
