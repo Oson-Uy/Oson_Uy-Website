@@ -141,18 +141,20 @@
     "readyToAssist": "Ready to assist you"
   },
   "Footer": {
-    "description": "Primary real estate platform in Uzbekistan: project catalog, developer leads, and a buyer cabinet.",
+    "description": "Primary real estate platform in Uzbekistan: catalog of residential complexes, requests to developers, and buyer's dashboard.",
     "navTitle": "Navigation",
-    "legalTitle": "Legal",
+    "legalTitle": "Documents",
     "contactsTitle": "Contacts",
-    "about": "About",
+    "about": "About Us",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
     "faq": "FAQ",
     "phoneLabel": "Phone",
     "instagramLabel": "Instagram",
-    "phonePlaceholder": "Phone number will be published soon",
-    "copyright": "© 2026 Oson Uy. All rights reserved."
+    "phonePlaceholder": "Phone number will be available on the site soon",
+    "copyright": "© 2026 Oson Uy. All rights reserved.",
+    "appDownloadTitle": "Download now! Don't miss out on discounts",
+    "qrLabel": "Point your camera at the QR code to download"
   },
   "ProjectCard": {
     "popular": "Popular",
