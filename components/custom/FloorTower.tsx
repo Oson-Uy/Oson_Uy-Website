@@ -20,7 +20,15 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import type { ProjectFloor } from "@/types";
-import { Building2, ChevronLeft, ChevronRight, Layers } from "lucide-react";
+import { Building2, ChevronLeft, ChevronRight, ExternalLink, FileText, Layers } from "lucide-react";
+
+function isPdf(url: string) {
+  try {
+    return new URL(url).pathname.toLowerCase().endsWith(".pdf");
+  } catch {
+    return url.toLowerCase().endsWith(".pdf");
+  }
+}
 
 type FloorTowerProps = {
   projectId: number;
@@ -193,11 +201,31 @@ export function FloorTower({
                               className="h-full min-h-0 basis-full shrink-0 grow-0 p-0"
                             >
                               <div className="flex h-full min-h-[min(48vh,420px)] w-full flex-1 items-center justify-center p-3 md:min-h-[min(58vh,520px)] md:p-5">
-                                <img
-                                  src={layout.imageUrl}
-                                  alt={layout.title ?? ""}
-                                  className="max-h-full max-w-full object-contain"
-                                />
+                                {isPdf(layout.imageUrl) ? (
+                                  <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-slate-200">
+                                    <iframe
+                                      src={layout.imageUrl}
+                                      className="h-full w-full flex-1"
+                                      style={{ minHeight: "360px" }}
+                                      title={layout.title ?? "PDF"}
+                                    />
+                                    <a
+                                      href={layout.imageUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="flex shrink-0 items-center justify-center gap-2 border-t border-slate-200 bg-white py-2.5 text-xs font-bold text-blue-600 hover:bg-slate-50"
+                                    >
+                                      <ExternalLink className="h-3.5 w-3.5" />
+                                      {layout.title ?? "Открыть PDF"}
+                                    </a>
+                                  </div>
+                                ) : (
+                                  <img
+                                    src={layout.imageUrl}
+                                    alt={layout.title ?? ""}
+                                    className="max-h-full max-w-full object-contain"
+                                  />
+                                )}
                               </div>
                             </CarouselItem>
                           ))}
@@ -275,11 +303,18 @@ export function FloorTower({
                               : "border-slate-200 opacity-90 hover:border-slate-300 hover:opacity-100",
                           )}
                         >
-                          <img
-                            src={layout.imageUrl}
-                            alt=""
-                            className="h-full w-full object-cover"
-                          />
+                          {isPdf(layout.imageUrl) ? (
+                            <div className="flex h-full w-full flex-col items-center justify-center gap-1 bg-red-50">
+                              <FileText className="h-5 w-5 text-red-400" />
+                              <span className="text-[9px] font-bold uppercase text-red-400">PDF</span>
+                            </div>
+                          ) : (
+                            <img
+                              src={layout.imageUrl}
+                              alt=""
+                              className="h-full w-full object-cover"
+                            />
+                          )}
                         </button>
                       ))}
                     </div>
