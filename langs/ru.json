@@ -152,7 +152,9 @@
     "phoneLabel": "Телефон",
     "instagramLabel": "Instagram",
     "phonePlaceholder": "Телефон скоро будет указан на сайте",
-    "copyright": "© 2026 Oson Uy. Все права защищены."
+    "copyright": "© 2026 Oson Uy. Все права защищены.",
+    "appDownloadTitle": "Скачать сейчас! Не пропустите скидки",
+    "qrLabel": "Наведите камеру на QR-код, чтобы скачать"
   },
   "ProjectCard": {
     "popular": "Популярно",
