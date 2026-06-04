@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { BRAND_LOGO_WEB_REMOVEDBG } from "@/lib/brand";
 
 const INSTAGRAM_URL = "https://www.instagram.com/oson_uy.uz/";
-const APPSTORE_URL = "https://apps.apple.com/us/app/oson-uy/id6756444903";
+const APPSTORE_URL = "https://apps.apple.com/us/app/oson-uy/id6773353692";
 const GOOGLEPLAY_URL = "https://play.google.com/store/apps/";
 
 export default function Footer() {
