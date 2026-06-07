@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { formatUzsPerM2 } from "@/lib/currency";
+import { formatUzsPerM2OrNegotiable } from "@/lib/currency";
 import { LeadModal } from "@/components/custom/LeadModal";
 import { BuildingModelStatic } from "@/components/custom/BuildingModelStatic";
 import { Button } from "@/components/ui/button";
@@ -53,6 +53,7 @@ export function FloorTower({
   totalFloorsHint,
 }: FloorTowerProps) {
   const t = useTranslations("FloorTower");
+  const tc = useTranslations("Common");
   const [activeFloor, setActiveFloor] = useState<ProjectFloor | null>(null);
   const [layoutApi, setLayoutApi] = useState<CarouselApi>();
   const [layoutSlide, setLayoutSlide] = useState(0);
@@ -159,7 +160,7 @@ export function FloorTower({
                   </span>
                 </div>
                 <span className="block text-sm font-black tabular-nums tracking-tight text-slate-900">
-                  {formatUzsPerM2(f.pricePerM2)}
+                  {formatUzsPerM2OrNegotiable(f.pricePerM2, tc("negotiablePrice"))}
                 </span>
                 <span className="mt-1.5 block border-t border-slate-100 pt-1.5 text-[10px] font-semibold leading-snug text-slate-500">
                   <span className="text-slate-400">{t("areaVariantsShort")}: </span>
@@ -342,7 +343,7 @@ export function FloorTower({
                         {t("pricePerM2")}
                       </p>
                       <p className="mt-1 text-lg font-black text-[#1E3A8A] md:text-xl">
-                        {formatUzsPerM2(activeFloor.pricePerM2)}
+                        {formatUzsPerM2OrNegotiable(activeFloor.pricePerM2, tc("negotiablePrice"))}
                       </p>
                     </div>
                     <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">

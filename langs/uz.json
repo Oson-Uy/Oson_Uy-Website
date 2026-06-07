@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "negotiablePrice": "Kelishilgan narx"
+  },
   "Seo": {
     "siteName": "Oson Uy",
     "titleTemplate": "%s | Oson Uy",

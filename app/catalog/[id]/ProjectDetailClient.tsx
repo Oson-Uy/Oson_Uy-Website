@@ -23,7 +23,7 @@ import {
     Globe,
 } from "lucide-react";
 import type { CatalogProjectPreview } from "@/types";
-import { formatUzsPerM2 } from "@/lib/currency";
+import { formatUzsPerM2OrNegotiable } from "@/lib/currency";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -719,6 +719,7 @@ function RelatedProjectsCarousel({
     items: CatalogProjectPreview[] | undefined;
 }) {
     const t = useTranslations("ProjectDetails");
+    const tc = useTranslations("Common");
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const [count, setCount] = useState(0);
@@ -767,11 +768,11 @@ function RelatedProjectsCarousel({
                                         {[p.district, p.location].filter(Boolean).join(", ")}
                                     </p>
                                     <div className="flex flex-wrap items-center gap-2 mt-3">
-                                        {p.priceFrom != null && p.priceFrom > 0 ? (
-                                            <span className="text-xs font-black text-[#F97316]">
-                                                {t("priceFromShort")} {formatUzsPerM2(p.priceFrom)}/{t("perM2")}
-                                            </span>
-                                        ) : null}
+                                        <span className="text-xs font-black text-[#F97316]">
+                                            {p.priceFrom != null && p.priceFrom > 0
+                                                ? `${t("priceFromShort")} ${formatUzsPerM2OrNegotiable(p.priceFrom, tc("negotiablePrice"))}/${t("perM2")}`
+                                                : tc("negotiablePrice")}
+                                        </span>
                                         {p.hasInstallment ? (
                                             <span className="text-[10px] font-black uppercase tracking-wider text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
                                                 {t("installment")}

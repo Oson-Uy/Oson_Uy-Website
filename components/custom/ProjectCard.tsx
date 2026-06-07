@@ -213,7 +213,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { LeadModal } from "@/components/custom/LeadModal";
-import { formatUzsPerM2 } from "@/lib/currency";
+import { formatUzsPerM2OrNegotiable } from "@/lib/currency";
 import {
     Carousel,
     CarouselContent,
@@ -228,6 +228,7 @@ export interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const t = useTranslations("ProjectCard");
+    const tc = useTranslations("Common");
     const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
@@ -343,7 +344,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <div className="text-right">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{t("fromPerM2")}</p>
                         <span className="text-xl font-black text-[#F97316] tracking-tighter">
-                            {project.priceFrom > 0 ? formatUzsPerM2(project.priceFrom) : "—"}
+                            {formatUzsPerM2OrNegotiable(project.priceFrom, tc("negotiablePrice"))}
                         </span>
                     </div>
                 </div>
