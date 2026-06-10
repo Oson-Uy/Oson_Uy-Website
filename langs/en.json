@@ -1,6 +1,14 @@
 {
   "Common": {
-    "negotiablePrice": "Price on request"
+    "negotiablePrice": "Price on request",
+    "block": "Block",
+    "pricePerM2": "Price per m²",
+    "priceTotal": "Apartment price",
+    "renovation": "Finishing",
+    "aboutApartment": "About the apartment",
+    "renovWithout": "No finishing",
+    "renovWith": "With finishing",
+    "renovDesigner": "Designer finishing"
   },
   "Seo": {
     "siteName": "Oson Uy",

@@ -1,6 +1,14 @@
 {
   "Common": {
-    "negotiablePrice": "Цена договорная"
+    "negotiablePrice": "Цена договорная",
+    "block": "Блок",
+    "pricePerM2": "Цена за м²",
+    "priceTotal": "Стоимость квартиры",
+    "renovation": "Отделка",
+    "aboutApartment": "О квартире",
+    "renovWithout": "Без ремонта",
+    "renovWith": "С ремонтом",
+    "renovDesigner": "Дизайнерский ремонт"
   },
   "Seo": {
     "siteName": "Oson Uy",

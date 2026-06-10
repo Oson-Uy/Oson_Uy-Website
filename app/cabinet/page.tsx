@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { formatUzs } from "@/lib/currency";
+import {
+  formatUzs,
+  formatUzsOrNegotiable,
+  formatUzsPerM2OrNegotiable,
+} from "@/lib/currency";
 import { formatPhoneNumber } from "@/lib/format";
 import { CABINET_TOKEN_KEY } from "@/lib/cabinet-token";
 
@@ -23,6 +27,10 @@ type CabinetMe = {
     floor: number;
     rooms: number;
     areaSqm: number;
+    sectionKey?: string | null;
+    priceUzs?: number | null;
+    pricePerM2Uzs?: number | null;
+    renovationState?: string | null;
     layoutImageUrl?: string | null;
   } | null;
   finances: {
@@ -52,6 +60,7 @@ type CabinetMe = {
 
 export default function CabinetDashboardPage() {
   const t = useTranslations("Cabinet");
+  const tc = useTranslations("Common");
   const router = useRouter();
   const [data, setData] = useState<CabinetMe | null>(null);
   const [loading, setLoading] = useState(true);
@@ -122,27 +131,67 @@ export default function CabinetDashboardPage() {
         </button>
       </div>
 
-      <section className="grid gap-4 rounded-3xl border border-slate-100 bg-white p-6 shadow-sm sm:grid-cols-2">
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-            {t("project")}
-          </p>
-          <p className="font-bold text-slate-900">{data.project.name}</p>
-          <p className="text-xs text-slate-500">{data.project.location}</p>
-        </div>
-        {data.apartment ? (
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-              {t("apartment")}
-            </p>
-            <p className="font-bold text-slate-900">№{data.apartment.number}</p>
-            <p className="text-xs text-slate-500">
-              {t("floor")} {data.apartment.floor} · {data.apartment.rooms}{" "}
-              {t("rooms")} · {data.apartment.areaSqm} м²
-            </p>
-          </div>
-        ) : null}
+      <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
+        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+          {t("project")}
+        </p>
+        <p className="font-bold text-slate-900">{data.project.name}</p>
+        <p className="text-xs text-slate-500">{data.project.location}</p>
       </section>
+
+      {data.apartment ? (
+        <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-black text-slate-900">
+              {tc("aboutApartment")}
+            </h2>
+            <span className="rounded-full bg-[#1E3A8A]/10 px-3 py-1 text-sm font-black text-[#1E3A8A]">
+              №{data.apartment.number}
+            </span>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {data.apartment.layoutImageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={data.apartment.layoutImageUrl}
+                alt={t("apartment")}
+                className="max-h-56 w-full rounded-2xl border border-slate-100 bg-slate-50 object-contain"
+              />
+            ) : null}
+            <div
+              className={`grid grid-cols-2 gap-3 ${data.apartment.layoutImageUrl ? "" : "sm:col-span-2"}`}
+            >
+              {data.apartment.sectionKey ? (
+                <DetailCell label={tc("block")} value={data.apartment.sectionKey} />
+              ) : null}
+              <DetailCell label={t("floor")} value={String(data.apartment.floor)} />
+              <DetailCell label={t("rooms")} value={String(data.apartment.rooms)} />
+              <DetailCell label={t("area")} value={`${data.apartment.areaSqm} м²`} />
+              {data.apartment.renovationState ? (
+                <DetailCell
+                  label={tc("renovation")}
+                  value={renovationLabel(data.apartment.renovationState, tc)}
+                />
+              ) : null}
+              <DetailCell
+                label={tc("pricePerM2")}
+                value={formatUzsPerM2OrNegotiable(
+                  data.apartment.pricePerM2Uzs ?? 0,
+                  tc("negotiablePrice"),
+                )}
+              />
+              <DetailCell
+                label={tc("priceTotal")}
+                value={formatUzsOrNegotiable(
+                  data.apartment.priceUzs ?? data.finances.totalPriceUzs ?? 0,
+                  tc("negotiablePrice"),
+                )}
+                highlight
+              />
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-black text-slate-900">{t("payments")}</h2>
@@ -245,6 +294,47 @@ export default function CabinetDashboardPage() {
           </Link>
         ) : null}
       </section>
+    </div>
+  );
+}
+
+function renovationLabel(
+  state: string,
+  tc: (key: string) => string,
+): string {
+  switch (state) {
+    case "WITHOUT_RENOVATION":
+      return tc("renovWithout");
+    case "WITH_RENOVATION":
+      return tc("renovWith");
+    case "DESIGNER_RENOVATION":
+      return tc("renovDesigner");
+    default:
+      return state;
+  }
+}
+
+function DetailCell({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-2xl p-3 ${highlight ? "border border-emerald-100 bg-emerald-50" : "bg-slate-50"}`}
+    >
+      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+        {label}
+      </p>
+      <p
+        className={`mt-0.5 text-sm font-black ${highlight ? "text-emerald-900" : "text-slate-900"}`}
+      >
+        {value}
+      </p>
     </div>
   );
 }

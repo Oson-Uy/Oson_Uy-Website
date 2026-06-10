@@ -1,6 +1,14 @@
 {
   "Common": {
-    "negotiablePrice": "Kelishilgan narx"
+    "negotiablePrice": "Kelishilgan narx",
+    "block": "Blok",
+    "pricePerM2": "1 m² narxi",
+    "priceTotal": "Kvartira narxi",
+    "renovation": "Ta'mir",
+    "aboutApartment": "Kvartira haqida",
+    "renovWithout": "Ta'mirsiz",
+    "renovWith": "Ta'mir bilan",
+    "renovDesigner": "Dizaynerlik ta'mir"
   },
   "Seo": {
     "siteName": "Oson Uy",
