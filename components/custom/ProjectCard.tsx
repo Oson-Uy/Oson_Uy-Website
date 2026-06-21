@@ -176,7 +176,7 @@
 //                 </div>
 
 //                 <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4 border-t border-slate-50">
-//                     <Link href={`/catalog/${project.id}`} className="w-full sm:flex-1">
+//                     <Link href={`/catalog/${project.id}`} className="w-full sm:flex-1 cursor-pointer">
 //                         <Button
 //                             variant="outline"
 //                             className="w-full border-slate-200 text-[#1E3A8A] text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 h-12 transition-all active:scale-[0.98]"
@@ -415,7 +415,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 </div>
 
                 <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4 border-t border-slate-50">
-                    <Link href={`/catalog/${project.id}`} className="w-full sm:flex-1">
+                    <Link href={`/catalog/${project.id}`} className="w-full sm:flex-1 cursor-pointer">
                         <Button
                             variant="outline"
                             className="w-full border-slate-200 text-[#1E3A8A] text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 h-12 transition-all active:scale-[0.98]"

@@ -34,7 +34,7 @@ export default function Header() {
     ];
 
     const navLinkStyles = (href: string) => cn(
-        "relative inline-flex h-10 items-center pb-0.5 transition-all duration-300",
+        "relative inline-flex h-10 cursor-pointer items-center pb-0.5 transition-all duration-300",
         "after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-[#F97316] after:transition-all after:duration-300",
         pathname === href
             ? "text-[#1E3A8A] after:w-full"
@@ -54,7 +54,7 @@ export default function Header() {
                 <Link
                     href="/"
                     aria-label={t("brand")}
-                    className="order-1 flex shrink-0 items-center transition-transform active:scale-95 md:order-1"
+                    className="order-1 flex shrink-0 cursor-pointer items-center transition-transform active:scale-95 md:order-1"
                 >
                     <Image
                         src={BRAND_LOGO_WEB_REMOVEDBG}
@@ -77,7 +77,7 @@ export default function Header() {
                 <div className="flex items-center gap-1 md:gap-2 order-2 md:order-3 md:justify-end">
                     <Link
                         href="/cabinet/login"
-                        className="rounded-full border-2 border-primary/20 bg-white px-5 py-2 text-sm font-black uppercase tracking-widest text-primary shadow-sm transition hover:border-primary/40"
+                        className="rounded-full border-2 border-primary/20 bg-white px-5 py-2 text-sm font-black uppercase tracking-widest text-primary shadow-sm transition hover:border-primary/40 cursor-pointer"
                     >
                         {t("cabinetCta")}
                     </Link>
@@ -123,7 +123,7 @@ export default function Header() {
                             <Link
                                 href="/"
                                 aria-label={t("brand")}
-                                className="order-1 flex shrink-0 items-center transition-transform active:scale-95 md:order-1"
+                                className="order-1 flex shrink-0 cursor-pointer items-center transition-transform active:scale-95 md:order-1"
                             >
                                 <Image
                                     src={BRAND_LOGO_WEB_REMOVEDBG}
@@ -146,7 +146,7 @@ export default function Header() {
                                 href="/"
                                 onClick={() => setIsMenuOpen(false)}
                                 className={cn(
-                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all cursor-pointer",
                                     pathname === "/" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
                                 )}
                             >
@@ -156,7 +156,7 @@ export default function Header() {
                                 href="/catalog"
                                 onClick={() => setIsMenuOpen(false)}
                                 className={cn(
-                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all cursor-pointer",
                                     pathname === "/catalog" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
                                 )}
                             >
@@ -166,7 +166,7 @@ export default function Header() {
                                 href="/about"
                                 onClick={() => setIsMenuOpen(false)}
                                 className={cn(
-                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all",
+                                    "flex items-center px-4 py-3 rounded-xl text-lg font-bold transition-all cursor-pointer",
                                     pathname === "/about" ? "bg-blue-50 text-[#F97316]" : "text-[#1E3A8A] hover:bg-slate-50"
                                 )}
                             >

@@ -76,7 +76,7 @@ export default function FeedbackPage() {
                       onClick={() => setRating(star)}
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
-                      className="transition-transform hover:scale-110 focus:outline-none"
+                      className="transition-transform hover:scale-110 focus:outline-none cursor-pointer"
                     >
                       <Star
                         className={`h-12 w-12 sm:h-16 sm:w-16 transition-colors ${

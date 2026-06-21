@@ -29,7 +29,7 @@ export default function Footer() {
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               <Link
                 href={APPSTORE_URL}
-                className="block h-[50px] w-[170px] transition-transform hover:scale-105"
+                className="block h-[50px] w-[170px] cursor-pointer transition-transform hover:scale-105"
               >
                 <Image
                   src="/appstoreDownloadBadge.svg"
@@ -42,7 +42,7 @@ export default function Footer() {
 
               <Link
                 href={GOOGLEPLAY_URL}
-                className="block h-[50px] w-[170px] transition-transform hover:scale-105"
+                className="block h-[50px] w-[170px] cursor-pointer transition-transform hover:scale-105"
               >
                 <Image
                   src="/googleplayDownloadBadge.svg"
@@ -74,7 +74,7 @@ export default function Footer() {
           <Link
             href="/"
             aria-label={tSeo("siteName")}
-            className="inline-flex max-w-full transition-opacity hover:opacity-90"
+            className="inline-flex max-w-full cursor-pointer transition-opacity hover:opacity-90"
           >
             <Image
               src={BRAND_LOGO_WEB_REMOVEDBG}
@@ -95,12 +95,12 @@ export default function Footer() {
           </h4>
           <ul className="space-y-2.5 text-sm font-semibold text-[#1E3A8A]/90">
             <li>
-              <Link href="/about" className="hover:text-[#F97316]">
+              <Link href="/about" className="cursor-pointer hover:text-[#F97316]">
                 {t("about")}
               </Link>
             </li>
             <li>
-              <Link href="/#faq" className="hover:text-[#F97316]">
+              <Link href="/#faq" className="cursor-pointer hover:text-[#F97316]">
                 {t("faq")}
               </Link>
             </li>
@@ -113,12 +113,12 @@ export default function Footer() {
           </h4>
           <ul className="space-y-2.5 text-sm font-semibold text-[#1E3A8A]/90">
             <li>
-              <Link href="/privacy" className="hover:text-[#F97316]">
+              <Link href="/privacy" className="cursor-pointer hover:text-[#F97316]">
                 {t("privacy")}
               </Link>
             </li>
             <li>
-              <Link href="/terms" className="hover:text-[#F97316]">
+              <Link href="/terms" className="cursor-pointer hover:text-[#F97316]">
                 {t("terms")}
               </Link>
             </li>
@@ -132,7 +132,7 @@ export default function Footer() {
           <ul className="space-y-3 text-sm font-semibold text-[#1E3A8A]/90">
             <li>
               {phone && telHref ? (
-                <a href={telHref} className="hover:text-[#F97316]">
+                <a href={telHref} className="cursor-pointer hover:text-[#F97316]">
                   {t("phoneLabel")}: {phone}
                 </a>
               ) : (
@@ -144,7 +144,7 @@ export default function Footer() {
                 href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#F97316]"
+                className="cursor-pointer hover:text-[#F97316]"
               >
                 {t("instagramLabel")}
               </a>
