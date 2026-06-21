@@ -269,6 +269,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                         alt={`${project.name} ${index + 1}`}
                                         className="h-full w-full object-cover transition-opacity duration-500"
                                         referrerPolicy="no-referrer"
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                 ) : (
                                     <div className="h-full w-full bg-slate-200" />
