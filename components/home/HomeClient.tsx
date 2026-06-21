@@ -20,7 +20,7 @@ const REGION_VIDEOS: Record<string, string> = {
     "Bukhara (Бухарская обл.)": "/videos/bukhara.webm",
     "Andijan (Андижанская обл.)": "/videos/andijan.webm",
     "Fergana (Ферганская обл.)": "/videos/fergana.webm",
-    "Navoi (Навоийская обл.)": "/videos/navoi.webm",
+    "Navoiy (Навоийская обл.)": "/videos/navoiy.webm",
     "Kashkadarya (Кашкадарьинская обл.)": "/videos/kashkadarya.webm",
     "Khorezm (Хорезмская обл.)": "/videos/khorezm.webm",
     "Jizzakh (Джизакская обл.)": "/videos/jizzakh.webm",
@@ -48,8 +48,8 @@ export default function HomeClient() {
     const [consultName, setConsultName] = useState("");
     const [consultPhone, setConsultPhone] = useState("+998");
     const [consultProjectId, setConsultProjectId] = useState<number | null>(null);
-    const [activeLocation, setActiveLocation] = useState("Tashkent City (г. Ташкент)");
-    const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Tashkent City (г. Ташкент)"];
+    const [activeLocation, setActiveLocation] = useState("Samarkand (Самаркандская обл.)");
+    const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Samarkand (Самаркандская обл.)"];
 
     useEffect(() => {
         const fetchProjects = async () => {

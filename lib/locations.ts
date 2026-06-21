@@ -5,6 +5,26 @@ export type LocationData = {
 
 export const UZB_LOCATIONS: LocationData[] = [
   {
+    region: "Samarkand (Самаркандская обл.)",
+    districts: [
+      "Samarkand city (г. Самарканд)",
+      "Kattakurgan city (г. Каттакурган)",
+      "Bulungur (Булунгурский)",
+      "Ishtikhon (Иштихонский)",
+      "Jomboy (Джамбайский)",
+      "Kattakurgan District (Каттакурганский р-н)",
+      "Koshrabat (Кошрабадский)",
+      "Narpay (Нарпайский)",
+      "Nurabad (Нурабадский)",
+      "Akdarya (Акдарьинский)",
+      "Pakhtachi (Пахтачийский)",
+      "Payaryk (Пайарыкский)",
+      "Pastdargom (Пастдаргомский)",
+      "Samarkand District (Самаркандский р-н)",
+      "Toyloq (Тайлакский)"
+    ]
+  },
+  {
     region: "Tashkent City (г. Ташкент)",
     districts: [
       "Bektemir (Бектемирский)",
@@ -44,26 +64,6 @@ export const UZB_LOCATIONS: LocationData[] = [
       "Yangiyul District (Янгиюльский р-н)",
       "Zangiata (Зангиатинский)",
       "Tashkent District (Ташкентский р-н)"
-    ]
-  },
-  {
-    region: "Samarkand (Самаркандская обл.)",
-    districts: [
-      "Samarkand city (г. Самарканд)",
-      "Kattakurgan city (г. Каттакурган)",
-      "Bulungur (Булунгурский)",
-      "Ishtikhon (Иштихонский)",
-      "Jomboy (Джамбайский)",
-      "Kattakurgan District (Каттакурганский р-н)",
-      "Koshrabat (Кошрабадский)",
-      "Narpay (Нарпайский)",
-      "Nurabad (Нурабадский)",
-      "Akdarya (Акдарьинский)",
-      "Pakhtachi (Пахтачийский)",
-      "Payaryk (Пайарыкский)",
-      "Pastdargom (Пастдаргомский)",
-      "Samarkand District (Самаркандский р-н)",
-      "Toyloq (Тайлакский)"
     ]
   },
   {
