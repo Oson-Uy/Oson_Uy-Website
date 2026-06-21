@@ -89,9 +89,7 @@ export default async function RootLayout({
       <body>
         <YandexMetrika />
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-          <main className="pt-16">{children}</main>
-          <Footer />
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>

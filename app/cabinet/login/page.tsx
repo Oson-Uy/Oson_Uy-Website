@@ -53,7 +53,7 @@ export default function CabinetLoginPage() {
   };
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-16">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md rounded-[2rem] border border-slate-100 bg-white p-8 shadow-xl shadow-slate-200/50">
         <div className="mb-6">
           <Link
