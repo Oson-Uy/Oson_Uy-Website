@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   },
 
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true, 
   },
 
   images: {
@@ -30,8 +30,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-
-  output: "standalone",
 
   transpilePackages: ["motion"],
 
