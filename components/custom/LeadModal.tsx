@@ -115,7 +115,7 @@ export function LeadModal({
         }
     };
 
-    const inputWrapper = "relative group flex flex-col space-y-1.5";
+    const inputWrapper = "relative group flex flex-col";
     const inputIcon = "absolute left-4 top-[42px] -translate-y-1/2 text-slate-400 group-focus-within:text-accent transition-colors w-5 h-5 z-10";
     const sharedInputClass = "h-14 pl-12 bg-slate-50 border-slate-200 rounded-2xl focus:ring-4 focus:ring-accent/5 focus:border-accent transition-all font-bold text-base text-primary placeholder:text-slate-300 w-full";
 
@@ -204,7 +204,7 @@ export function LeadModal({
                                         <Button
                                             type="submit"
                                             disabled={isLoading}
-                                            className="w-full h-16 bg-accent hover:bg-accent/90 text-white font-black text-xl rounded-2xl shadow-xl shadow-accent/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3 uppercase"
+                                            className="w-full h-16 bg-accent hover:bg-accent/90 text-white font-black text-xl rounded-2xl shadow-xl shadow-accent/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3 uppercase cursor-pointer"
                                         >
                                             {isLoading ? <Loader2 className="animate-spin w-6 h-6" /> : (
                                                 <>{t("submit")} <ChevronRight className="w-5 h-5" /></>
@@ -235,7 +235,7 @@ export function LeadModal({
                                     </div>
                                     <Button
                                         onClick={onClose}
-                                        className="rounded-2xl px-10 h-14 font-black text-lg bg-primary text-white hover:bg-primary/90"
+                                        className="rounded-2xl px-10 h-14 font-black text-lg bg-primary text-white hover:bg-primary/90 cursor-pointer"
                                     >
                                         {t("close")}
                                     </Button>
