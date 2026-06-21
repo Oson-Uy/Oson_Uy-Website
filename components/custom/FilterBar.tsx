@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, MapPin, Landmark, Ruler, ChevronDown } from "lucide-react";
+import { Search, MapPin, Ruler, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatMoneyInput } from "@/lib/currency";
 import { UZB_LOCATIONS } from "@/lib/locations";
+import { IoPricetagsOutline } from "react-icons/io5";
 
 type FilterBarProps = {
     translations: {
@@ -93,7 +94,7 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                     <div className="space-y-1">
                         <label className={labelClasses}>{translations.price_from}</label>
                         <div className="relative">
-                            <Landmark className={iconClasses} />
+                            <IoPricetagsOutline className={iconClasses} />
                             <input
                                 value={pricePerM2Min}
                                 onChange={(e) => setPricePerM2Min(formatMoneyInput(e.target.value))}
@@ -105,7 +106,7 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                     <div className="space-y-1">
                         <label className={labelClasses}>{translations.price_to}</label>
                         <div className="relative">
-                            <Landmark className={iconClasses} />
+                            <IoPricetagsOutline className={iconClasses} />
                             <input
                                 value={pricePerM2Max}
                                 onChange={(e) => setPricePerM2Max(formatMoneyInput(e.target.value))}

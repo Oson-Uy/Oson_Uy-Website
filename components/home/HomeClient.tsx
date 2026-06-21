@@ -14,8 +14,8 @@ import { minPricePerM2FromApiProject } from "@/lib/project-price";
 import { HomeFaqSection } from "@/components/home/HomeFaqSection";
 
 const REGION_VIDEOS: Record<string, string> = {
-    "Tashkent City (г. Ташкент)": "/videos/tashkent.mp4",
-    "Tashkent Region (Ташкентская обл.)": "/videos/tashkent.mp4",
+    "Tashkent City (г. Ташкент)": "/videos/tashkent.webm",
+    "Tashkent Region (Ташкентская обл.)": "/videos/tashkent.webm",
     "Samarkand (Самаркандская обл.)": "/videos/samarkand.mp4",
     "Bukhara (Бухарская обл.)": "/videos/bukhara.mp4",
     "Andijan (Андижанская обл.)": "/videos/andijan.mp4",
@@ -24,9 +24,9 @@ const REGION_VIDEOS: Record<string, string> = {
     "Kashkadarya (Кашкадарьинская обл.)": "/videos/kashkadarya.mp4",
     "Khorezm (Хорезмская обл.)": "/videos/khorezm.mp4",
     "Jizzakh (Джизакская обл.)": "/videos/jizzakh.mp4",
-    "Namangan (Наманганская обл.)": "/videos/tashkent.mp4",
-    "Surkhandarya (Сурхандарьинская обл.)": "/videos/tashkent.mp4",
-    "Syrdarya (Сырдарьинская обл.)": "/videos/tashkent.mp4",
+    "Namangan (Наманганская обл.)": "/videos/tashkent.webm",
+    "Surkhandarya (Сурхандарьинская обл.)": "/videos/tashkent.webm",
+    "Syrdarya (Сырдарьинская обл.)": "/videos/tashkent.webm",
 };
 
 export default function HomeClient() {

@@ -71,7 +71,7 @@
 //                             </CarouselItem>
 //                         ))}
 //                     </CarouselContent>
-                    
+
 //                     {gallery.length > 1 && (
 //                         <>
 //                             <div className="absolute inset-x-0 bottom-4 flex justify-center gap-1.5 z-20">
@@ -92,7 +92,7 @@
 //                                     />
 //                                 ))}
 //                             </div>
-                            
+
 //                             <button 
 //                                 onClick={(e) => {
 //                                     e.preventDefault();
@@ -149,7 +149,7 @@
 //                         <MapPin className="h-4 w-4 text-[#F97316]" /> {project.district || project.location},{" "}
 //                         {project.location}
 //                     </p>
-                    
+
 //                     {(project.badgeVerified || project.plan === "PRO" || project.plan === "ULTIMATE") && (
 //                         <div className="flex items-center gap-2 bg-emerald-50 w-fit px-3 py-1 rounded-full border border-emerald-100">
 //                             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
@@ -192,7 +192,7 @@
 //                     </Button>
 //                 </div>
 //             </CardContent>
-            
+
 //             <LeadModal
 //                 isOpen={isLeadModalOpen}
 //                 onClose={() => setIsLeadModalOpen(false)}
@@ -204,7 +204,7 @@
 // };
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import { MapPin, Star, CheckCircle2, ChevronLeft, ChevronRight, CreditCard } from "lucide-react";
 import { Project } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
@@ -221,6 +221,7 @@ import {
     type CarouselApi,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import Autoplay from "embla-carousel-autoplay";
 
 export interface ProjectCardProps {
     project: Project;
@@ -252,12 +253,40 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         });
     }, [api]);
 
+    const autoplay = useRef(
+        Autoplay({
+            delay: 2500,
+            stopOnInteraction: false,
+        })
+    );
+
+    const restartAutoplay = () => {
+        autoplay.current.stop();
+
+        requestAnimationFrame(() => {
+            autoplay.current.play();
+        });
+    };
+
+    useEffect(() => {
+        if (!api) return;
+
+        const onUserAction = () => restartAutoplay();
+
+        api.on("pointerDown", onUserAction);
+
+        return () => {
+            api.off("pointerDown", onUserAction);
+        };
+    }, [api]);
+
     return (
         <Card className="group relative overflow-hidden rounded-[2rem] bg-white shadow-sm transition-all duration-500 border border-slate-200 flex flex-col hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-1">
             <div className="relative aspect-[16/10] overflow-hidden w-full bg-slate-100">
-                <Carousel 
+                <Carousel
                     setApi={setApi}
-                    opts={{ loop: true, align: "start" }} 
+                    opts={{ loop: true, align: "start" }}
+                    plugins={[autoplay.current]}
                     className="h-full w-full"
                 >
                     <CarouselContent className="m-0 h-full flex">
@@ -278,7 +307,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    
+
                     {gallery.length > 1 && (
                         <>
                             <div className="absolute inset-x-0 bottom-4 flex justify-center gap-1.5 z-20">
@@ -289,34 +318,37 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                             e.preventDefault();
                                             e.stopPropagation();
                                             api?.scrollTo(i);
+                                            restartAutoplay();
                                         }}
                                         className={cn(
-                                            "h-1.5 rounded-full transition-all duration-300",
-                                            current === i 
-                                                ? "w-6 bg-white shadow-lg" 
+                                            "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
+                                            current === i
+                                                ? "w-6 bg-white shadow-lg"
                                                 : "w-1.5 bg-white/40 hover:bg-white/60"
                                         )}
                                     />
                                 ))}
                             </div>
-                            
-                            <button 
+
+                            <button
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     api?.scrollPrev();
+                                    restartAutoplay();
                                 }}
-                                className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20"
+                                className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20 cursor-pointer"
                             >
                                 <ChevronLeft className="h-5 w-5" />
                             </button>
-                            <button 
+                            <button
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     api?.scrollNext();
+                                    restartAutoplay();
                                 }}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-primary z-20 cursor-pointer"
                             >
                                 <ChevronRight className="h-5 w-5" />
                             </button>
@@ -356,7 +388,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         <MapPin className="h-4 w-4 text-[#F97316]" /> {project.district || project.location},{" "}
                         {project.location}
                     </p>
-                    
+
                     {(project.badgeVerified || project.plan === "PRO" || project.plan === "ULTIMATE") && (
                         <div className="flex items-center gap-2 bg-emerald-50 w-fit px-3 py-1 rounded-full border border-emerald-100">
                             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
@@ -399,7 +431,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     </Button>
                 </div>
             </CardContent>
-            
+
             <LeadModal
                 isOpen={isLeadModalOpen}
                 onClose={() => setIsLeadModalOpen(false)}
