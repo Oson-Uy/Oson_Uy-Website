@@ -75,6 +75,13 @@ export default function Header() {
 
                 {/* Mobile: Right (Burger + Locale) | Desktop: Right */}
                 <div className="flex items-center gap-1 md:gap-2 order-2 md:order-3 md:justify-end">
+                    <Link
+                        href="/cabinet/login"
+                        className="rounded-full border-2 border-primary/20 bg-white px-5 py-2 text-sm font-black uppercase tracking-widest text-primary shadow-sm transition hover:border-primary/40"
+                    >
+                        {t("cabinetCta")}
+                    </Link>
+
                     <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
                             <button className="flex items-center justify-center p-2 text-gray-500 hover:text-[#3C55BE] outline-none cursor-pointer transition-colors">

@@ -62,14 +62,16 @@
     "paymentsNone": "No payments recorded yet",
     "verify": "Verification",
     "verifyOpen": "Open verification",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "back": "Back"
   },
   "Header": {
     "home": "Home",
     "catalog": "Catalog",
     "about": "About Us",
     "contact": "Contact",
-    "brand": "Oson Uy"
+    "brand": "Oson Uy",
+    "cabinetCta": "My apartment"
   },
   "Home": {
     "heroLine1": "Oson",
@@ -80,7 +82,6 @@
     "featuredTitle": "Featured Projects",
     "featuredSubtitle": "Uzbekistan's top residential complexes",
     "viewCatalog": "View Catalog ->",
-    "cabinetCta": "My apartment",
     "cabinetHint": "Payments & construction progress for buyers",
     "availableProjects": "Available Projects",
     "marketFocus": "Primary Market Focus",

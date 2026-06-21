@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { CABINET_TOKEN_KEY } from "@/lib/cabinet-token";
 import { formatPhoneInput, phoneDigitsOnly } from "@/lib/format";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 function apiBase() {
   return (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002").replace(
@@ -54,6 +55,14 @@ export default function CabinetLoginPage() {
   return (
     <div className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-16">
       <div className="w-full max-w-md rounded-[2rem] border border-slate-100 bg-white p-8 shadow-xl shadow-slate-200/50">
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex gap-2 items-center text-sm font-bold text-slate-500 hover:text-primary"
+          >
+            <FaArrowLeftLong /> {t("back")}
+          </Link>
+        </div>
         <h1 className="text-2xl font-black tracking-tight text-primary">
           {t("loginTitle")}
         </h1>
@@ -95,12 +104,6 @@ export default function CabinetLoginPage() {
             {loading ? t("loading") : t("submit")}
           </button>
         </form>
-        <Link
-          href="/"
-          className="mt-6 block text-center text-xs font-bold text-slate-400 hover:text-primary"
-        >
-          ←
-        </Link>
       </div>
     </div>
   );

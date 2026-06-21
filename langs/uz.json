@@ -62,14 +62,16 @@
     "paymentsNone": "To'lovlar hali yo'q",
     "verify": "Tekshirish",
     "verifyOpen": "Ro'yxatdan tekshirish",
-    "loading": "Yuklanmoqda…"
+    "loading": "Yuklanmoqda…",
+    "back": "Orqaga"
   },
   "Header": {
     "home": "Bosh sahifa",
     "catalog": "Katalog",
     "about": "Biz haqimizda",
     "contact": "Aloqa",
-    "brand": "Oson Uy"
+    "brand": "Oson Uy",
+    "cabinetCta": "Mening kvartiram"
   },
   "Home": {
     "heroLine1": "Oson",
@@ -80,7 +82,6 @@
     "featuredTitle": "Mashhur loyihalar",
     "featuredSubtitle": "O'zbekistondagi top turar-joy majmualari",
     "viewCatalog": "Katalogni ko'rish ->",
-    "cabinetCta": "Mening kvartiram",
     "cabinetHint": "To'lovlar va qurilish jarayoni",
     "availableProjects": "Mavjud loyihalar",
     "marketFocus": "Asosiy bozor yo'nalishi",

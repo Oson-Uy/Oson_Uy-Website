@@ -62,14 +62,16 @@
     "paymentsNone": "Платежи ещё не добавлены",
     "verify": "Проверка",
     "verifyOpen": "Проверить регистрацию",
-    "loading": "Загрузка…"
+    "loading": "Загрузка…",
+    "back": "Назад"
   },
   "Header": {
     "home": "Главная",
     "catalog": "Каталог",
     "about": "О нас",
     "contact": "Контакты",
-    "brand": "Oson Uy"
+    "brand": "Oson Uy",
+    "cabinetCta": "Моя квартира"
   },
   "Home": {
     "heroLine1": "Oson",
@@ -80,7 +82,6 @@
     "featuredTitle": "Популярные проекты",
     "featuredSubtitle": "Топ жилых комплексов Узбекистана",
     "viewCatalog": "Смотреть каталог ->",
-    "cabinetCta": "Моя квартира",
     "cabinetHint": "Оплаты и прогресс стройки для покупателей",
     "availableProjects": "Доступные проекты",
     "marketFocus": "Фокус на первичном рынке",

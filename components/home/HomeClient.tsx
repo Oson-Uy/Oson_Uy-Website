@@ -187,15 +187,6 @@ export default function HomeClient() {
                             >
                                 {t("viewCatalog")}
                             </Link>
-                            <Link
-                                href="/cabinet/login"
-                                className="rounded-full border-2 border-primary/20 bg-white px-5 py-2 text-sm font-black uppercase tracking-widest text-primary shadow-sm transition hover:border-primary/40"
-                            >
-                                {t("cabinetCta")}
-                            </Link>
-                            <span className="hidden text-xs font-medium text-slate-400 sm:inline max-w-[200px]">
-                                {t("cabinetHint")}
-                            </span>
                         </div>
                     </div>
 
