@@ -169,7 +169,7 @@ export default function HomeClient() {
             </section>
 
             <section className="py-20 md:py-32 bg-slate-50">
-                <div className="w-full max-w-[1250px] mx-auto space-y-10 md:space-y-16 px-5 ">
+                <div className="container mx-auto max-w-[1250px] space-y-10 md:space-y-16 px-5">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                         <div className="space-y-3">
                             <h2 className="text-4xl md:text-5xl font-black text-primary tracking-tight">
@@ -198,8 +198,8 @@ export default function HomeClient() {
                 </div>
             </section>
 
-            <section className="py-12 md:py-20 px-4 bg-slate-50">
-                <div className="max-w-6xl mx-auto bg-white border-2 border-primary/5 p-6 sm:p-10 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-16">
+            <section className="py-12 md:py-20 px-5 bg-slate-50">
+                <div className="container mx-auto max-w-[1250px] bg-white border-2 border-primary/5 p-6 sm:p-10 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-16">
                     <div className="flex-1 space-y-4 md:space-y-5 text-center md:text-left">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-primary tracking-tight leading-[1.1]">
                             {t("consultTitle1")} <br className="md:hidden" /> <span className="text-accent">{t("consultTitleAccent")}</span> <br className="md:hidden" /> {t("consultTitle2")}
