@@ -77,7 +77,7 @@ export default function Header() {
                 <div className="flex items-center gap-1 md:gap-2 order-2 md:order-3 md:justify-end">
                     <Link
                         href="/cabinet/login"
-                        className="rounded-fullborder-2 border-primary/20 bg-white px-3 py-1 md:px-5 md:py-2 text-[10px] md:text-sm font-black uppercase tracking-wide md:tracking-widest text-primary shadow-sm transition hover:border-primary/40 whitespace-nowrap"
+                        className="rounded-lg border-primary/20 bg-white px-3 py-1 md:px-5 md:py-2 text-[10px] md:text-sm font-black uppercase tracking-wide md:tracking-widest text-primary shadow-sm transition hover:border-primary/40 whitespace-nowrap"
                     >
                         {t("cabinetCta")}
                     </Link>
