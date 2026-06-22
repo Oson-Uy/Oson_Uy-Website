@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { FloorTower } from "@/components/custom/FloorTower";
+import { Open3DButton } from "@/components/custom/Open3DButton";
 import {
     Carousel,
     CarouselContent,
@@ -437,6 +438,11 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
                                 </button>
                             )}
                         </div>
+
+                        <Open3DButton
+                            projectId={projectData.id}
+                            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#1E3A8A] to-[#F97316] px-5 h-14 text-base font-black text-white shadow-xl transition-all active:scale-[0.98] uppercase tracking-wider hover:opacity-95"
+                        />
                     </div>
                 </div>
 
