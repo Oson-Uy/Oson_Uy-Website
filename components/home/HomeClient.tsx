@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
-import { ProjectCard } from "@/components/custom/ProjectCard";
+import { FeaturedProjectsCarousel } from "@/components/home/FeaturedProjectsCarousel";
 import { LeadModal } from "@/components/custom/LeadModal";
 import { PROJECTS } from "@/lib/data";
 import Link from "next/link";
@@ -190,11 +190,7 @@ export default function HomeClient() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-                        {featuredProjects.slice(0, 4).map((project) => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))}
-                    </div>
+                    <FeaturedProjectsCarousel projects={featuredProjects} />
                 </div>
             </section>
 
