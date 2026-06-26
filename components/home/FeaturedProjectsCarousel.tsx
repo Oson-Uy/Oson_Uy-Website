@@ -93,7 +93,7 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
 
     return (
         <div className="space-y-8">
-            <div className="flex items-center gap-3 md:gap-5">
+            <div className="relative">
                 {showControls ? (
                     <Button
                         type="button"
@@ -101,31 +101,29 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
                         size="icon"
                         aria-label="Previous slide"
                         onClick={scrollPrev}
-                        className={navButtonClassName}
+                        className="hidden md:flex absolute -left-4 xl:-left-14 top-1/2 -translate-y-1/2 z-10 shrink-0 size-11 rounded-full border-slate-200 bg-white text-primary shadow-lg hover:border-primary hover:bg-primary hover:text-white"
                     >
                         <ChevronLeft className="size-5" />
                     </Button>
                 ) : null}
 
-                <div className="min-w-0 flex-1">
-                    <Carousel
-                        setApi={setApi}
-                        opts={{ loop: true, align: "start" }}
-                        plugins={[autoplay.current]}
-                        className="w-full"
-                    >
-                        <CarouselContent className="-ml-4 md:-ml-6 lg:-ml-10">
-                            {projects.map((project) => (
-                                <CarouselItem
-                                    key={project.id}
-                                    className="pl-4 md:pl-6 lg:pl-10 basis-full md:basis-1/2"
-                                >
-                                    <ProjectCard project={project} />
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                    </Carousel>
-                </div>
+                <Carousel
+                    setApi={setApi}
+                    opts={{ loop: true, align: "start" }}
+                    plugins={[autoplay.current]}
+                    className="w-full md:px-8 xl:px-0"
+                >
+                    <CarouselContent className="-ml-4 md:-ml-6 lg:-ml-10">
+                        {projects.map((project) => (
+                            <CarouselItem
+                                key={project.id}
+                                className="pl-4 md:pl-6 lg:pl-10 basis-full md:basis-1/2"
+                            >
+                                <ProjectCard project={project} />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
 
                 {showControls ? (
                     <Button
@@ -134,7 +132,7 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
                         size="icon"
                         aria-label="Next slide"
                         onClick={scrollNext}
-                        className={navButtonClassName}
+                        className="hidden md:flex absolute -right-4 xl:-right-14 top-1/2 -translate-y-1/2 z-10 shrink-0 size-11 rounded-full border-slate-200 bg-white text-primary shadow-lg hover:border-primary hover:bg-primary hover:text-white"
                     >
                         <ChevronRight className="size-5" />
                     </Button>

@@ -168,8 +168,8 @@ export default function HomeClient() {
                 </div>
             </section>
 
-            <section className="py-20 md:py-32 bg-slate-50">
-                <div className="container mx-auto max-w-[1250px] space-y-10 md:space-y-16 px-5">
+            <section className="py-20 md:py-32 bg-slate-50 overflow-visible">
+                <div className="container mx-auto max-w-[1250px] space-y-10 md:space-y-16 px-5 overflow-visible">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                         <div className="space-y-3">
                             <h2 className="text-4xl md:text-5xl font-black text-primary tracking-tight">
