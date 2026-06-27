@@ -429,14 +429,6 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
                             >
                                 {t("leaveRequest")}
                             </Button>
-                            {projectData.qrCodeUrl && (
-                                <button
-                                    onClick={() => setIsQrModalOpen(true)}
-                                    className="h-14 w-14 cursor-pointer bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center text-[#1E3A8A] hover:bg-slate-50 transition-all shadow-sm"
-                                >
-                                    <QrCode className="h-6 w-6" />
-                                </button>
-                            )}
                         </div>
 
                         <Open3DButton
