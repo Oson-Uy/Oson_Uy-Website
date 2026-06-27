@@ -2,7 +2,13 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, type ThreeEvent } from "@react-three/fiber";
-import { OrbitControls, useGLTF, AdaptiveDpr, Preload } from "@react-three/drei";
+import {
+  OrbitControls,
+  useGLTF,
+  AdaptiveDpr,
+  Preload,
+  Loader,
+} from "@react-three/drei";
 import * as THREE from "three";
 import type { Apartment3D, SceneManifest } from "./SceneViewer";
 
@@ -122,6 +128,7 @@ export default function Scene3DCanvas(props: Props) {
     : [center[0] + dist, center[1] + dist * 0.75, center[2] + dist];
 
   return (
+    <>
     <Canvas
       shadows={false}
       dpr={[1, 2]}
@@ -155,5 +162,13 @@ export default function Scene3DCanvas(props: Props) {
       />
       <AdaptiveDpr pixelated />
     </Canvas>
+      <Loader
+        containerStyles={{ background: "rgba(11,16,32,0.85)" }}
+        innerStyles={{ background: "#1E3A8A" }}
+        barStyles={{ background: "#F97316" }}
+        dataStyles={{ color: "#fff", fontWeight: 700 }}
+        dataInterpolation={(p) => `Загрузка 3D-модели… ${p.toFixed(0)}%`}
+      />
+    </>
   );
 }

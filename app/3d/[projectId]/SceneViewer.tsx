@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Component, type ReactNode, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
@@ -126,16 +126,22 @@ export default function SceneViewer({
           <BackLink projectId={projectId} />
         </Centered>
       ) : manifest ? (
-        <Scene3DCanvas
-          manifest={manifest}
-          meshNodeToApt={meshNodeToApt}
-          statusColor={STATUS_COLOR}
-          selectedId={selectedId}
-          onSelect={setSelectedId}
-          onHover={setHoverId}
-          spawnPosition={scene.spawnPosition}
-          spawnTarget={scene.spawnTarget}
-        />
+        <CanvasErrorBoundary
+          onError={() =>
+            setError("Не удалось отрисовать 3D-модель (повреждённый файл)")
+          }
+        >
+          <Scene3DCanvas
+            manifest={manifest}
+            meshNodeToApt={meshNodeToApt}
+            statusColor={STATUS_COLOR}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            onHover={setHoverId}
+            spawnPosition={scene.spawnPosition}
+            spawnTarget={scene.spawnTarget}
+          />
+        </CanvasErrorBoundary>
       ) : (
         <CanvasSkeleton />
       )}
@@ -149,9 +155,17 @@ export default function SceneViewer({
           ← Назад к проекту
         </Link>
         <div className="pointer-events-auto rounded-2xl bg-white/10 px-4 py-2 text-xs font-bold text-white/80 backdrop-blur">
-          {scene.apartments.length} квартир · ЛКМ — выбрать
+          {scene.apartments.length > 0
+            ? `${scene.apartments.length} квартир · ЛКМ — выбрать`
+            : "Просмотр здания"}
         </div>
       </div>
+
+      {scene.apartments.length === 0 ? (
+        <div className="pointer-events-none absolute left-1/2 top-16 z-20 -translate-x-1/2 rounded-2xl bg-amber-500/90 px-4 py-2 text-center text-xs font-bold text-white shadow-lg backdrop-blur">
+          Квартиры в этой модели не размечены — доступен только просмотр здания
+        </div>
+      ) : null}
 
       {/* Legend */}
       <div className="pointer-events-none absolute bottom-4 left-4 z-20 flex flex-wrap gap-2">
@@ -265,4 +279,21 @@ function CanvasSkeleton() {
       <div className="h-12 w-12 animate-spin rounded-full border-4 border-white/20 border-t-white" />
     </div>
   );
+}
+
+class CanvasErrorBoundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch() {
+    this.props.onError();
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
 }
