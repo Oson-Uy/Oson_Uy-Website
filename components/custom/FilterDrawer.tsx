@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SlidersHorizontal, Search, RotateCcw, X } from "lucide-react";
 import { formatMoneyInput } from "@/lib/currency";
+import { UZB_LOCATIONS } from "@/lib/locations";
 
 type FilterDrawerProps = {
   translations: {
@@ -35,6 +36,10 @@ type FilterDrawerProps = {
     pricePerM2Label: string;
     areaLabel: string;
     additionalLabel: string;
+    region: string;
+    district: string;
+    anyRegion: string;
+    anyDistrict: string;
   };
 };
 
@@ -44,6 +49,8 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
   const [open, setOpen] = useState(false);
 
   const [filters, setFilters] = useState({
+    location: searchParams.get("location") || "",
+    district: searchParams.get("district") || "",
     pricePerM2Min: searchParams.get("pricePerM2Min") || "",
     pricePerM2Max: searchParams.get("pricePerM2Max") || "",
     areaMin: searchParams.get("areaMin") || "",
@@ -54,6 +61,8 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
 
   useEffect(() => {
     setFilters({
+      location: searchParams.get("location") || "",
+      district: searchParams.get("district") || "",
       pricePerM2Min: searchParams.get("pricePerM2Min") || "",
       pricePerM2Max: searchParams.get("pricePerM2Max") || "",
       areaMin: searchParams.get("areaMin") || "",
@@ -67,6 +76,9 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  const districtsForRegion =
+    UZB_LOCATIONS.find((l) => l.region === filters.location)?.districts ?? [];
+
   const applyFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(filters).forEach(([key, value]) => {
@@ -79,6 +91,8 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
 
   const resetFilters = () => {
     setFilters({
+      location: "",
+      district: "",
       pricePerM2Min: "",
       pricePerM2Max: "",
       areaMin: "",
@@ -121,6 +135,47 @@ export function FilterDrawer({ translations }: FilterDrawerProps) {
           </DrawerHeader>
 
           <div className="flex-1 overflow-y-auto p-8 space-y-10 no-scrollbar text-left">
+            <div className="space-y-5">
+              <Label className={labelHeaderClasses}>
+                {translations.region}
+              </Label>
+              <select
+                value={filters.location}
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    location: e.target.value,
+                    district: "",
+                  }))
+                }
+                className={`w-full rounded-md px-3 ${inputClasses} cursor-pointer`}
+              >
+                <option value="">{translations.anyRegion}</option>
+                {UZB_LOCATIONS.map((l) => (
+                  <option key={l.region} value={l.region}>
+                    {l.region}
+                  </option>
+                ))}
+              </select>
+
+              <Label className={labelHeaderClasses}>
+                {translations.district}
+              </Label>
+              <select
+                value={filters.district}
+                onChange={(e) => handleChange("district", e.target.value)}
+                disabled={!filters.location}
+                className={`w-full rounded-md px-3 ${inputClasses} cursor-pointer disabled:opacity-50`}
+              >
+                <option value="">{translations.anyDistrict}</option>
+                {districtsForRegion.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="space-y-5">
               <Label className={labelHeaderClasses}>
                 {translations.pricePerM2Label}

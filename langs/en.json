@@ -127,7 +127,11 @@
       "area_to": "Area to",
       "pricePerM2Label": "Price per m² (UZS)",
       "areaLabel": "Area (m²)",
-      "additionalLabel": "Additional"
+      "additionalLabel": "Additional",
+      "region": "Region",
+      "district": "District",
+      "anyRegion": "All regions",
+      "anyDistrict": "All districts"
     }
   },
   "About": {

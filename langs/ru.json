@@ -127,7 +127,11 @@
       "area_to": "Площадь до",
       "pricePerM2Label": "Цена за м² (сум)",
       "areaLabel": "Площадь (м²)",
-      "additionalLabel": "Дополнительно"
+      "additionalLabel": "Дополнительно",
+      "region": "Область",
+      "district": "Район",
+      "anyRegion": "Все области",
+      "anyDistrict": "Все районы"
     }
   },
   "About": {

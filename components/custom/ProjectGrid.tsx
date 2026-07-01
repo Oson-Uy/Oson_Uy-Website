@@ -13,12 +13,13 @@ interface ProjectGridProps {
 
 export function ProjectGrid({ projects }: ProjectGridProps) {
     const t = useTranslations("Catalog");
-    const [visibleCount, setVisibleCount] = useState(10);
+    // 9 = full rows in the 3-column grid (no orphan cards before "show more")
+    const [visibleCount, setVisibleCount] = useState(9);
 
     const hasMore = visibleCount < projects.length;
 
     const showMore = () => {
-        setVisibleCount((prev) => prev + 10);
+        setVisibleCount((prev) => prev + 9);
     };
 
     return (

@@ -127,7 +127,11 @@
       "area_to": "Maydon gacha",
       "pricePerM2Label": "Narxi m² uchun (so'm)",
       "areaLabel": "Maydon (m²)",
-      "additionalLabel": "Qo'shimcha"
+      "additionalLabel": "Qo'shimcha",
+      "region": "Viloyat",
+      "district": "Tuman",
+      "anyRegion": "Barcha viloyatlar",
+      "anyDistrict": "Barcha tumanlar"
     }
   },
   "About": {

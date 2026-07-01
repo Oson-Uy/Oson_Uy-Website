@@ -196,6 +196,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     pricePerM2Label: t("drawer.pricePerM2Label"),
     areaLabel: t("drawer.areaLabel"),
     additionalLabel: t("drawer.additionalLabel"),
+    region: t("drawer.region"),
+    district: t("drawer.district"),
+    anyRegion: t("drawer.anyRegion"),
+    anyDistrict: t("drawer.anyDistrict"),
   };
 
   return (
