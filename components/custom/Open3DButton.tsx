@@ -40,7 +40,7 @@ export function Open3DButton({
       href={`/3d/${projectId}`}
       className={
         className ??
-        "inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#1E3A8A] to-[#F97316] px-5 py-3 text-sm font-black text-white shadow-lg transition hover:opacity-90"
+        "inline-flex items-center gap-2 rounded-2xl bg-[#1E3A8A] px-5 py-3 text-sm font-black text-white shadow-lg transition hover:bg-[#172554]"
       }
     >
       <Box className="h-4 w-4" />
