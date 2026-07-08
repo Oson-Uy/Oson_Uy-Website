@@ -154,7 +154,27 @@
     "agency": "Litsenziyalangan agentlik",
     "startJourney": "Qidiruvni boshlash",
     "support": "24/7 Qo'llab-quvvatlash",
-    "readyToAssist": "Sizga yordamga tayyormiz"
+    "readyToAssist": "Sizga yordamga tayyormiz",
+    "founder": {
+      "eyebrow": "Bizning jamoa",
+      "title": "Asoschilar bilan tanishing",
+      "person1": {
+        "name": "Sardor Djamolov",
+        "role": "Asoschi va Bosh direktor",
+        "location": "Samarkand, O'zbekiston",
+        "bio1": "Sardor 10 yildan ortiq vaqt davomida O'zbekiston ko'chmas mulk bozorida ishlab, birlamchi bozordagi shaffoflik yetishmasligini o'z ko'zi bilan kuzatgan.",
+        "bio2": "U Oson Uy'ni xaridorlar va quruvchilar o'rtasida ishonchni tiklash, har bir bitimni aniq ma'lumot va real muddatlarga asoslash maqsadida tashkil etdi.",
+        "bio3": "Bugungi kunda Sardor kompaniya strategiyasi va hamkor quruvchilar bilan munosabatlarni boshqaradi."
+      },
+      "person2": {
+        "name": "Danila Meretov",
+        "role": "Hamasoschi va Texnik direktor",
+        "location": "Samarkand, O'zbekiston",
+        "bio1": "Danila dasturiy ta'minot va data tahlili sohasida keng tajribaga ega bo'lib, bir nechta yirik texnologik loyihalarni ishga tushirgan.",
+        "bio2": "U Oson Uy platformasining texnik arxitekturasini, jumladan quruvchilarni tekshirish tizimi va foydalanuvchi tajribasini yaratishga mas'ul.",
+        "bio3": "Danila jamoaga mahsulotni doimiy rivojlantirish va yangi texnologiyalarni joriy etish orqali yetakchilik qiladi."
+      }
+    }
   },
   "Footer": {
     "description": "O'zbekistondagi birlamchi ko'chmas mulk platformasi: turar-joy majmualari katalogi, quruvchilarga buyurtmalar va xaridorning shaxsiy kabineti.",

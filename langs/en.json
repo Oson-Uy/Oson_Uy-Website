@@ -154,7 +154,27 @@
     "agency": "Licensed Agency",
     "startJourney": "Start Your Journey",
     "support": "24/7 Support",
-    "readyToAssist": "Ready to assist you"
+    "readyToAssist": "Ready to assist you",
+    "founder": {
+      "eyebrow": "Our Team",
+      "title": "Meet the Founders",
+      "person1": {
+        "name": "Sardor Djamolov",
+        "role": "Founder & CEO",
+        "location": "Samarkand, Uzbekistan",
+        "bio1": "Sardor spent over 10 years in Uzbekistan's real estate market and saw firsthand the lack of transparency in the primary housing market.",
+        "bio2": "He founded Oson Uy to rebuild trust between buyers and developers, grounded in accurate data and realistic delivery timelines.",
+        "bio3": "Today, Sardor leads company strategy and partner developer relationships."
+      },
+      "person2": {
+        "name": "Danila Meretov",
+        "role": "Co-founder & CTO",
+        "location": "Samarkand, Uzbekistan",
+        "bio1": "Danila brings deep experience in software engineering and data analysis, having launched several large-scale tech projects.",
+        "bio2": "He is responsible for Oson Uy's technical architecture, including the developer verification system and user experience.",
+        "bio3": "Danila leads the team in continuously evolving the product and adopting new technologies."
+      }
+    }
   },
   "Footer": {
     "description": "Primary real estate platform in Uzbekistan: catalog of residential complexes, requests to developers, and buyer's dashboard.",
