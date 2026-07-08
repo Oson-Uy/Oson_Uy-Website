@@ -9,7 +9,6 @@ import {
     CheckCircle2,
     Loader2,
     Star,
-    QrCode,
     ChevronLeft,
     ChevronRight,
     CreditCard,
@@ -223,7 +222,7 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
             <div className="max-w-7xl mx-auto px-4 md:px-6">
                 <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-sm flex flex-col md:flex-row items-stretch md:items-start mb-10 border border-slate-100">
                     <div className="w-full md:w-1/2 md:max-w-[50%] md:shrink-0 relative group flex flex-col md:sticky md:top-20">
-                        <div className="relative aspect-[16/10] md:aspect-auto max-h-[450px] w-[calc(100%-1.5rem)] md:w-[calc(100%-2rem)] overflow-hidden shrink-0 rounded-[1.5rem] mt-3 mx-auto md:mt-4 md:mx-4 border border-slate-100 isolation-auto">
+                        <div className="relative aspect-[16/10] md:aspect-auto md:h-[450px] w-[calc(100%-1.5rem)] md:w-[calc(100%-2rem)] overflow-hidden shrink-0 rounded-[1.5rem] mt-3 mx-auto md:mt-4 md:mx-4 border border-slate-100 isolation-auto">
                             <Carousel
                                 setApi={setApi}
                                 opts={{ loop: true, align: "start" }}
