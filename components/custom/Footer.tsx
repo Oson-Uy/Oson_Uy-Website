@@ -6,9 +6,9 @@ import { useTranslations, useLocale } from "next-intl";
 import { BRAND_LOGO_WEB_REMOVEDBG } from "@/lib/brand";
 
 const FOOTER_LABELS = {
-  ru: { catalog: "Каталог новостроек", blog: "Блог", cities: "Новостройки по городам", samarkand: "Самарканд", tashkent: "Ташкент", bukhara: "Бухара" },
-  uz: { catalog: "Yangi uylar katalogi", blog: "Blog", cities: "Shaharlar bo‘yicha", samarkand: "Samarqand", tashkent: "Toshkent", bukhara: "Buxoro" },
-  en: { catalog: "New-builds catalogue", blog: "Blog", cities: "New builds by city", samarkand: "Samarkand", tashkent: "Tashkent", bukhara: "Bukhara" },
+  ru: { catalog: "Каталог новостроек", blog: "Блог", developers: "Застройщики", cities: "Новостройки по городам", samarkand: "Самарканд", tashkent: "Ташкент", bukhara: "Бухара" },
+  uz: { catalog: "Yangi uylar katalogi", blog: "Blog", developers: "Quruvchilar", cities: "Shaharlar bo‘yicha", samarkand: "Samarqand", tashkent: "Toshkent", bukhara: "Buxoro" },
+  en: { catalog: "New-builds catalogue", blog: "Blog", developers: "Developers", cities: "New builds by city", samarkand: "Samarkand", tashkent: "Tashkent", bukhara: "Bukhara" },
 } as const;
 
 const INSTAGRAM_URL = "https://www.instagram.com/oson_uy.uz/";
@@ -105,6 +105,11 @@ export default function Footer() {
             <li>
               <Link href="/catalog" className="cursor-pointer hover:text-[#F97316]">
                 {L.catalog}
+              </Link>
+            </li>
+            <li>
+              <Link href="/developers" className="cursor-pointer hover:text-[#F97316]">
+                {L.developers}
               </Link>
             </li>
             <li>

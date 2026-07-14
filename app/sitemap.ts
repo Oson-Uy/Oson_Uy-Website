@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/site";
 import { CITY_SLUGS } from "@/content/cities";
 import { ARTICLES } from "@/content/blog";
+import { fetchDeveloperList, devHref } from "@/lib/developers";
 
 type ApiProject = { id: number; updatedAt?: string };
 
@@ -69,5 +70,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     /* offline / build without API */
   }
 
-  return [...staticRoutes, ...cityRoutes, ...blogRoutes, ...projectRoutes];
+  // Developers (public directory + profiles)
+  let developerRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const devs = await fetchDeveloperList();
+    developerRoutes = [
+      { url: `${baseUrl}/developers`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.7 },
+      ...devs.map((d) => ({
+        url: `${baseUrl}${devHref(d)}`,
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: 0.75,
+      })),
+    ];
+  } catch {
+    /* API offline at build */
+  }
+
+  return [
+    ...staticRoutes,
+    ...cityRoutes,
+    ...blogRoutes,
+    ...developerRoutes,
+    ...projectRoutes,
+  ];
 }
