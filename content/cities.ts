@@ -239,6 +239,198 @@ export const CITIES: City[] = [
       ],
     },
   ),
+  city(
+    "andijan",
+    "andijan",
+    {
+      name: "Андижан",
+      h1: "Новостройки Андижана",
+      metaTitle: "Новостройки Андижана — купить квартиру от застройщика | Oson Uy",
+      metaDescription:
+        "Новостройки Андижана от проверенных застройщиков: рассрочка, цены за м², планировки и шахматка. Купить квартиру в Андижане на Oson Uy.",
+      intro: [
+        "Андижан — один из крупнейших городов Ферганской долины с растущим спросом на современное жильё. Новые жилые комплексы с развитой инфраструктурой района и рассрочкой от застройщика делают покупку квартиры доступной для большего числа семей.",
+        "На Oson Uy собраны проверенные новостройки Андижана с открытыми ценами за квадратный метр, планировками и шахматкой квартир. Покупка идёт напрямую у застройщика — без посредников и скрытых комиссий.",
+      ],
+      why: [
+        { title: "Растущий город", text: "Андижан — крупный экономический центр долины со стабильным спросом на жильё." },
+        { title: "Рассрочка от застройщика", text: "Многие ЖК предлагают рассрочку без банка с удобным первым взносом." },
+        { title: "Проверенные застройщики", text: "Верификация и реальные фото хода строительства снижают риски покупки." },
+      ],
+      faq: [
+        { q: "Есть ли рассрочка в новостройках Андижана?", a: "Да, многие застройщики Андижана предлагают рассрочку напрямую. Используйте фильтр «в рассрочку» в каталоге." },
+        { q: "Как купить квартиру в Андижане?", a: "Выберите ЖК в каталоге, изучите планировки и цены, свяжитесь с застройщиком напрямую со страницы проекта." },
+      ],
+    },
+    {
+      name: "Andijon",
+      h1: "Andijon yangi uylari",
+      metaTitle: "Andijon yangi uylari — quruvchidan kvartira | Oson Uy",
+      metaDescription:
+        "Andijon yangi uylari ishonchli quruvchilardan: bo‘lib to‘lash, m² narxi, planirovka. Oson Uy’da Andijonda kvartira soting oling.",
+      intro: [
+        "Andijon — Farg‘ona vodiysining yirik shaharlaridan biri, zamonaviy uyga talab ortmoqda. Rivojlangan infratuzilma va quruvchidan bo‘lib to‘lash xaridni ko‘proq oilalar uchun mumkin qiladi.",
+        "Oson Uy’da Andijonning tekshirilgan yangi uylari ochiq m² narxi, planirovka va shaxmatka bilan. Xarid quruvchidan to‘g‘ridan-to‘g‘ri.",
+      ],
+      why: [
+        { title: "O‘sib borayotgan shahar", text: "Andijon vodiyning yirik iqtisodiy markazi." },
+        { title: "Bo‘lib to‘lash", text: "Ko‘p ЖК’lar banksiz bo‘lib to‘lash taklif qiladi." },
+        { title: "Tekshirilgan quruvchilar", text: "Verifikatsiya va qurilish suratlari." },
+      ],
+      faq: [
+        { q: "Andijonda bo‘lib to‘lash bormi?", a: "Ha, ko‘p quruvchilar bo‘lib to‘lash taklif qiladi." },
+        { q: "Andijonda kvartirani qanday sotib olaman?", a: "Katalogdan ЖК tanlang va quruvchi bilan bevosita bog‘laning." },
+      ],
+    },
+    {
+      name: "Andijan",
+      h1: "New builds in Andijan",
+      metaTitle: "New builds in Andijan — buy from the developer | Oson Uy",
+      metaDescription:
+        "New builds in Andijan from verified developers: instalments, price per m², layouts. Buy an apartment in Andijan on Oson Uy.",
+      intro: [
+        "Andijan is one of the largest cities of the Fergana Valley with growing demand for modern housing. New complexes with developed district infrastructure and developer instalments make buying an apartment affordable for more families.",
+        "Oson Uy gathers verified Andijan new builds with open prices per m², layouts and a chessboard. Purchases are made directly from the developer.",
+      ],
+      why: [
+        { title: "A growing city", text: "Andijan is a major economic centre of the valley with steady housing demand." },
+        { title: "Developer instalments", text: "Many complexes offer bank-free instalments with a convenient down payment." },
+        { title: "Verified developers", text: "Verification and real construction photos reduce buying risks." },
+      ],
+      faq: [
+        { q: "Are instalments available in Andijan new builds?", a: "Yes, many Andijan developers offer instalments directly. Use the “instalment” filter in the catalogue." },
+        { q: "How do I buy an apartment in Andijan?", a: "Choose a complex in the catalogue, review layouts and prices, and contact the developer directly from the project page." },
+      ],
+    },
+  ),
+  city(
+    "namangan",
+    "namangan",
+    {
+      name: "Наманган",
+      h1: "Новостройки Намангана",
+      metaTitle: "Новостройки Намангана — купить квартиру от застройщика | Oson Uy",
+      metaDescription:
+        "Новостройки Намангана от проверенных застройщиков: доступные цены, рассрочка, планировки. Купить квартиру в Намангане на Oson Uy.",
+      intro: [
+        "Наманган — динамичный город Ферганской долины с новыми жилыми комплексами по доступным ценам. Удобные условия покупки и рассрочка от застройщика привлекают семьи, которые хотят современное жильё без переплат.",
+        "На Oson Uy вы найдёте проверенные новостройки Намангана с открытыми ценами за м², планировками и шахматкой. Связь с застройщиком — напрямую.",
+      ],
+      why: [
+        { title: "Доступные цены", text: "Наманган предлагает современное жильё по цене ниже столичной." },
+        { title: "Рассрочка от застройщика", text: "Первый взнос и равные платежи без участия банка." },
+        { title: "Проверенные проекты", text: "Верификация застройщиков и реальные данные по стройке." },
+      ],
+      faq: [
+        { q: "Сколько стоят квартиры в Намангане?", a: "Цены в Намангане обычно доступнее столичных. Стоимость за м² указана на карточке каждого ЖК." },
+        { q: "Есть ли рассрочка в Намангане?", a: "Да, многие застройщики предлагают рассрочку напрямую без банка." },
+      ],
+    },
+    {
+      name: "Namangan",
+      h1: "Namangan yangi uylari",
+      metaTitle: "Namangan yangi uylari — quruvchidan kvartira | Oson Uy",
+      metaDescription:
+        "Namangan yangi uylari ishonchli quruvchilardan: arzon narx, bo‘lib to‘lash, planirovka. Oson Uy’da Namanganda kvartira soting oling.",
+      intro: [
+        "Namangan — Farg‘ona vodiysining dinamik shahri, arzon narxdagi yangi majmualar bilan. Qulay shartlar va bo‘lib to‘lash oilalarni ortiqcha to‘lovsiz zamonaviy uyga jalb qiladi.",
+        "Oson Uy’da Namanganning tekshirilgan yangi uylarini ochiq m² narxi, planirovka va shaxmatka bilan topasiz.",
+      ],
+      why: [
+        { title: "Arzon narxlar", text: "Namangan zamonaviy uyni poytaxtdan arzon taklif qiladi." },
+        { title: "Bo‘lib to‘lash", text: "Banksiz boshlang‘ich va teng to‘lovlar." },
+        { title: "Tekshirilgan loyihalar", text: "Quruvchi verifikatsiyasi va qurilish ma’lumoti." },
+      ],
+      faq: [
+        { q: "Namanganda kvartira qancha turadi?", a: "Namangan narxlari odatda poytaxtdan arzon. m² narxi kartochkada." },
+        { q: "Namanganda bo‘lib to‘lash bormi?", a: "Ha, ko‘p quruvchilar banksiz bo‘lib to‘lash taklif qiladi." },
+      ],
+    },
+    {
+      name: "Namangan",
+      h1: "New builds in Namangan",
+      metaTitle: "New builds in Namangan — buy from the developer | Oson Uy",
+      metaDescription:
+        "New builds in Namangan from verified developers: affordable prices, instalments, layouts. Buy an apartment in Namangan on Oson Uy.",
+      intro: [
+        "Namangan is a dynamic city of the Fergana Valley with affordable new complexes. Convenient terms and developer instalments attract families who want modern housing without overpaying.",
+        "On Oson Uy you’ll find verified Namangan new builds with open prices per m², layouts and a chessboard. Contact the developer directly.",
+      ],
+      why: [
+        { title: "Affordable prices", text: "Namangan offers modern housing below capital prices." },
+        { title: "Developer instalments", text: "A down payment and equal payments without a bank." },
+        { title: "Verified projects", text: "Developer verification and real construction data." },
+      ],
+      faq: [
+        { q: "How much do apartments in Namangan cost?", a: "Namangan prices are usually more affordable than the capital. The price per m² is on each complex card." },
+        { q: "Are instalments available in Namangan?", a: "Yes, many developers offer instalments directly without a bank." },
+      ],
+    },
+  ),
+  city(
+    "fergana",
+    "fergana",
+    {
+      name: "Фергана",
+      h1: "Новостройки Ферганы",
+      metaTitle: "Новостройки Ферганы — купить квартиру от застройщика | Oson Uy",
+      metaDescription:
+        "Новостройки Ферганы от проверенных застройщиков: рассрочка, цены за м², планировки. Купить квартиру в Фергане на Oson Uy.",
+      intro: [
+        "Фергана — зелёный административный центр Ферганской долины с растущим рынком новостроек. Современные жилые комплексы, рассрочка и удобная инфраструктура делают Фергану привлекательной для покупки квартиры.",
+        "На Oson Uy собраны проверенные новостройки Ферганы с открытыми ценами, планировками и шахматкой. Покупка — напрямую у застройщика.",
+      ],
+      why: [
+        { title: "Центр долины", text: "Фергана — крупный административный и деловой центр региона." },
+        { title: "Рассрочка от застройщика", text: "Удобный первый взнос и равные ежемесячные платежи." },
+        { title: "Проверенные застройщики", text: "Верификация и реальные фото хода строительства." },
+      ],
+      faq: [
+        { q: "Как выбрать новостройку в Фергане?", a: "Сравните ЖК по цене за м², планировкам и застройщику в каталоге Oson Uy, затем свяжитесь с застройщиком напрямую." },
+        { q: "Есть ли рассрочка в Фергане?", a: "Да, многие застройщики предлагают рассрочку без банка. Используйте фильтр «в рассрочку»." },
+      ],
+    },
+    {
+      name: "Farg‘ona",
+      h1: "Farg‘ona yangi uylari",
+      metaTitle: "Farg‘ona yangi uylari — quruvchidan kvartira | Oson Uy",
+      metaDescription:
+        "Farg‘ona yangi uylari ishonchli quruvchilardan: bo‘lib to‘lash, m² narxi, planirovka. Oson Uy’da Farg‘onada kvartira soting oling.",
+      intro: [
+        "Farg‘ona — vodiyning yashil ma’muriy markazi, yangi uylar bozori o‘smoqda. Zamonaviy majmualar, bo‘lib to‘lash va qulay infratuzilma Farg‘onani jozibali qiladi.",
+        "Oson Uy’da Farg‘onaning tekshirilgan yangi uylari ochiq narx, planirovka va shaxmatka bilan.",
+      ],
+      why: [
+        { title: "Vodiy markazi", text: "Farg‘ona mintaqaning yirik ma’muriy markazi." },
+        { title: "Bo‘lib to‘lash", text: "Qulay boshlang‘ich va teng to‘lovlar." },
+        { title: "Tekshirilgan quruvchilar", text: "Verifikatsiya va qurilish suratlari." },
+      ],
+      faq: [
+        { q: "Farg‘onada yangi uyni qanday tanlash mumkin?", a: "Katalogda ЖК’larni narx, planirovka va quruvchi bo‘yicha solishtiring, so‘ng bevosita bog‘laning." },
+        { q: "Farg‘onada bo‘lib to‘lash bormi?", a: "Ha, ko‘p quruvchilar banksiz bo‘lib to‘lash taklif qiladi." },
+      ],
+    },
+    {
+      name: "Fergana",
+      h1: "New builds in Fergana",
+      metaTitle: "New builds in Fergana — buy from the developer | Oson Uy",
+      metaDescription:
+        "New builds in Fergana from verified developers: instalments, price per m², layouts. Buy an apartment in Fergana on Oson Uy.",
+      intro: [
+        "Fergana is the green administrative centre of the Fergana Valley with a growing new-build market. Modern complexes, instalments and convenient infrastructure make Fergana attractive for buying an apartment.",
+        "Oson Uy gathers verified Fergana new builds with open prices, layouts and a chessboard. Purchases are made directly from the developer.",
+      ],
+      why: [
+        { title: "Valley centre", text: "Fergana is a major administrative and business centre of the region." },
+        { title: "Developer instalments", text: "A convenient down payment and equal monthly payments." },
+        { title: "Verified developers", text: "Verification and real construction photos." },
+      ],
+      faq: [
+        { q: "How do I choose a new build in Fergana?", a: "Compare complexes by price per m², layouts and developer in the Oson Uy catalogue, then contact the developer directly." },
+        { q: "Are instalments available in Fergana?", a: "Yes, many developers offer bank-free instalments. Use the “instalment” filter." },
+      ],
+    },
+  ),
 ];
 
 export const CITY_SLUGS = CITIES.map((c) => c.slug);
