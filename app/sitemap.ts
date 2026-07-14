@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/site";
+import { CITY_SLUGS } from "@/content/cities";
 
 type ApiProject = { id: number; updatedAt?: string };
 
@@ -28,6 +29,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // City landing pages (/novostroyki/[slug])
+  const cityRoutes: MetadataRoute.Sitemap = CITY_SLUGS.map((slug) => ({
+    url: `${baseUrl}/novostroyki/${slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  }));
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
   let projectRoutes: MetadataRoute.Sitemap = [];
 
@@ -48,5 +57,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     /* offline / build without API */
   }
 
-  return [...staticRoutes, ...projectRoutes];
+  return [...staticRoutes, ...cityRoutes, ...projectRoutes];
 }
