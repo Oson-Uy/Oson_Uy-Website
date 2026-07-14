@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { BRAND_LOGO_WEB_REMOVEDBG } from "@/lib/brand";
+
+const FOOTER_LABELS = {
+  ru: { catalog: "Каталог новостроек", blog: "Блог", cities: "Новостройки по городам", samarkand: "Самарканд", tashkent: "Ташкент", bukhara: "Бухара" },
+  uz: { catalog: "Yangi uylar katalogi", blog: "Blog", cities: "Shaharlar bo‘yicha", samarkand: "Samarqand", tashkent: "Toshkent", bukhara: "Buxoro" },
+  en: { catalog: "New-builds catalogue", blog: "Blog", cities: "New builds by city", samarkand: "Samarkand", tashkent: "Tashkent", bukhara: "Bukhara" },
+} as const;
 
 const INSTAGRAM_URL = "https://www.instagram.com/oson_uy.uz/";
 const APPSTORE_URL = "https://apps.apple.com/us/app/oson-uy/id6773353692";
@@ -12,6 +18,8 @@ const GOOGLEPLAY_URL = "https://play.google.com/store/apps/";
 export default function Footer() {
   const t = useTranslations("Footer");
   const tSeo = useTranslations("Seo");
+  const locale = useLocale();
+  const L = FOOTER_LABELS[(locale as keyof typeof FOOTER_LABELS)] ?? FOOTER_LABELS.ru;
   const phone =
     typeof process !== "undefined" && process.env.NEXT_PUBLIC_CONTACT_PHONE
       ? process.env.NEXT_PUBLIC_CONTACT_PHONE.trim()
@@ -95,6 +103,16 @@ export default function Footer() {
           </h4>
           <ul className="space-y-2.5 text-sm font-semibold text-[#1E3A8A]/90">
             <li>
+              <Link href="/catalog" className="cursor-pointer hover:text-[#F97316]">
+                {L.catalog}
+              </Link>
+            </li>
+            <li>
+              <Link href="/blog" className="cursor-pointer hover:text-[#F97316]">
+                {L.blog}
+              </Link>
+            </li>
+            <li>
               <Link href="/about" className="cursor-pointer hover:text-[#F97316]">
                 {t("about")}
               </Link>
@@ -104,6 +122,17 @@ export default function Footer() {
                 {t("faq")}
               </Link>
             </li>
+          </ul>
+        </div>
+
+        <div className="space-y-4 md:col-span-3">
+          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1E3A8A]/50">
+            {L.cities}
+          </h4>
+          <ul className="space-y-2.5 text-sm font-semibold text-[#1E3A8A]/90">
+            <li><Link href="/novostroyki/samarkand" className="hover:text-[#F97316]">{L.samarkand}</Link></li>
+            <li><Link href="/novostroyki/tashkent" className="hover:text-[#F97316]">{L.tashkent}</Link></li>
+            <li><Link href="/novostroyki/bukhara" className="hover:text-[#F97316]">{L.bukhara}</Link></li>
           </ul>
         </div>
 
