@@ -3,6 +3,15 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { BRAND_IMAGE_OG_PATH } from "@/lib/brand";
 import { absoluteUrl, getSiteUrl } from "@/lib/site";
 import AboutClient from "@/components/custom/AboutClient";
+import AboutSeoContent from "@/components/about/AboutSeoContent";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  organizationSchema,
+  breadcrumbSchema,
+  faqSchema,
+  graph,
+} from "@/lib/seo/schema";
+import { getAboutContent } from "@/content/about";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,8 +53,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function About() {
     const t = await getTranslations("About");
+    const locale = await getLocale();
+    const about = getAboutContent(locale);
+    const aboutJsonLd = graph(
+        organizationSchema(),
+        breadcrumbSchema([
+            { name: "Главная", url: "/" },
+            { name: t("title1") + " " + t("titleAccent"), url: "/about" },
+        ]),
+        faqSchema(about.faq),
+    );
 
     return (
+        <>
+        <JsonLd data={aboutJsonLd} />
         <AboutClient
             t={{
                 trustScore: t("trustScore"),
@@ -76,5 +97,7 @@ export default async function About() {
                 startJourney: t("startJourney"),
             }}
         />
+        <AboutSeoContent />
+        </>
     );
 }

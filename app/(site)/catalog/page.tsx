@@ -7,9 +7,12 @@ import { minPricePerM2FromApiProject } from "@/lib/project-price";
 import { BRAND_IMAGE_OG_PATH } from "@/lib/brand";
 import { absoluteUrl, getSiteUrl } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
+import CatalogSeoContent from "@/components/catalog/CatalogSeoContent";
+import { getCatalogContent } from "@/content/catalog";
 import {
   breadcrumbSchema,
   collectionPageSchema,
+  faqSchema,
   graph,
 } from "@/lib/seo/schema";
 
@@ -209,6 +212,8 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   };
 
   const seo = await getTranslations("Seo");
+  const catalogLocale = await getLocale();
+  const catalogContent = getCatalogContent(catalogLocale);
   const catalogUrl = `${getSiteUrl()}/catalog`;
   const catalogJsonLd = graph(
     collectionPageSchema({
@@ -221,6 +226,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       { name: "Главная", url: "/" },
       { name: t("title"), url: "/catalog" },
     ]),
+    faqSchema(catalogContent.faq),
   );
 
   return (
@@ -240,6 +246,8 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       ) : (
         <ProjectGrid projects={filteredProjects} />
       )}
+
+      <CatalogSeoContent />
     </div>
   );
 }
