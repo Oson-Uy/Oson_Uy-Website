@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import HomeClient from "@/components/home/HomeClient";
+import HomeSeoContent from "@/components/home/HomeSeoContent";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  organizationSchema,
+  websiteSchema,
+  faqSchema,
+  graph,
+} from "@/lib/seo/schema";
 import { BRAND_IMAGE_OG_PATH } from "@/lib/brand";
 import { absoluteUrl, getSiteUrl } from "@/lib/site";
 
@@ -40,39 +48,25 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function HomePage() {
-  const siteUrl = getSiteUrl();
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": `${siteUrl}/#organization`,
-        name: "Oson Uy",
-        url: siteUrl,
-        logo: {
-          "@type": "ImageObject",
-          url: absoluteUrl(BRAND_IMAGE_OG_PATH),
-        },
-      },
-      {
-        "@type": "WebSite",
-        "@id": `${siteUrl}/#website`,
-        url: siteUrl,
-        name: "Oson Uy",
-        publisher: { "@id": `${siteUrl}/#organization` },
-        inLanguage: ["uz", "ru", "en"],
-      },
-    ],
-  };
+export default async function HomePage() {
+  // FAQPage schema built from the same content shown in the visible FAQ section.
+  const tf = await getTranslations("Faq");
+  const faqItems = ["q1", "q2", "q3", "q4", "q5"].map((k) => ({
+    q: tf(`items.${k}.question`),
+    a: tf(`items.${k}.answer`),
+  }));
+
+  const jsonLd = graph(
+    organizationSchema(),
+    websiteSchema(),
+    faqSchema(faqItems),
+  );
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
       <HomeClient />
+      <HomeSeoContent />
     </>
   );
 }

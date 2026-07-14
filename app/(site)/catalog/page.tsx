@@ -6,6 +6,12 @@ import { Project } from "@/types";
 import { minPricePerM2FromApiProject } from "@/lib/project-price";
 import { BRAND_IMAGE_OG_PATH } from "@/lib/brand";
 import { absoluteUrl, getSiteUrl } from "@/lib/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  breadcrumbSchema,
+  collectionPageSchema,
+  graph,
+} from "@/lib/seo/schema";
 
 type CatalogPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -202,8 +208,24 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     anyDistrict: t("drawer.anyDistrict"),
   };
 
+  const seo = await getTranslations("Seo");
+  const catalogUrl = `${getSiteUrl()}/catalog`;
+  const catalogJsonLd = graph(
+    collectionPageSchema({
+      url: catalogUrl,
+      name: seo("catalogTitle"),
+      description: seo("catalogDescription"),
+      numberOfItems: filteredProjects.length,
+    }),
+    breadcrumbSchema([
+      { name: "Главная", url: "/" },
+      { name: t("title"), url: "/catalog" },
+    ]),
+  );
+
   return (
     <div className="lg:pt-5 md:pt-20 pb-16 px-5 max-w-[1250px] mx-auto">
+      <JsonLd data={catalogJsonLd} />
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
         <h1 className="text-4xl font-black text-primary tracking-tight">
           {t("title")}

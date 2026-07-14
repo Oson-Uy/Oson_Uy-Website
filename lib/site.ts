@@ -10,7 +10,7 @@ export function getSiteUrl(): string {
   if (raw) {
     return raw.startsWith("http") ? raw.replace(/\/$/, "") : `https://${raw.replace(/\/$/, "")}`;
   }
-  return "https://osonuy.uz";
+  return "https://oson-uy.uz";
 }
 
 export function absoluteUrl(path: string): string {
