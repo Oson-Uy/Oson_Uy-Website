@@ -85,6 +85,13 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={cn("font-sans", geist.variable)}>
       <head>
+        {/* Speed up first image (LCP): warm up the image CDN + API connections */}
+        <link
+          rel="preconnect"
+          href="https://mzvqdchcqnococdzbktz.supabase.co"
+          crossOrigin="anonymous"
+        />
+        <link rel="dns-prefetch" href="https://mzvqdchcqnococdzbktz.supabase.co" />
       </head>
       <body>
         <YandexMetrika />

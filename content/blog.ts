@@ -258,7 +258,84 @@ const ipoteka: Article = {
   },
 };
 
-export const ARTICLES: Article[] = [rassrochka, ipoteka, investicii];
+const zastroyshchik: Article = {
+  slug: "kak-vybrat-nadyozhnogo-zastroyshchika",
+  category: { ru: "Застройщики", uz: "Quruvchilar", en: "Developers" },
+  datePublished: "2026-07-16",
+  readingMinutes: 6,
+  ru: {
+    title: "Как выбрать надёжного застройщика в Узбекистане",
+    excerpt:
+      "Проверка застройщика перед покупкой квартиры: документы, репутация, ход строительства и отзывы. Чек-лист, который снижает риски на первичном рынке.",
+    sections: [
+      {
+        h: "Почему выбор застройщика важнее цены",
+        p: [
+          "На первичном рынке вы покупаете не только квартиру, но и обещание достроить дом в срок. Поэтому надёжность застройщика важнее, чем самая низкая цена за квадратный метр. Дешёвый проект от неизвестной компании может обернуться задержкой сдачи или замороженной стройкой.",
+          "Надёжный застройщик — это прозрачные документы, история сданных домов и открытость к общению. На Oson Uy проверенные компании отмечены значком «Проверенный», а на странице каждого застройщика собраны все его проекты.",
+        ],
+      },
+      {
+        h: "Документы, которые стоит проверить",
+        p: [
+          "Убедитесь, что у застройщика есть право на землю и разрешение на строительство. Юридическая регистрация компании и корректные реквизиты — базовый минимум. Мы проверяем эти документы до публикации проекта, но не лишним будет запросить их и самому у отдела продаж.",
+          "Хороший знак — когда застройщик спокойно показывает документы и договор, а график платежей в договоре прозрачен: даты, суммы, итоговая стоимость.",
+        ],
+      },
+      {
+        h: "Репутация, сданные дома и отзывы",
+        p: [
+          "Изучите портфолио: сколько домов застройщик уже сдал и в срок ли. Отзывы реальных покупателей помогают понять качество строительства и то, как компания ведёт себя после продажи. На Oson Uy рейтинги и отзывы доступны на страницах проектов.",
+          "Открытая страница застройщика с его проектами — удобный способ оценить масштаб и опыт компании в одном месте.",
+        ],
+      },
+      {
+        h: "Ход строительства и коммуникация",
+        p: [
+          "Реальные фотографии прогресса и обозначенные этапы стройки показывают, что работа идёт. Если застройщик регулярно обновляет статус и на связи — это хороший признак. Мы отображаем этапы и фото хода строительства по проектам, где они доступны.",
+          "Итоговый чек-лист: проверенный статус, документы, история сданных домов, отзывы, реальный прогресс и открытая коммуникация. Совпадает большинство пунктов — застройщику можно доверять.",
+        ],
+      },
+    ],
+    faq: [
+      { q: "Как понять, что застройщик надёжный?", a: "Смотрите на проверенный статус, документы (право на землю и разрешение), историю сданных домов, отзывы покупателей и реальный ход строительства. На Oson Uy проверенные застройщики отмечены значком." },
+      { q: "Где посмотреть все проекты застройщика?", a: "На Oson Uy у каждого застройщика есть отдельная страница со всеми его проектами, контактами и статусом верификации." },
+      { q: "Что важнее — цена или надёжность застройщика?", a: "Надёжность. Низкая цена от неизвестной компании может обернуться задержкой сдачи. Лучше выбрать проверенного застройщика с прозрачными условиями." },
+    ],
+  },
+  uz: {
+    title: "O‘zbekistonda ishonchli quruvchini qanday tanlash",
+    excerpt:
+      "Kvartira sotib olishdan oldin quruvchini tekshirish: hujjatlar, obro‘, qurilish borishi va sharhlar. Xavfni kamaytiruvchi ro‘yxat.",
+    sections: [
+      { h: "Nega quruvchi tanlash narxdan muhimroq", p: ["Birlamchi bozorda siz uyni o‘z vaqtida qurish va’dasini ham sotib olasiz. Shuning uchun quruvchi ishonchliligi eng past narxdan muhimroq.", "Ishonchli quruvchi — shaffof hujjatlar, topshirilgan uylar tarixi va ochiqlik. «Tekshirilgan» belgisiga qarang."] },
+      { h: "Qanday hujjatlarni tekshirish kerak", p: ["Yerga huquq va qurilish ruxsati borligini tekshiring. Kompaniyaning yuridik ro‘yxati — asosiy minimum.", "Yaxshi belgi — quruvchi hujjat va shartnomani bemalol ko‘rsatsa, grafik shaffof bo‘lsa."] },
+      { h: "Obro‘, topshirilgan uylar va sharhlar", p: ["Portfelni o‘rganing: quruvchi qancha uy topshirgan va o‘z vaqtidami. Sharhlar sifatni tushunishga yordam beradi.", "Quruvchining barcha loyihalari bo‘lgan sahifa tajribani baholashning qulay yo‘li."] },
+      { h: "Qurilish borishi va aloqa", p: ["Haqiqiy progress suratlari va bosqichlar ish borayotganini ko‘rsatadi. Muntazam yangilanish — yaxshi belgi.", "Ro‘yxat: tekshirilgan status, hujjatlar, topshirilgan uylar, sharhlar, progress va ochiq aloqa."] },
+    ],
+    faq: [
+      { q: "Quruvchi ishonchli ekanini qanday bilaman?", a: "Tekshirilgan status, hujjatlar, topshirilgan uylar tarixi, sharhlar va qurilish borishiga qarang." },
+      { q: "Quruvchining barcha loyihalarini qayerdan ko‘raman?", a: "Oson Uy’da har bir quruvchining barcha loyihalari bo‘lgan alohida sahifasi bor." },
+    ],
+  },
+  en: {
+    title: "How to choose a reliable developer in Uzbekistan",
+    excerpt:
+      "Vetting a developer before buying: documents, reputation, construction progress and reviews. A checklist that reduces primary-market risk.",
+    sections: [
+      { h: "Why the developer matters more than price", p: ["On the primary market you buy not just an apartment but a promise to finish on time. So reliability matters more than the lowest price per m².", "A reliable developer means transparent documents, a track record and openness. Look for the “Verified” badge."] },
+      { h: "Documents to check", p: ["Make sure the developer has land rights and a construction permit. Legal registration is the baseline.", "A good sign is when the developer readily shows documents and the contract, with a transparent payment schedule."] },
+      { h: "Reputation, delivered buildings and reviews", p: ["Study the portfolio: how many buildings the developer has delivered and on time. Reviews reveal build quality.", "A developer page with all their projects is a handy way to assess scale and experience."] },
+      { h: "Construction progress and communication", p: ["Real progress photos and marked stages show work is moving. Regular updates are a good sign.", "Checklist: verified status, documents, delivered buildings, reviews, real progress and open communication."] },
+    ],
+    faq: [
+      { q: "How do I know a developer is reliable?", a: "Check the verified status, documents (land rights and permits), track record of delivered buildings, buyer reviews and real construction progress." },
+      { q: "Where can I see all of a developer's projects?", a: "On Oson Uy every developer has a dedicated page with all their projects, contacts and verification status." },
+    ],
+  },
+};
+
+export const ARTICLES: Article[] = [rassrochka, ipoteka, zastroyshchik, investicii];
 
 export const ARTICLE_SLUGS = ARTICLES.map((a) => a.slug);
 
