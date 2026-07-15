@@ -431,6 +431,134 @@ export const CITIES: City[] = [
       ],
     },
   ),
+  city(
+    "qarshi",
+    "qarshi",
+    {
+      name: "Карши",
+      h1: "Новостройки Карши",
+      metaTitle: "Новостройки Карши — купить квартиру от застройщика | Oson Uy",
+      metaDescription:
+        "Новостройки Карши от проверенных застройщиков: рассрочка, цены за м², планировки. Купить квартиру в Карши на Oson Uy.",
+      intro: [
+        "Карши — административный центр Кашкадарьинской области и растущий город с новыми жилыми комплексами. Современные новостройки, рассрочка от застройщика и развивающаяся инфраструктура делают покупку квартиры в Карши удобной и доступной.",
+        "На Oson Uy собраны проверенные новостройки Карши с открытыми ценами, планировками и шахматкой квартир. Покупка — напрямую у застройщика, без посредников.",
+      ],
+      why: [
+        { title: "Растущий центр области", text: "Карши — крупный экономический центр региона со спросом на современное жильё." },
+        { title: "Рассрочка от застройщика", text: "Удобный первый взнос и равные ежемесячные платежи без банка." },
+        { title: "Проверенные застройщики", text: "Верификация и реальные фото хода строительства." },
+      ],
+      faq: [
+        { q: "Есть ли рассрочка в новостройках Карши?", a: "Да, многие застройщики Карши предлагают рассрочку напрямую. Используйте фильтр «в рассрочку»." },
+        { q: "Как купить квартиру в Карши?", a: "Выберите ЖК в каталоге, изучите цены и планировки, свяжитесь с застройщиком со страницы проекта." },
+      ],
+    },
+    {
+      name: "Qarshi",
+      h1: "Qarshi yangi uylari",
+      metaTitle: "Qarshi yangi uylari — quruvchidan kvartira | Oson Uy",
+      metaDescription:
+        "Qarshi yangi uylari ishonchli quruvchilardan: bo‘lib to‘lash, m² narxi, planirovka. Oson Uy’da Qarshida kvartira soting oling.",
+      intro: [
+        "Qarshi — Qashqadaryo viloyatining ma’muriy markazi, yangi majmualar bilan o‘sib borayotgan shahar. Zamonaviy uylar, bo‘lib to‘lash va rivojlanayotgan infratuzilma xaridni qulay qiladi.",
+        "Oson Uy’da Qarshining tekshirilgan yangi uylari ochiq narx, planirovka va shaxmatka bilan.",
+      ],
+      why: [
+        { title: "O‘sib borayotgan markaz", text: "Qarshi mintaqaning yirik iqtisodiy markazi." },
+        { title: "Bo‘lib to‘lash", text: "Banksiz qulay boshlang‘ich va teng to‘lovlar." },
+        { title: "Tekshirilgan quruvchilar", text: "Verifikatsiya va qurilish suratlari." },
+      ],
+      faq: [
+        { q: "Qarshida bo‘lib to‘lash bormi?", a: "Ha, ko‘p quruvchilar bo‘lib to‘lash taklif qiladi." },
+        { q: "Qarshida kvartirani qanday olaman?", a: "Katalogdan ЖК tanlang va quruvchi bilan bevosita bog‘laning." },
+      ],
+    },
+    {
+      name: "Qarshi",
+      h1: "New builds in Qarshi",
+      metaTitle: "New builds in Qarshi — buy from the developer | Oson Uy",
+      metaDescription:
+        "New builds in Qarshi from verified developers: instalments, price per m², layouts. Buy an apartment in Qarshi on Oson Uy.",
+      intro: [
+        "Qarshi is the administrative centre of the Kashkadarya region and a growing city with new residential complexes. Modern new builds, developer instalments and developing infrastructure make buying an apartment in Qarshi convenient and affordable.",
+        "Oson Uy gathers verified Qarshi new builds with open prices, layouts and a chessboard. Purchases are made directly from the developer.",
+      ],
+      why: [
+        { title: "A growing regional centre", text: "Qarshi is a major economic centre of the region with demand for modern housing." },
+        { title: "Developer instalments", text: "A convenient down payment and equal monthly payments without a bank." },
+        { title: "Verified developers", text: "Verification and real construction photos." },
+      ],
+      faq: [
+        { q: "Are instalments available in Qarshi new builds?", a: "Yes, many Qarshi developers offer instalments directly. Use the “instalment” filter." },
+        { q: "How do I buy an apartment in Qarshi?", a: "Choose a complex in the catalogue, review prices and layouts, and contact the developer from the project page." },
+      ],
+    },
+  ),
+  city(
+    "nukus",
+    "nukus",
+    {
+      name: "Нукус",
+      h1: "Новостройки Нукуса",
+      metaTitle: "Новостройки Нукуса — купить квартиру от застройщика | Oson Uy",
+      metaDescription:
+        "Новостройки Нукуса от проверенных застройщиков: доступные цены, рассрочка, планировки. Купить квартиру в Нукусе на Oson Uy.",
+      intro: [
+        "Нукус — столица Республики Каракалпакстан с растущим рынком современного жилья. Новостройки Нукуса предлагают доступные цены и рассрочку от застройщика, что делает покупку квартиры реальной для большего числа семей.",
+        "На Oson Uy собраны проверенные новостройки Нукуса с открытыми ценами за м², планировками и шахматкой. Связь с застройщиком — напрямую.",
+      ],
+      why: [
+        { title: "Столица Каракалпакстана", text: "Нукус — крупнейший город региона с растущим спросом на жильё." },
+        { title: "Доступные цены", text: "Современное жильё по цене ниже, чем в центральных регионах." },
+        { title: "Проверенные застройщики", text: "Верификация и реальные данные по ходу строительства." },
+      ],
+      faq: [
+        { q: "Сколько стоят квартиры в Нукусе?", a: "Цены в Нукусе обычно доступные. Стоимость за м² указана на карточке каждого ЖК." },
+        { q: "Есть ли рассрочка в Нукусе?", a: "Да, многие застройщики предлагают рассрочку напрямую без банка." },
+      ],
+    },
+    {
+      name: "Nukus",
+      h1: "Nukus yangi uylari",
+      metaTitle: "Nukus yangi uylari — quruvchidan kvartira | Oson Uy",
+      metaDescription:
+        "Nukus yangi uylari ishonchli quruvchilardan: arzon narx, bo‘lib to‘lash, planirovka. Oson Uy’da Nukusda kvartira soting oling.",
+      intro: [
+        "Nukus — Qoraqalpog‘iston Respublikasining poytaxti, zamonaviy uy bozori o‘smoqda. Nukus yangi uylari arzon narx va bo‘lib to‘lash taklif qiladi.",
+        "Oson Uy’da Nukusning tekshirilgan yangi uylari ochiq m² narxi, planirovka va shaxmatka bilan.",
+      ],
+      why: [
+        { title: "Qoraqalpog‘iston poytaxti", text: "Nukus mintaqaning eng katta shahri." },
+        { title: "Arzon narxlar", text: "Markaziy mintaqalardan arzon zamonaviy uy." },
+        { title: "Tekshirilgan quruvchilar", text: "Verifikatsiya va qurilish ma’lumoti." },
+      ],
+      faq: [
+        { q: "Nukusda kvartira qancha turadi?", a: "Nukus narxlari odatda arzon. m² narxi kartochkada." },
+        { q: "Nukusda bo‘lib to‘lash bormi?", a: "Ha, ko‘p quruvchilar banksiz bo‘lib to‘lash taklif qiladi." },
+      ],
+    },
+    {
+      name: "Nukus",
+      h1: "New builds in Nukus",
+      metaTitle: "New builds in Nukus — buy from the developer | Oson Uy",
+      metaDescription:
+        "New builds in Nukus from verified developers: affordable prices, instalments, layouts. Buy an apartment in Nukus on Oson Uy.",
+      intro: [
+        "Nukus is the capital of the Republic of Karakalpakstan with a growing market for modern housing. Nukus new builds offer affordable prices and developer instalments, making buying an apartment realistic for more families.",
+        "Oson Uy gathers verified Nukus new builds with open prices per m², layouts and a chessboard. Contact the developer directly.",
+      ],
+      why: [
+        { title: "Capital of Karakalpakstan", text: "Nukus is the largest city of the region with growing housing demand." },
+        { title: "Affordable prices", text: "Modern housing below the price of central regions." },
+        { title: "Verified developers", text: "Verification and real construction data." },
+      ],
+      faq: [
+        { q: "How much do apartments in Nukus cost?", a: "Nukus prices are usually affordable. The price per m² is on each complex card." },
+        { q: "Are instalments available in Nukus?", a: "Yes, many developers offer instalments directly without a bank." },
+      ],
+    },
+  ),
 ];
 
 export const CITY_SLUGS = CITIES.map((c) => c.slug);

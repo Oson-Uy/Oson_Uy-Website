@@ -181,7 +181,84 @@ const investicii: Article = {
   },
 };
 
-export const ARTICLES: Article[] = [rassrochka, investicii];
+const ipoteka: Article = {
+  slug: "ipoteka-na-novostroyku-uzbekistan",
+  category: { ru: "Ипотека", uz: "Ipoteka", en: "Mortgage" },
+  datePublished: "2026-07-16",
+  readingMinutes: 7,
+  ru: {
+    title: "Ипотека на новостройку в Узбекистане: как оформить и на что смотреть",
+    excerpt:
+      "Как работает ипотека на квартиру в новостройке: первоначальный взнос, ставка, срок и документы. Чем ипотека отличается от рассрочки и когда она выгоднее.",
+    sections: [
+      {
+        h: "Как работает ипотека на новостройку",
+        p: [
+          "Ипотека — это целевой кредит банка на покупку жилья, где сама квартира выступает залогом. Вы вносите первоначальный взнос, а оставшуюся сумму банк перечисляет застройщику; далее вы возвращаете кредит банку ежемесячными платежами в течение срока — обычно от нескольких лет до 15–20 лет.",
+          "Главное преимущество ипотеки — длинный срок и, как следствие, небольшой ежемесячный платёж. Это делает покупку доступной, даже если у вас нет всей суммы сразу. Плата за это — банковские проценты, которые формируют итоговую переплату.",
+        ],
+      },
+      {
+        h: "Первоначальный взнос, ставка и срок",
+        p: [
+          "Три параметра определяют вашу ипотеку. Первоначальный взнос — доля стоимости, которую вы платите сами (чем больше, тем меньше кредит и платёж). Ставка — процент банка. Срок — период возврата: чем он длиннее, тем ниже ежемесячный платёж, но выше общая переплата.",
+          "Перед оформлением сравните предложения нескольких банков и обязательно посчитайте итоговую переплату за весь срок, а не только ежемесячный платёж. На Oson Uy вы сначала выбираете квартиру и видите её цену за м², а условия кредита оформляете в банке.",
+        ],
+      },
+      {
+        h: "Ипотека или рассрочка: что выгоднее",
+        p: [
+          "Рассрочка от застройщика часто беспроцентная, но срок короче, а первый взнос выше — она выгоднее по итоговой сумме, если вы готовы закрыть покупку быстро. Ипотека даёт длинный срок и маленький платёж, но с процентами банка.",
+          "Правило простое: есть большой первый взнос и возможность платить крупными суммами 1–3 года — берите рассрочку; нужен долгий срок и небольшой платёж — сравнивайте ипотеку. На карточках ЖК на Oson Uy видно, доступна ли рассрочка.",
+        ],
+      },
+      {
+        h: "Документы и порядок оформления",
+        p: [
+          "Обычно банк запрашивает паспорт, подтверждение дохода и данные о приобретаемой квартире. Точный список зависит от банка и программы. Порядок такой: выбираете квартиру, получаете одобрение банка, подписываете договор с застройщиком и кредитный договор, вносите первый взнос — и оформляете сделку.",
+          "Обязательно проверьте застройщика: надёжная компания с проверенным статусом и реальным ходом строительства снижает риски. На Oson Uy проверенные застройщики отмечены значком, а по проектам видны фото прогресса.",
+        ],
+      },
+    ],
+    faq: [
+      { q: "Какой первоначальный взнос нужен для ипотеки на новостройку?", a: "Размер зависит от банка и программы. Чем больше взнос, тем меньше сумма кредита и ежемесячный платёж. Уточняйте актуальные условия в банке." },
+      { q: "Что выгоднее — ипотека или рассрочка от застройщика?", a: "Рассрочка часто беспроцентная, но с коротким сроком; ипотека даёт длинный срок с банковскими процентами. Сравните итоговую переплату по обоим вариантам." },
+      { q: "Можно ли оформить ипотеку на квартиру на этапе строительства?", a: "Да, многие банки кредитуют покупку в новостройке. Важно выбрать надёжного застройщика, чтобы избежать рисков задержки сдачи." },
+    ],
+  },
+  uz: {
+    title: "O‘zbekistonda yangi binoga ipoteka: qanday rasmiylashtirish va nimaga qarash",
+    excerpt:
+      "Yangi bino kvartirasiga ipoteka qanday ishlaydi: boshlang‘ich to‘lov, stavka, muddat va hujjatlar. Ipoteka bo‘lib to‘lashdan farqi va qachon foydaliroq.",
+    sections: [
+      { h: "Ipoteka qanday ishlaydi", p: ["Ipoteka — bank uy sotib olish uchun beradigan maqsadli kredit, kvartira garov bo‘ladi. Boshlang‘ich to‘lov to‘laysiz, qolganini bank quruvchiga o‘tkazadi, siz bankka oylik to‘laysiz — odatda bir necha yildan 15–20 yilgacha.", "Afzalligi — uzoq muddat va kichik oylik to‘lov. Evaziga bank foizi to‘lanadi."] },
+      { h: "Boshlang‘ich to‘lov, stavka, muddat", p: ["Uch parametr ipotekani belgilaydi: boshlang‘ich to‘lov, bank stavkasi va muddat. Muddat uzoq bo‘lsa, oylik to‘lov kam, lekin umumiy to‘lov ko‘p.", "Rasmiylashtirishdan oldin bir necha bankni solishtiring va umumiy to‘lovni hisoblang."] },
+      { h: "Ipoteka yoki bo‘lib to‘lash", p: ["Bo‘lib to‘lash ko‘pincha foizsiz, lekin qisqa; ipoteka uzoq muddat, lekin foiz bilan.", "Katta boshlang‘ich bo‘lsa — bo‘lib to‘lash; uzoq muddat kerak bo‘lsa — ipoteka."] },
+      { h: "Hujjatlar va tartib", p: ["Odatda pasport, daromad tasdig‘i va kvartira ma’lumoti kerak. Tartib: kvartira tanlash → bank tasdig‘i → shartnomalar → boshlang‘ich to‘lov.", "Quruvchini tekshiring: «Tekshirilgan» belgisiga qarang."] },
+    ],
+    faq: [
+      { q: "Ipoteka uchun boshlang‘ich to‘lov qancha?", a: "Bank va dasturga bog‘liq. Ko‘proq to‘lov — kamroq kredit. Bankdan aniqlang." },
+      { q: "Ipoteka yoki bo‘lib to‘lash foydaliroqmi?", a: "Bo‘lib to‘lash ko‘pincha foizsiz lekin qisqa; ipoteka uzoq lekin foizli. Umumiy to‘lovni solishtiring." },
+    ],
+  },
+  en: {
+    title: "Mortgage for a new build in Uzbekistan: how to arrange it and what to check",
+    excerpt:
+      "How a mortgage on a new-build apartment works: down payment, rate, term and documents. How a mortgage differs from instalments and when it’s better.",
+    sections: [
+      { h: "How a new-build mortgage works", p: ["A mortgage is a bank loan to buy housing, with the apartment as collateral. You pay a down payment, the bank transfers the rest to the developer, and you repay the bank monthly — usually over several years up to 15–20.", "The main benefit is a long term and a small monthly payment. The cost is bank interest."] },
+      { h: "Down payment, rate and term", p: ["Three parameters define your mortgage: down payment, bank rate and term. A longer term means a smaller monthly payment but higher total overpayment.", "Compare several banks and calculate the total overpayment, not just the monthly payment."] },
+      { h: "Mortgage or instalments", p: ["Developer instalments are often interest-free but shorter; a mortgage gives a long term with bank interest.", "Big down payment → instalments; need a long term → compare mortgages."] },
+      { h: "Documents and process", p: ["Usually a passport, proof of income and apartment details are required. Process: choose the apartment → bank approval → contracts → down payment.", "Verify the developer: look for the “Verified” badge and real progress photos."] },
+    ],
+    faq: [
+      { q: "What down payment is needed for a new-build mortgage?", a: "It depends on the bank and program. A larger down payment means a smaller loan and payment. Check current terms with the bank." },
+      { q: "Mortgage or developer instalments — which is better?", a: "Instalments are often interest-free but short; a mortgage gives a long term with bank interest. Compare the total overpayment of both." },
+    ],
+  },
+};
+
+export const ARTICLES: Article[] = [rassrochka, ipoteka, investicii];
 
 export const ARTICLE_SLUGS = ARTICLES.map((a) => a.slug);
 
