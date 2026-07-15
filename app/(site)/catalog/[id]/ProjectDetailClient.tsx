@@ -46,8 +46,15 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { LeadModal } from "@/components/custom/LeadModal";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
+import { developerSlug } from "@/lib/slug";
+
+const DEV_CTA: Record<string, string> = {
+  ru: "Все проекты застройщика",
+  uz: "Quruvchining barcha loyihalari",
+  en: "All developer projects",
+};
 
 export type ProjectDetailClientProps = {
     params: Promise<{ id: string }>;
@@ -55,6 +62,7 @@ export type ProjectDetailClientProps = {
 
 export default function ProjectDetailClient({ params }: ProjectDetailClientProps) {
     const t = useTranslations("ProjectDetails");
+    const locale = useLocale();
     const [projectData, setProjectData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
@@ -559,6 +567,7 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
                     if (!dev?.name) return null;
                     const web = (dev.website || "").trim();
                     const webHref = !web ? "" : web.startsWith("http") ? web : `https://${web}`;
+                    const devPageHref = dev.id ? `/developers/${developerSlug(dev.name, dev.id)}` : "";
                     return (
                         <div className="mb-10 rounded-[2.5rem] border border-slate-100 bg-white p-6 md:p-10 shadow-sm">
                             <h2 className="text-xl md:text-2xl font-black text-[#1E3A8A] mb-6 uppercase tracking-tight">
@@ -566,12 +575,22 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
                             </h2>
                             <div className="flex flex-col gap-6 md:flex-row md:items-start">
                                 {dev.logoUrl ? (
-                                    <div className="shrink-0 rounded-2xl border border-slate-100 bg-slate-50 p-3">
-                                        <img src={dev.logoUrl} alt="" className="h-20 w-20 object-contain md:h-24 md:w-24" />
-                                    </div>
+                                    devPageHref ? (
+                                        <Link href={devPageHref} className="shrink-0 rounded-2xl border border-slate-100 bg-slate-50 p-3 transition hover:border-[#1E3A8A]">
+                                            <img src={dev.logoUrl} alt={dev.name} className="h-20 w-20 object-contain md:h-24 md:w-24" />
+                                        </Link>
+                                    ) : (
+                                        <div className="shrink-0 rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                                            <img src={dev.logoUrl} alt={dev.name} className="h-20 w-20 object-contain md:h-24 md:w-24" />
+                                        </div>
+                                    )
                                 ) : null}
                                 <div className="min-w-0 flex-1 space-y-4">
-                                    <p className="text-lg font-black text-slate-900">{dev.name}</p>
+                                    {devPageHref ? (
+                                        <Link href={devPageHref} className="text-lg font-black text-slate-900 transition hover:text-[#1E3A8A] hover:underline">{dev.name}</Link>
+                                    ) : (
+                                        <p className="text-lg font-black text-slate-900">{dev.name}</p>
+                                    )}
                                     <div className="flex flex-col gap-2 text-sm">
                                         {dev.phone ? (
                                             <a href={`tel:${dev.phone.replace(/\s/g, "")}`} className="flex items-center gap-2 font-semibold text-[#1E3A8A] hover:underline">
@@ -609,6 +628,15 @@ export default function ProjectDetailClient({ params }: ProjectDetailClientProps
                                             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{t("developerAbout")}</p>
                                             <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{dev.description}</p>
                                         </div>
+                                    ) : null}
+                                    {devPageHref ? (
+                                        <Link
+                                            href={devPageHref}
+                                            className="inline-flex items-center gap-2 rounded-xl bg-[#1E3A8A] px-5 py-2.5 text-sm font-black text-white transition hover:bg-blue-900"
+                                        >
+                                            {DEV_CTA[locale] ?? DEV_CTA.ru}
+                                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                                        </Link>
                                     ) : null}
                                 </div>
                             </div>
