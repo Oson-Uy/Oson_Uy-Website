@@ -24,9 +24,9 @@ export async function generateStaticParams() {
 }
 
 const T = {
-  ru: { home: "Главная", devs: "Застройщики", projectsBy: "Проекты застройщика", verified: "Проверенный застройщик", contacts: "Контакты", website: "Сайт", phone: "Телефон", address: "Адрес", faqTitle: "Частые вопросы", cta: "Смотреть все новостройки", units: "квартир", other: "Другие застройщики" },
-  uz: { home: "Bosh sahifa", devs: "Quruvchilar", projectsBy: "Quruvchi loyihalari", verified: "Tekshirilgan quruvchi", contacts: "Kontaktlar", website: "Sayt", phone: "Telefon", address: "Manzil", faqTitle: "Savollar", cta: "Barcha yangi uylarni ko‘rish", units: "kvartira", other: "Boshqa quruvchilar" },
-  en: { home: "Home", devs: "Developers", projectsBy: "Developer projects", verified: "Verified developer", contacts: "Contacts", website: "Website", phone: "Phone", address: "Address", faqTitle: "FAQ", cta: "Browse all new builds", units: "units", other: "Other developers" },
+  ru: { home: "Главная", devs: "Застройщики", projectsBy: "Проекты застройщика", projects: "проектов", verified: "Проверенный застройщик", contacts: "Контакты", website: "Сайт", phone: "Телефон", address: "Адрес", faqTitle: "Частые вопросы", cta: "Смотреть все новостройки", units: "квартир", other: "Другие застройщики" },
+  uz: { home: "Bosh sahifa", devs: "Quruvchilar", projectsBy: "Quruvchi loyihalari", projects: "loyiha", verified: "Tekshirilgan quruvchi", contacts: "Kontaktlar", website: "Sayt", phone: "Telefon", address: "Manzil", faqTitle: "Savollar", cta: "Barcha yangi uylarni ko‘rish", units: "kvartira", other: "Boshqa quruvchilar" },
+  en: { home: "Home", devs: "Developers", projectsBy: "Developer projects", projects: "projects", verified: "Verified developer", contacts: "Contacts", website: "Website", phone: "Phone", address: "Address", faqTitle: "FAQ", cta: "Browse all new builds", units: "units", other: "Other developers" },
 } as const;
 const tr = (l: string) => T[(l as keyof typeof T)] ?? T.ru;
 
@@ -112,7 +112,7 @@ export default async function DeveloperPage({ params }: PageProps) {
             <span className="text-white">{d.name}</span>
           </nav>
           <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-3xl border-2 border-white/20 bg-white">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-[2rem] border-2 border-white/20 bg-white">
               {d.logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={d.logoUrl} alt={d.name} className="h-full w-full object-cover" />
@@ -128,7 +128,7 @@ export default async function DeveloperPage({ params }: PageProps) {
                     ✓ {t.verified}
                   </span>
                 )}
-                <span className="text-sm font-bold text-blue-100/85">{d.projectsCount} {tr(locale).devs === "Developers" ? "projects" : "проектов"}</span>
+                <span className="text-sm font-bold text-blue-100/85">{d.projectsCount} {t.projects}</span>
               </div>
             </div>
           </div>
@@ -143,13 +143,13 @@ export default async function DeveloperPage({ params }: PageProps) {
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">{t.projectsBy}</h2>
           {d.projects.length === 0 ? (
-            <p className="mt-6 rounded-3xl border-2 border-dashed border-slate-200 py-12 text-center font-medium text-slate-400">
+            <p className="mt-6 rounded-[2rem] border-2 border-dashed border-slate-200 py-12 text-center font-medium text-slate-400">
               Проекты появятся здесь. <Link href="/catalog" className="font-bold text-[#1E3A8A] underline">Весь каталог</Link>.
             </p>
           ) : (
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {d.projects.map((p) => (
-                <Link key={p.id} href={`/catalog/${p.id}`} className="group overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                <Link key={p.id} href={`/catalog/${p.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative h-52 overflow-hidden bg-slate-100">
                     {p.imageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element

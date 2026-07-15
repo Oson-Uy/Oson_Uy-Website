@@ -134,7 +134,7 @@ export default async function CityPage({ params }: PageProps) {
             Жилые комплексы — {t.name}
           </h2>
           {projects.length === 0 ? (
-            <p className="mt-6 rounded-3xl border-2 border-dashed border-slate-200 py-12 text-center font-medium text-slate-400">
+            <p className="mt-6 rounded-[2rem] border-2 border-dashed border-slate-200 py-12 text-center font-medium text-slate-400">
               Скоро здесь появятся новостройки этого города. Посмотрите{" "}
               <Link href="/catalog" className="font-bold text-[#1E3A8A] underline">весь каталог</Link>.
             </p>
@@ -144,7 +144,7 @@ export default async function CityPage({ params }: PageProps) {
                 const img = p.imageUrl || p.media?.[0]?.imageUrl || "";
                 const price = fmtFrom(p);
                 return (
-                  <Link key={p.id} href={`/catalog/${p.id}`} className="group overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                  <Link key={p.id} href={`/catalog/${p.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
                     <div className="relative h-52 overflow-hidden bg-slate-100">
                       {img ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -172,7 +172,7 @@ export default async function CityPage({ params }: PageProps) {
           </h2>
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {t.why.map((w, i) => (
-              <div key={i} className="rounded-3xl border border-slate-100 bg-white p-6">
+              <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6">
                 <h3 className="text-base font-black text-slate-900">{w.title}</h3>
                 <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{w.text}</p>
               </div>

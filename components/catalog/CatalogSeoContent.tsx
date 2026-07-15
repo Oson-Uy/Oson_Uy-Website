@@ -31,7 +31,7 @@ export default async function CatalogSeoContent() {
         </h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {c.guide.steps.map((s, i) => (
-            <div key={i} className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
+            <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm">
               <h3 className="text-base font-black text-slate-900">{s.title}</h3>
               <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{s.text}</p>
             </div>

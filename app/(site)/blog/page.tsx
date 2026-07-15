@@ -74,7 +74,7 @@ export default async function BlogIndex() {
             {ARTICLES.map((a) => {
               const al = articleLocale(a, locale);
               return (
-                <Link key={a.slug} href={`/blog/${a.slug}`} className="group flex flex-col rounded-3xl border border-slate-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                <Link key={a.slug} href={`/blog/${a.slug}`} className="group flex flex-col rounded-[2rem] border border-slate-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
                   <span className="inline-flex w-fit rounded-full bg-[#1E3A8A]/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[#1E3A8A]">
                     {categoryLabel(a, locale)}
                   </span>

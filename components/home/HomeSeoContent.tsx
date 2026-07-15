@@ -46,7 +46,7 @@ export default async function HomeSeoContent() {
             {c.advantages.items.map((it, i) => (
               <article
                 key={i}
-                className="group rounded-3xl border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="group rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1E3A8A]/10 text-lg font-black text-[#1E3A8A]">
                   {String(i + 1).padStart(2, "0")}
@@ -68,7 +68,7 @@ export default async function HomeSeoContent() {
           <p className="mt-3 max-w-2xl text-base font-medium text-slate-600">{c.why.subtitle}</p>
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {c.why.items.map((it, i) => (
-              <div key={i} className="flex gap-4 rounded-3xl border border-slate-100 bg-white p-6">
+              <div key={i} className="flex gap-4 rounded-[2rem] border border-slate-100 bg-white p-6">
                 <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white">
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l4 4L19 6" /></svg>
                 </span>
@@ -93,7 +93,7 @@ export default async function HomeSeoContent() {
           </p>
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {c.finance.cards.map((card, i) => (
-              <div key={i} className="flex flex-col rounded-3xl bg-white p-7 shadow-xl">
+              <div key={i} className="flex flex-col rounded-[2rem] bg-white p-7 shadow-xl">
                 <h3 className="text-xl font-black text-[#1E3A8A]">{card.title}</h3>
                 <p className="mt-3 flex-1 text-[14px] leading-relaxed text-slate-600">{card.text}</p>
                 <Link
@@ -121,7 +121,7 @@ export default async function HomeSeoContent() {
               <Link
                 key={i}
                 href={city.href}
-                className="group flex flex-col rounded-3xl border border-slate-100 bg-white p-6 transition hover:-translate-y-1 hover:border-[#1E3A8A] hover:shadow-xl"
+                className="group flex flex-col rounded-[2rem] border border-slate-100 bg-white p-6 transition hover:-translate-y-1 hover:border-[#1E3A8A] hover:shadow-xl"
               >
                 <h3 className="flex items-center gap-2 text-lg font-black text-slate-900 group-hover:text-[#1E3A8A]">
                   {city.name}
@@ -140,7 +140,7 @@ export default async function HomeSeoContent() {
           <h2 className="sr-only">{c.stats.title}</h2>
           <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {c.stats.items.map((s, i) => (
-              <div key={i} className="rounded-3xl border border-slate-100 bg-white p-6 text-center">
+              <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6 text-center">
                 <p className="text-3xl md:text-4xl font-black text-[#F97316]">{s.value}</p>
                 <p className="mt-2 text-[13px] font-semibold leading-snug text-slate-600">{s.label}</p>
               </div>

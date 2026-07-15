@@ -148,7 +148,7 @@ export default async function ArticlePage({ params }: PageProps) {
           </section>
         )}
 
-        <div className="mt-12 rounded-3xl bg-[#1E3A8A] p-8 text-center">
+        <div className="mt-12 rounded-[2rem] bg-[#1E3A8A] p-8 text-center">
           <p className="text-lg font-black text-white">Oson Uy</p>
           <p className="mx-auto mt-2 max-w-md text-sm text-blue-100/85">
             Проверенные новостройки Узбекистана с открытыми ценами, рассрочкой и шахматкой квартир.

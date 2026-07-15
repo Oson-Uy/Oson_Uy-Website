@@ -28,11 +28,11 @@ export default async function AboutSeoContent() {
       {/* Mission / Vision */}
       <section className="bg-slate-50 py-16 md:py-20">
         <div className="container mx-auto grid max-w-[1250px] gap-5 px-5 md:grid-cols-2">
-          <div className="rounded-3xl border border-slate-100 bg-white p-8">
+          <div className="rounded-[2rem] border border-slate-100 bg-white p-8">
             <h2 className="text-xl font-black text-[#1E3A8A]">{c.missionVision.missionTitle}</h2>
             <p className="mt-3 text-[15px] leading-relaxed text-slate-600">{c.missionVision.mission}</p>
           </div>
-          <div className="rounded-3xl border border-slate-100 bg-white p-8">
+          <div className="rounded-[2rem] border border-slate-100 bg-white p-8">
             <h2 className="text-xl font-black text-[#1E3A8A]">{c.missionVision.visionTitle}</h2>
             <p className="mt-3 text-[15px] leading-relaxed text-slate-600">{c.missionVision.vision}</p>
           </div>
@@ -47,7 +47,7 @@ export default async function AboutSeoContent() {
           </h2>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {c.howWeWork.steps.map((s, i) => (
-              <div key={i} className="rounded-3xl border border-slate-100 bg-white p-6">
+              <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6">
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F97316]/10 text-base font-black text-[#F97316]">
                   {i + 1}
                 </div>
@@ -89,7 +89,7 @@ export default async function AboutSeoContent() {
           </h2>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {c.advantages.items.map((it, i) => (
-              <div key={i} className="rounded-3xl border border-slate-100 bg-white p-6">
+              <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6">
                 <h3 className="text-base font-black text-slate-900">{it.title}</h3>
                 <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{it.text}</p>
               </div>

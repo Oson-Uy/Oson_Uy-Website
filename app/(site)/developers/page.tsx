@@ -60,13 +60,13 @@ export default async function DevelopersIndex() {
       <section className="py-14 md:py-20">
         <div className="container mx-auto max-w-[1250px] px-5">
           {devs.length === 0 ? (
-            <p className="rounded-3xl border-2 border-dashed border-slate-200 py-12 text-center font-medium text-slate-400">
+            <p className="rounded-[2rem] border-2 border-dashed border-slate-200 py-12 text-center font-medium text-slate-400">
               Список застройщиков скоро появится.
             </p>
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {devs.map((d) => (
-                <Link key={d.id} href={devHref(d)} className="group flex items-center gap-4 rounded-3xl border border-slate-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                <Link key={d.id} href={devHref(d)} className="group flex items-center gap-4 rounded-[2rem] border border-slate-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-100 bg-slate-50">
                     {d.logoUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
