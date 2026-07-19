@@ -24,9 +24,9 @@ export async function generateStaticParams() {
 }
 
 const T = {
-  ru: { home: "Главная", devs: "Застройщики", projectsBy: "Проекты застройщика", projects: "проектов", verified: "Проверенный застройщик", contacts: "Контакты", website: "Сайт", phone: "Телефон", address: "Адрес", faqTitle: "Частые вопросы", cta: "Смотреть все новостройки", units: "квартир", other: "Другие застройщики" },
-  uz: { home: "Bosh sahifa", devs: "Quruvchilar", projectsBy: "Quruvchi loyihalari", projects: "loyiha", verified: "Tekshirilgan quruvchi", contacts: "Kontaktlar", website: "Sayt", phone: "Telefon", address: "Manzil", faqTitle: "Savollar", cta: "Barcha yangi uylarni ko‘rish", units: "kvartira", other: "Boshqa quruvchilar" },
-  en: { home: "Home", devs: "Developers", projectsBy: "Developer projects", projects: "projects", verified: "Verified developer", contacts: "Contacts", website: "Website", phone: "Phone", address: "Address", faqTitle: "FAQ", cta: "Browse all new builds", units: "units", other: "Other developers" },
+  ru: { home: "Главная", devs: "Застройщики", projectsBy: "Проекты застройщика", projects: "проектов", verified: "Проверенный застройщик", contacts: "Контакты", website: "Сайт", phone: "Телефон", address: "Адрес", faqTitle: "Частые вопросы", cta: "Смотреть все новостройки", units: "блоков", other: "Другие застройщики" },
+  uz: { home: "Bosh sahifa", devs: "Quruvchilar", projectsBy: "Quruvchi loyihalari", projects: "loyiha", verified: "Tekshirilgan quruvchi", contacts: "Kontaktlar", website: "Sayt", phone: "Telefon", address: "Manzil", faqTitle: "Savollar", cta: "Barcha yangi uylarni ko‘rish", units: "blok", other: "Boshqa quruvchilar" },
+  en: { home: "Home", devs: "Developers", projectsBy: "Developer projects", projects: "projects", verified: "Verified developer", contacts: "Contacts", website: "Website", phone: "Phone", address: "Address", faqTitle: "FAQ", cta: "Browse all new builds", units: "blocks", other: "Other developers" },
 } as const;
 const tr = (l: string) => T[(l as keyof typeof T)] ?? T.ru;
 
