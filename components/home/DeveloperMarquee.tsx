@@ -6,9 +6,9 @@ import { useLocale } from "next-intl";
 import { developerSlug } from "@/lib/slug";
 
 const LABEL: Record<string, string> = {
-  ru: "Проверенные застройщики",
-  uz: "Tekshirilgan quruvchilar",
-  en: "Verified developers",
+  ru: "С кем мы работаем",
+  uz: "Biz kim bilan ishlaymiz",
+  en: "Who we work with",
 };
 
 type Dev = {
@@ -72,14 +72,14 @@ export default function DeveloperMarquee() {
               href={`/developers/${developerSlug(d.name, d.id)}`}
               title={d.name}
               aria-label={d.name}
-              className="group/logo flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-100 bg-white opacity-60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:opacity-100 hover:shadow-xl md:h-24 md:w-24"
+              className="group/logo flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-100 bg-white p-3 opacity-60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:opacity-100 hover:shadow-xl md:h-24 md:w-24"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={d.logoUrl as string}
                 alt={d.name}
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-300 group-hover/logo:scale-105"
+                className="h-full w-full object-contain"
               />
             </Link>
           ))}
