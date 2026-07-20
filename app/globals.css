@@ -9,6 +9,28 @@ html {
   overflow-x: hidden;
 }
 
+/* Developers marquee (home page) — continuous horizontal auto-scroll */
+@keyframes oson-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.oson-marquee {
+  animation: oson-marquee 45s linear infinite;
+  will-change: transform;
+}
+.oson-marquee-group:hover .oson-marquee {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .oson-marquee {
+    animation: none;
+  }
+}
+
 body {
   font-family: var(--font-inter), sans-serif;
   @apply bg-white text-slate-900;

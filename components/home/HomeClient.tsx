@@ -12,6 +12,7 @@ import { FilterBar } from "@/components/custom/FilterBar";
 import { formatUzPhoneInput } from "@/lib/phone";
 import { minPricePerM2FromApiProject } from "@/lib/project-price";
 import { HomeFaqSection } from "@/components/home/HomeFaqSection";
+import DeveloperMarquee from "@/components/home/DeveloperMarquee";
 
 const REGION_VIDEOS: Record<string, string> = {
     "Tashkent City (г. Ташкент)": "/videos/tashkent.webm",
@@ -167,6 +168,8 @@ export default function HomeClient() {
                     </motion.div>
                 </div>
             </section>
+
+            <DeveloperMarquee />
 
             <section className="py-20 md:py-32 bg-slate-50 overflow-visible">
                 <div className="container mx-auto max-w-[1250px] space-y-10 md:space-y-16 px-5 overflow-visible">
