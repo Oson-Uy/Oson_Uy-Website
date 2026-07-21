@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLocale } from "next-intl";
 import { ProjectCard } from "@/components/custom/ProjectCard";
 import {
     Carousel,
@@ -12,7 +13,10 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
 import type { Project } from "@/types";
+import { ProjectsCountBadge } from "../custom/ProjectsCountBadge";
+
 
 const AUTOPLAY_DELAY_MS = 2000;
 const IDLE_RESUME_MS = 8000;
@@ -22,6 +26,7 @@ type FeaturedProjectsCarouselProps = {
 };
 
 export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselProps) {
+    const locale = useLocale();
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const [snapCount, setSnapCount] = useState(0);
@@ -93,6 +98,8 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
 
     return (
         <div className="space-y-8">
+            <ProjectsCountBadge count={projects.length} locale={locale} />
+
             <div className="relative">
                 {showControls ? (
                     <Button

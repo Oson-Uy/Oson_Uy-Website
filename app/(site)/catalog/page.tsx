@@ -9,6 +9,7 @@ import { absoluteUrl, getSiteUrl } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import CatalogSeoContent from "@/components/catalog/CatalogSeoContent";
 import { getCatalogContent } from "@/content/catalog";
+import { ProjectsCountBadge } from "@/components/custom/ProjectsCountBadge";
 import {
   breadcrumbSchema,
   collectionPageSchema,
@@ -211,8 +212,8 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     anyDistrict: t("drawer.anyDistrict"),
   };
 
-  const seo = await getTranslations("Seo");
   const catalogLocale = await getLocale();
+  const seo = await getTranslations("Seo");
   const catalogContent = getCatalogContent(catalogLocale);
   const catalogUrl = `${getSiteUrl()}/catalog`;
   const catalogJsonLd = graph(
@@ -233,9 +234,15 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     <div className="lg:pt-5 md:pt-20 pb-16 px-5 max-w-[1250px] mx-auto">
       <JsonLd data={catalogJsonLd} />
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-        <h1 className="text-4xl font-black text-primary tracking-tight">
-          {t("title")}
-        </h1>
+        <div className="space-y-4">
+          <h1 className="text-4xl font-black text-primary tracking-tight">
+            {t("title")}
+          </h1>
+          <ProjectsCountBadge
+            count={filteredProjects.length}
+            locale={catalogLocale}
+          />
+        </div>
         <FilterDrawer translations={translations} />
       </div>
 
