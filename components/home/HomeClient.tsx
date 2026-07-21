@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
-import { FeaturedProjectsCarousel } from "@/components/home/FeaturedProjectsCarousel";
+import { FeaturedProjectsShowcase } from "@/components/home/FeaturedProjectsShowcase";
 import { LeadModal } from "@/components/custom/LeadModal";
 import { PROJECTS } from "@/lib/data";
 import Link from "next/link";
@@ -193,7 +193,7 @@ export default function HomeClient() {
                         </div>
                     </div>
 
-                    <FeaturedProjectsCarousel projects={featuredProjects} />
+                    <FeaturedProjectsShowcase projects={featuredProjects} />
                 </div>
             </section>
 
