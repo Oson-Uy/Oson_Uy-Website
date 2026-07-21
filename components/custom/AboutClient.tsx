@@ -281,7 +281,7 @@ export default function AboutClient({ t }: { t: AboutT }) {
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center mt-20 md:mt-28">
                         <div ref={founder2Img.ref} className="md:col-span-5 order-1">
                             <RevealImage
-                                src="/AboutPageImgs/founder3.jpg"
+                                src="/AboutPageImgs/founder2.jpg"
                                 alt={t.founder2.name}
                                 className="rounded-[2.5rem] shadow-2xl shadow-slate-900/10 aspect-[4/5] bg-slate-200"
                                 curtainColor="#F7F4EE"
