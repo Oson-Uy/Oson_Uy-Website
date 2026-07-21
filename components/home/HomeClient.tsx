@@ -7,7 +7,9 @@ import { FeaturedProjectsShowcase } from "@/components/home/FeaturedProjectsShow
 import { LeadModal } from "@/components/custom/LeadModal";
 import { PROJECTS } from "@/lib/data";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { ProjectsCountBadge } from "@/components/custom/ProjectsCountBadge";
+import { Reveal } from "@/components/motion/Reveal";
 import { FilterBar } from "@/components/custom/FilterBar";
 import { formatUzPhoneInput } from "@/lib/phone";
 import { minPricePerM2FromApiProject } from "@/lib/project-price";
@@ -32,6 +34,7 @@ const REGION_VIDEOS: Record<string, string> = {
 
 export default function HomeClient() {
     const t = useTranslations("Home");
+    const locale = useLocale();
     const tFilter = useTranslations("FilterBar");
 
     const filterBarTranslations = {
@@ -173,7 +176,7 @@ export default function HomeClient() {
 
             <section className="py-20 md:py-32 bg-slate-50 overflow-visible">
                 <div className="container mx-auto max-w-[1250px] space-y-10 md:space-y-16 px-5 overflow-visible">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                    <Reveal className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                         <div className="space-y-3">
                             <h2 className="text-4xl md:text-5xl font-black text-primary tracking-tight">
                                 {t("featuredTitle")}
@@ -183,7 +186,10 @@ export default function HomeClient() {
                                 {t("featuredSubtitle")}
                             </p>
                         </div>
-                        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
+                        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+                            {featuredProjects.length > 0 && (
+                                <ProjectsCountBadge count={featuredProjects.length} locale={locale} />
+                            )}
                             <Link
                                 href="/catalog"
                                 className="text-accent font-bold text-lg gap-2 p-0 hover:no-underline hover:translate-x-2 transition-transform"
@@ -191,14 +197,14 @@ export default function HomeClient() {
                                 {t("viewCatalog")}
                             </Link>
                         </div>
-                    </div>
+                    </Reveal>
 
                     <FeaturedProjectsShowcase projects={featuredProjects} />
                 </div>
             </section>
 
             <section className="py-12 md:py-20 px-5 bg-slate-50">
-                <div className="container mx-auto max-w-[1250px] bg-white border-2 border-primary/5 p-6 sm:p-10 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-16">
+                <Reveal className="container mx-auto max-w-[1250px] bg-white border-2 border-primary/5 p-6 sm:p-10 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-16">
                     <div className="flex-1 space-y-4 md:space-y-5 text-center md:text-left">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-primary tracking-tight leading-[1.1]">
                             {t("consultTitle1")} <br className="md:hidden" /> <span className="text-accent">{t("consultTitleAccent")}</span> <br className="md:hidden" /> {t("consultTitle2")}
@@ -263,7 +269,7 @@ export default function HomeClient() {
                             {t("inquiryNow")}
                         </Button>
                     </div>
-                </div>
+                </Reveal>
             </section>
 
             <HomeFaqSection />
