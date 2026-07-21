@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { useLocale } from "next-intl";
 import { developerSlug } from "@/lib/slug";
 
@@ -50,11 +51,17 @@ export default function DeveloperMarquee() {
 
   return (
     <section className="bg-white py-12 md:py-16">
-      <div className="container mx-auto mb-7 max-w-[1250px] px-5">
+      <motion.div
+        className="container mx-auto mb-7 max-w-[1250px] px-5"
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <p className="text-center text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
           {label}
         </p>
-      </div>
+      </motion.div>
 
       <div
         className="oson-marquee-group relative overflow-hidden"
@@ -79,7 +86,7 @@ export default function DeveloperMarquee() {
                 src={d.logoUrl as string}
                 alt={d.name}
                 loading="lazy"
-                className="h-full w-full scale-105 object-cover transition-transform duration-300 group-hover/logo:scale-110"
+                className="h-full w-full object-cover"
               />
             </Link>
           ))}

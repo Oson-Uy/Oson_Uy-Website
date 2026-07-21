@@ -47,13 +47,28 @@ export function FeaturedProjectsShowcase({ projects }: Props) {
         <div className="space-y-10">
             <motion.div
                 key={offset}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                initial="hidden"
+                animate="show"
+                variants={{
+                    hidden: {},
+                    show: { transition: { staggerChildren: 0.12 } },
+                }}
                 className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3"
             >
                 {visible.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
+                    <motion.div
+                        key={project.id}
+                        variants={{
+                            hidden: { opacity: 0, y: 28 },
+                            show: {
+                                opacity: 1,
+                                y: 0,
+                                transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+                            },
+                        }}
+                    >
+                        <ProjectCard project={project} />
+                    </motion.div>
                 ))}
             </motion.div>
 

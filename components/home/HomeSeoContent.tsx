@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getLocale } from "next-intl/server";
 import { getHomeContent } from "@/content/home";
+import { Reveal } from "@/components/motion/Reveal";
 
 /**
  * Server-rendered long-form SEO content for the home page.
@@ -16,7 +17,7 @@ export default async function HomeSeoContent() {
     <div className="bg-white">
       {/* Intro */}
       <section className="border-t border-slate-100 py-16 md:py-24">
-        <div className="container mx-auto max-w-[1250px] px-5">
+        <Reveal className="container mx-auto max-w-[1250px] px-5">
           <div className="max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
               {c.intro.title}
@@ -30,12 +31,12 @@ export default async function HomeSeoContent() {
               ))}
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Advantages */}
       <section className="bg-slate-50 py-16 md:py-24">
-        <div className="container mx-auto max-w-[1250px] px-5">
+        <Reveal className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.advantages.title}
           </h2>
@@ -56,12 +57,12 @@ export default async function HomeSeoContent() {
               </article>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Why / protection */}
       <section className="py-16 md:py-24">
-        <div className="container mx-auto max-w-[1250px] px-5">
+        <Reveal className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.why.title}
           </h2>
@@ -79,12 +80,12 @@ export default async function HomeSeoContent() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Finance: instalment / mortgage / investment */}
       <section className="bg-[#1E3A8A] py-16 md:py-24">
-        <div className="container mx-auto max-w-[1250px] px-5">
+        <Reveal className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">
             {c.finance.title}
           </h2>
@@ -106,12 +107,12 @@ export default async function HomeSeoContent() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Cities */}
       <section className="py-16 md:py-24">
-        <div className="container mx-auto max-w-[1250px] px-5">
+        <Reveal className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.cities.title}
           </h2>
@@ -131,12 +132,12 @@ export default async function HomeSeoContent() {
               </Link>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Stats */}
       <section className="bg-slate-50 py-14">
-        <div className="container mx-auto max-w-[1250px] px-5">
+        <Reveal className="container mx-auto max-w-[1250px] px-5">
           <h2 className="sr-only">{c.stats.title}</h2>
           <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {c.stats.items.map((s, i) => (
@@ -146,12 +147,12 @@ export default async function HomeSeoContent() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Closing CTA */}
       <section className="py-16 md:py-24">
-        <div className="container mx-auto max-w-[1250px] px-5">
+        <Reveal className="container mx-auto max-w-[1250px] px-5">
           <div className="overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#1E3A8A] to-[#2B4CB8] px-6 py-12 text-center md:px-16 md:py-16">
             <h2 className="mx-auto max-w-2xl text-3xl md:text-4xl font-black tracking-tight text-white">
               {c.closing.title}
@@ -176,7 +177,7 @@ export default async function HomeSeoContent() {
               </Link>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );
