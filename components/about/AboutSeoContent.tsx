@@ -1,5 +1,6 @@
 import { getLocale } from "next-intl/server";
 import { getAboutContent } from "@/content/about";
+import { RevealSection } from "@/components/motion/Reveal";
 
 /** Server-rendered long-form About content: story, mission/vision, how-we-work,
  *  verification process, advantages and FAQ. */
@@ -10,7 +11,7 @@ export default async function AboutSeoContent() {
   return (
     <div className="bg-white">
       {/* Story */}
-      <section className="border-t border-slate-100 py-16 md:py-24">
+      <RevealSection className="border-t border-slate-100 py-16 md:py-24">
         <div className="container mx-auto max-w-[1250px] px-5">
           <div className="max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
@@ -23,10 +24,10 @@ export default async function AboutSeoContent() {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Mission / Vision */}
-      <section className="bg-slate-50 py-16 md:py-20">
+      <RevealSection className="bg-slate-50 py-16 md:py-20">
         <div className="container mx-auto grid max-w-[1250px] gap-5 px-5 md:grid-cols-2">
           <div className="rounded-[2rem] border border-slate-100 bg-white p-8">
             <h2 className="text-xl font-black text-[#1E3A8A]">{c.missionVision.missionTitle}</h2>
@@ -37,10 +38,10 @@ export default async function AboutSeoContent() {
             <p className="mt-3 text-[15px] leading-relaxed text-slate-600">{c.missionVision.vision}</p>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* How we work */}
-      <section className="py-16 md:py-24">
+      <RevealSection className="py-16 md:py-24">
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.howWeWork.title}
@@ -57,10 +58,10 @@ export default async function AboutSeoContent() {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Verification */}
-      <section className="bg-[#1E3A8A] py-16 md:py-24">
+      <RevealSection className="bg-[#1E3A8A] py-16 md:py-24">
         <div className="container mx-auto max-w-[1250px] px-5">
           <div className="max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">
@@ -79,10 +80,10 @@ export default async function AboutSeoContent() {
             </ul>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Advantages */}
-      <section className="py-16 md:py-24">
+      <RevealSection className="py-16 md:py-24">
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.advantages.title}
@@ -96,10 +97,10 @@ export default async function AboutSeoContent() {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* FAQ */}
-      <section className="bg-slate-50 py-16 md:py-24">
+      <RevealSection className="bg-slate-50 py-16 md:py-24">
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.faqTitle}
@@ -116,7 +117,7 @@ export default async function AboutSeoContent() {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 }

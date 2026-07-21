@@ -61,6 +61,35 @@ export function Reveal({
     );
 }
 
+/**
+ * A whole <section> that fades + rises into view once. Drop-in replacement for
+ * a plain <section> so long-form pages animate section-by-section on scroll.
+ */
+export function RevealSection({
+    children,
+    className,
+    id,
+    y = 28,
+}: {
+    children: ReactNode;
+    className?: string;
+    id?: string;
+    y?: number;
+}) {
+    return (
+        <motion.section
+            id={id}
+            className={className}
+            initial={{ opacity: 0, y }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-90px" }}
+            transition={{ duration: 0.65, ease: EASE }}
+        >
+            {children}
+        </motion.section>
+    );
+}
+
 /** A single item inside a staggered <Reveal stagger={...}> container. */
 export function RevealItem({
     children,

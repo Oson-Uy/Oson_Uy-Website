@@ -19,6 +19,7 @@ import {
   getCity,
   getCityContent,
 } from "@/content/cities";
+import { RevealSection } from "@/components/motion/Reveal";
 
 export const revalidate = 600;
 
@@ -110,7 +111,7 @@ export default async function CityPage({ params }: PageProps) {
       <JsonLd data={jsonLd} />
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1E3A8A] to-[#2B4CB8] pt-28 pb-16 md:pt-32 md:pb-20">
+      <RevealSection className="bg-gradient-to-br from-[#1E3A8A] to-[#2B4CB8] pt-28 pb-16 md:pt-32 md:pb-20">
         <div className="container mx-auto max-w-[1250px] px-5">
           <nav className="mb-4 flex flex-wrap items-center gap-2 text-xs font-bold text-blue-100/70">
             <Link href="/" className="hover:text-white">Главная</Link><span>/</span>
@@ -125,10 +126,10 @@ export default async function CityPage({ params }: PageProps) {
             Все новостройки {t.name}
           </Link>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Projects */}
-      <section className="py-14 md:py-20">
+      <RevealSection className="py-14 md:py-20">
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">
             Жилые комплексы — {t.name}
@@ -162,10 +163,10 @@ export default async function CityPage({ params }: PageProps) {
             </div>
           )}
         </div>
-      </section>
+      </RevealSection>
 
       {/* Why */}
-      <section className="bg-slate-50 py-14 md:py-20">
+      <RevealSection className="bg-slate-50 py-14 md:py-20">
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">
             Почему стоит купить новостройку в городе {t.name}
@@ -179,10 +180,10 @@ export default async function CityPage({ params }: PageProps) {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* FAQ */}
-      <section className="py-14 md:py-20">
+      <RevealSection className="py-14 md:py-20">
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">Частые вопросы</h2>
           <div className="mt-8 max-w-3xl space-y-3">
@@ -196,10 +197,10 @@ export default async function CityPage({ params }: PageProps) {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Other cities */}
-      <section className="border-t border-slate-100 py-12">
+      <RevealSection className="border-t border-slate-100 py-12">
         <div className="container mx-auto max-w-[1250px] px-5">
           <h2 className="text-lg font-black text-[#1E3A8A]">Новостройки в других городах</h2>
           <div className="mt-4 flex flex-wrap gap-3">
@@ -216,7 +217,7 @@ export default async function CityPage({ params }: PageProps) {
             </Link>
           </div>
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 }

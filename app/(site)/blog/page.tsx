@@ -6,6 +6,7 @@ import { BRAND_IMAGE_OG_PATH } from "@/lib/brand";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, graph, clean } from "@/lib/seo/schema";
 import { ARTICLES, articleLocale, categoryLabel } from "@/content/blog";
+import { RevealSection } from "@/components/motion/Reveal";
 
 const T = {
   ru: { title: "Блог о недвижимости Узбекистана", subtitle: "Гайды по покупке квартир, рассрочке, ипотеке и инвестициям в новостройки.", read: "мин чтения", home: "Главная", blog: "Блог" },
@@ -58,7 +59,7 @@ export default async function BlogIndex() {
   return (
     <div className="pb-16">
       <JsonLd data={blogJsonLd} />
-      <section className="bg-gradient-to-br from-[#1E3A8A] to-[#2B4CB8] pt-28 pb-14 md:pt-32 md:pb-16">
+      <RevealSection className="bg-gradient-to-br from-[#1E3A8A] to-[#2B4CB8] pt-28 pb-14 md:pt-32 md:pb-16">
         <div className="container mx-auto max-w-[1250px] px-5">
           <nav className="mb-4 flex items-center gap-2 text-xs font-bold text-blue-100/70">
             <Link href="/" className="hover:text-white">{t.home}</Link><span>/</span><span className="text-white">{t.blog}</span>
@@ -66,9 +67,9 @@ export default async function BlogIndex() {
           <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white">{t.title}</h1>
           <p className="mt-3 max-w-2xl text-base font-medium text-blue-100/85">{t.subtitle}</p>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="py-14 md:py-20">
+      <RevealSection className="py-14 md:py-20">
         <div className="container mx-auto max-w-[1250px] px-5">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {ARTICLES.map((a) => {
@@ -86,7 +87,7 @@ export default async function BlogIndex() {
             })}
           </div>
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 }

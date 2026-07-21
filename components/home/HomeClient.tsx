@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { FeaturedProjectsShowcase } from "@/components/home/FeaturedProjectsShowcase";
 import { LeadModal } from "@/components/custom/LeadModal";
 import { PROJECTS } from "@/lib/data";
@@ -54,6 +54,10 @@ export default function HomeClient() {
     const [consultProjectId, setConsultProjectId] = useState<number | null>(null);
     const [activeLocation, setActiveLocation] = useState("Samarkand (Самаркандская обл.)");
     const videoSrc = REGION_VIDEOS[activeLocation] || REGION_VIDEOS["Samarkand (Самаркандская обл.)"];
+
+    // Parallax: the hero video drifts slower than the page as you scroll away.
+    const { scrollY } = useScroll();
+    const heroY = useTransform(scrollY, [0, 1000], [0, 150]);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -133,7 +137,8 @@ export default function HomeClient() {
                             muted
                             playsInline
                             src={videoSrc}
-                            className="w-full h-full object-cover"
+                            style={{ y: heroY }}
+                            className="w-full h-full object-cover scale-110"
                         />
                     </AnimatePresence>
 

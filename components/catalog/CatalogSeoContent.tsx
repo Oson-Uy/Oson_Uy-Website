@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getLocale } from "next-intl/server";
 import { getCatalogContent } from "@/content/catalog";
+import { RevealSection } from "@/components/motion/Reveal";
 
 /**
  * Server-rendered SEO copy for the catalogue page: intro, a buyer's guide,
@@ -13,7 +14,7 @@ export default async function CatalogSeoContent() {
   return (
     <div className="mt-20 border-t border-slate-100 pt-16">
       {/* Intro */}
-      <section className="max-w-3xl">
+      <RevealSection className="max-w-3xl">
         <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">
           {c.intro.title}
         </h2>
@@ -22,10 +23,10 @@ export default async function CatalogSeoContent() {
             <p key={i}>{p}</p>
           ))}
         </div>
-      </section>
+      </RevealSection>
 
       {/* Buyer's guide */}
-      <section className="mt-14">
+      <RevealSection className="mt-14">
         <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">
           {c.guide.title}
         </h2>
@@ -37,10 +38,10 @@ export default async function CatalogSeoContent() {
             </div>
           ))}
         </div>
-      </section>
+      </RevealSection>
 
       {/* City links */}
-      <section className="mt-14">
+      <RevealSection className="mt-14">
         <h2 className="text-xl font-black tracking-tight text-[#1E3A8A]">{c.cities.title}</h2>
         <div className="mt-5 flex flex-wrap gap-3">
           {c.cities.items.map((city, i) => (
@@ -53,10 +54,10 @@ export default async function CatalogSeoContent() {
             </Link>
           ))}
         </div>
-      </section>
+      </RevealSection>
 
       {/* FAQ */}
-      <section className="mt-14">
+      <RevealSection className="mt-14">
         <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">
           {c.faqTitle}
         </h2>
@@ -74,7 +75,7 @@ export default async function CatalogSeoContent() {
             </details>
           ))}
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 }
