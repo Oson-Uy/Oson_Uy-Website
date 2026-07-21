@@ -62,8 +62,10 @@ export function Reveal({
 }
 
 /**
- * A whole <section> that fades + rises into view once. Drop-in replacement for
- * a plain <section> so long-form pages animate section-by-section on scroll.
+ * A <section> whose background/layout stays put while only its content fades +
+ * rises into view once. Drop-in replacement for a plain <section> — the colored
+ * band no longer slides as a whole (feels intentional, not templated). The
+ * inner wrapper is a full-width block, so layout is unchanged.
  */
 export function RevealSection({
     children,
@@ -77,16 +79,16 @@ export function RevealSection({
     y?: number;
 }) {
     return (
-        <motion.section
-            id={id}
-            className={className}
-            initial={{ opacity: 0, y }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-90px" }}
-            transition={{ duration: 0.65, ease: EASE }}
-        >
-            {children}
-        </motion.section>
+        <section id={id} className={className}>
+            <motion.div
+                initial={{ opacity: 0, y }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-90px" }}
+                transition={{ duration: 0.65, ease: EASE }}
+            >
+                {children}
+            </motion.div>
+        </section>
     );
 }
 

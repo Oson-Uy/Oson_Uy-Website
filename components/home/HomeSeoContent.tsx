@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getLocale } from "next-intl/server";
 import { getHomeContent } from "@/content/home";
-import { Reveal } from "@/components/motion/Reveal";
+import { Reveal, RevealItem } from "@/components/motion/Reveal";
 
 /**
  * Server-rendered long-form SEO content for the home page.
@@ -43,20 +43,19 @@ export default async function HomeSeoContent() {
           <p className="mt-3 max-w-2xl text-base font-medium text-slate-600">
             {c.advantages.subtitle}
           </p>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Reveal stagger={0.1} className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {c.advantages.items.map((it, i) => (
-              <article
-                key={i}
-                className="group rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1E3A8A]/10 text-lg font-black text-[#1E3A8A]">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-                <h3 className="text-lg font-black text-slate-900">{it.title}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{it.text}</p>
-              </article>
+              <RevealItem key={i} className="h-full">
+                <article className="group h-full rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1E3A8A]/10 text-lg font-black text-[#1E3A8A]">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="text-lg font-black text-slate-900">{it.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{it.text}</p>
+                </article>
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </Reveal>
       </section>
 
@@ -117,21 +116,22 @@ export default async function HomeSeoContent() {
             {c.cities.title}
           </h2>
           <p className="mt-3 max-w-2xl text-base font-medium text-slate-600">{c.cities.subtitle}</p>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Reveal stagger={0.08} className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {c.cities.items.map((city, i) => (
-              <Link
-                key={i}
-                href={city.href}
-                className="group flex flex-col rounded-[2rem] border border-slate-100 bg-white p-6 transition hover:-translate-y-1 hover:border-[#1E3A8A] hover:shadow-xl"
-              >
-                <h3 className="flex items-center gap-2 text-lg font-black text-slate-900 group-hover:text-[#1E3A8A]">
-                  {city.name}
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#F97316]" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                </h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{city.text}</p>
-              </Link>
+              <RevealItem key={i} className="h-full">
+                <Link
+                  href={city.href}
+                  className="group flex h-full flex-col rounded-[2rem] border border-slate-100 bg-white p-6 transition hover:-translate-y-1 hover:border-[#1E3A8A] hover:shadow-xl"
+                >
+                  <h3 className="flex items-center gap-2 text-lg font-black text-slate-900 group-hover:text-[#1E3A8A]">
+                    {city.name}
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#F97316]" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{city.text}</p>
+                </Link>
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </Reveal>
       </section>
 

@@ -19,7 +19,7 @@ import {
   getCity,
   getCityContent,
 } from "@/content/cities";
-import { RevealSection } from "@/components/motion/Reveal";
+import { RevealSection, Reveal, RevealItem } from "@/components/motion/Reveal";
 
 export const revalidate = 600;
 
@@ -140,27 +140,29 @@ export default async function CityPage({ params }: PageProps) {
               <Link href="/catalog" className="font-bold text-[#1E3A8A] underline">весь каталог</Link>.
             </p>
           ) : (
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <Reveal stagger={0.08} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {projects.slice(0, 12).map((p) => {
                 const img = p.imageUrl || p.media?.[0]?.imageUrl || "";
                 const price = fmtFrom(p);
                 return (
-                  <Link key={p.id} href={`/catalog/${p.id}`} className="group overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                    <div className="relative h-52 overflow-hidden bg-slate-100">
-                      {img ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={img} alt={p.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      ) : null}
-                    </div>
-                    <div className="p-5">
-                      <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">{p.location}{p.district ? ` · ${p.district}` : ""}</p>
-                      <h3 className="mt-1 text-lg font-black text-slate-900 group-hover:text-[#1E3A8A]">{p.name}</h3>
-                      {price && <p className="mt-2 text-sm font-bold text-[#F97316]">от {price}</p>}
-                    </div>
-                  </Link>
+                  <RevealItem key={p.id} className="h-full">
+                    <Link href={`/catalog/${p.id}`} className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                      <div className="relative h-52 overflow-hidden bg-slate-100">
+                        {img ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={img} alt={p.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        ) : null}
+                      </div>
+                      <div className="p-5">
+                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">{p.location}{p.district ? ` · ${p.district}` : ""}</p>
+                        <h3 className="mt-1 text-lg font-black text-slate-900 group-hover:text-[#1E3A8A]">{p.name}</h3>
+                        {price && <p className="mt-2 text-sm font-bold text-[#F97316]">от {price}</p>}
+                      </div>
+                    </Link>
+                  </RevealItem>
                 );
               })}
-            </div>
+            </Reveal>
           )}
         </div>
       </RevealSection>
@@ -171,14 +173,16 @@ export default async function CityPage({ params }: PageProps) {
           <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#1E3A8A]">
             Почему стоит купить новостройку в городе {t.name}
           </h2>
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal stagger={0.1} className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {t.why.map((w, i) => (
-              <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6">
-                <h3 className="text-base font-black text-slate-900">{w.title}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{w.text}</p>
-              </div>
+              <RevealItem key={i} className="h-full">
+                <div className="h-full rounded-[2rem] border border-slate-100 bg-white p-6">
+                  <h3 className="text-base font-black text-slate-900">{w.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{w.text}</p>
+                </div>
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </div>
       </RevealSection>
 

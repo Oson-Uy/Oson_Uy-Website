@@ -1,6 +1,6 @@
 import { getLocale } from "next-intl/server";
 import { getAboutContent } from "@/content/about";
-import { RevealSection } from "@/components/motion/Reveal";
+import { RevealSection, Reveal, RevealItem } from "@/components/motion/Reveal";
 
 /** Server-rendered long-form About content: story, mission/vision, how-we-work,
  *  verification process, advantages and FAQ. */
@@ -46,17 +46,19 @@ export default async function AboutSeoContent() {
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.howWeWork.title}
           </h2>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal stagger={0.1} className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {c.howWeWork.steps.map((s, i) => (
-              <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F97316]/10 text-base font-black text-[#F97316]">
-                  {i + 1}
+              <RevealItem key={i} className="h-full">
+                <div className="h-full rounded-[2rem] border border-slate-100 bg-white p-6">
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F97316]/10 text-base font-black text-[#F97316]">
+                    {i + 1}
+                  </div>
+                  <h3 className="text-base font-black text-slate-900">{s.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{s.text}</p>
                 </div>
-                <h3 className="text-base font-black text-slate-900">{s.title}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{s.text}</p>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </div>
       </RevealSection>
 
@@ -88,14 +90,16 @@ export default async function AboutSeoContent() {
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-[#1E3A8A]">
             {c.advantages.title}
           </h2>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal stagger={0.1} className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {c.advantages.items.map((it, i) => (
-              <div key={i} className="rounded-[2rem] border border-slate-100 bg-white p-6">
-                <h3 className="text-base font-black text-slate-900">{it.title}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{it.text}</p>
-              </div>
+              <RevealItem key={i} className="h-full">
+                <div className="h-full rounded-[2rem] border border-slate-100 bg-white p-6">
+                  <h3 className="text-base font-black text-slate-900">{it.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-slate-600">{it.text}</p>
+                </div>
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </div>
       </RevealSection>
 
