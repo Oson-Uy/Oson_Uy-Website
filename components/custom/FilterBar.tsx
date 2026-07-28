@@ -17,14 +17,16 @@ type FilterBarProps = {
         area_from: string;
         area_to: string;
         search_button: string;
+        anyRegion?: string;
+        anyDistrict?: string;
     };
     onLocationChange?: (location: string) => void;
 };
 
 export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
     const router = useRouter();
-    const [location, setLocation] = useState(UZB_LOCATIONS[0].region);
-    const [district, setDistrict] = useState(UZB_LOCATIONS[0].districts[0]);
+    const [location, setLocation] = useState("");
+    const [district, setDistrict] = useState("");
     const [pricePerM2Min, setPricePerM2Min] = useState("");
     const [pricePerM2Max, setPricePerM2Max] = useState("");
     const [areaMin, setAreaMin] = useState("");
@@ -60,11 +62,14 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                                 onChange={(e) => {
                                     const nextRegion = e.target.value;
                                     setLocation(nextRegion);
-                                    setDistrict(UZB_LOCATIONS.find(l => l.region === nextRegion)?.districts[0] ?? "");
+                                    setDistrict("");
                                     if (onLocationChange) onLocationChange(nextRegion);
                                 }}
                                 className={`${inputClasses} cursor-pointer pr-10`}
                             >
+                                <option className="bg-slate-900 text-white" value="">
+                                    {translations.anyRegion || "Все области"}
+                                </option>
                                 {UZB_LOCATIONS.map((l) => (
                                     <option key={l.region} className="bg-slate-900 text-white" value={l.region}>{l.region}</option>
                                 ))}
@@ -79,8 +84,12 @@ export function FilterBar({ translations, onLocationChange }: FilterBarProps) {
                             <select
                                 value={district}
                                 onChange={(e) => setDistrict(e.target.value)}
-                                className={`${inputClasses} cursor-pointer pr-10`}
+                                disabled={!location}
+                                className={`${inputClasses} cursor-pointer pr-10 disabled:opacity-50`}
                             >
+                                <option className="bg-slate-900 text-white" value="">
+                                    {translations.anyDistrict || "Все районы"}
+                                </option>
                                 {districtsForRegion.map((item) => (
                                     <option key={item} className="bg-slate-900 text-white" value={item}>{item}</option>
                                 ))}
