@@ -13,7 +13,7 @@ const FOOTER_LABELS = {
 
 const INSTAGRAM_URL = "https://www.instagram.com/oson_uy.uz/";
 const APPSTORE_URL = "https://apps.apple.com/us/app/oson-uy/id6773353692";
-const GOOGLEPLAY_URL = "https://play.google.com/store/apps/";
+const GOOGLEPLAY_URL = "https://play.google.com/store/apps/details?id=uz.osonuy.app";
 
 export default function Footer() {
   const t = useTranslations("Footer");
