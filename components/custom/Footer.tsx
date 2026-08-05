@@ -78,7 +78,8 @@ export default function Footer() {
       </div>
 
       <div className="container mx-auto grid max-w-[1250px] grid-cols-1 gap-12 px-5 pb-14 md:grid-cols-12 md:gap-10">
-        <div className="space-y-4 md:col-span-5">
+        {/* Логотип и описание */}
+        <div className="space-y-4 md:col-span-12 lg:col-span-4">
           <Link
             href="/"
             aria-label={tSeo("siteName")}
@@ -97,7 +98,8 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="space-y-4 md:col-span-3">
+        {/* Навигация */}
+        <div className="space-y-4 md:col-span-3 lg:col-span-2">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1E3A8A]/50">
             {t("navTitle")}
           </h4>
@@ -130,7 +132,8 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="space-y-4 md:col-span-3">
+        {/* Города */}
+        <div className="space-y-4 md:col-span-3 lg:col-span-2">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1E3A8A]/50">
             {L.cities}
           </h4>
@@ -141,7 +144,8 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="space-y-4 md:col-span-2">
+        {/* Документы */}
+        <div className="space-y-4 md:col-span-3 lg:col-span-2">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1E3A8A]/50">
             {t("legalTitle")}
           </h4>
@@ -159,7 +163,8 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="space-y-4 md:col-span-2">
+        {/* Контакты */}
+        <div className="space-y-4 md:col-span-3 lg:col-span-2">
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1E3A8A]/50">
             {t("contactsTitle")}
           </h4>
